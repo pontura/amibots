@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class Data : MonoBehaviour
 {
-
+    public AmiClasses amiClasses;
     const string PREFAB_PATH = "Data";    
     static Data mInstance = null;
 
@@ -46,5 +46,6 @@ public class Data : MonoBehaviour
        
         DontDestroyOnLoad(this.gameObject);
 
+        amiClasses = GetComponent<AmiClasses>();
     }
 }
