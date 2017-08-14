@@ -8,43 +8,47 @@ public class UiClassManager : MonoBehaviour {
     public UIClassList uIClassList;
     public int id;
     public int separation = 200;
+
+	public UIFunctionLine functionLine;
+	public Transform functionLineContainer;
+
     void Start()
     {
-        Events.OnUIClassSelected += OnUIClassSelected;
+		Events.OnPopup += OnPopup;
+		Events.OnUIClassSelected += OnUIClassSelected;
     }
-    void OnUIClassSelected(AmiClass amiClass)
+	public void OnAddFunctionClicked()
+	{
+		Events.OnPopup (AmiClass.types.SIMPLE_ACTION);
+	}
+	void OnUIClassSelected(AmiClass amiClass)
     {
-        print("clicked: " + amiClass);
         if (amiClass.arguments.Count > 0)
         {
-            print("clicked: " + amiClass.arguments.Count);
+			AddFunction (amiClass);
         }
-        List<AmiClass> initClasses = new List<AmiClass>();
-        foreach (AmiClass _amiClass in Data.Instance.amiClasses.classes)
-        {
-            if (_amiClass.type == AmiClass.types.SIMPLE_ACTION)
-                initClasses.Add(_amiClass);
-        }
-        AddMenuList(initClasses);
+
     }
-    public void Init()
-    {
+	void AddFunction(AmiClass amiClass)
+	{
+		UIFunctionLine newFunctionLine = Instantiate (functionLine);
+		newFunctionLine.transform.SetParent (functionLineContainer);
+		newFunctionLine.transform.localScale = Vector3.one;
+		newFunctionLine.Init(amiClass);
+		newFunctionLine.gameObject.SetActive (true);
+	}
+	void OnPopup(AmiClass.types type)
+	{
         List<AmiClass> initClasses = new List<AmiClass>();
         foreach (AmiClass amiClass in Data.Instance.amiClasses.classes)
         {
-            if (amiClass.type == AmiClass.types.SIMPLE_ACTION)
+            if (amiClass.type == type)
                 initClasses.Add(amiClass);
         }
         AddMenuList(initClasses);
     }
     void AddMenuList(List<AmiClass> newList)
     {
-       
-        UIClassList newClassList = Instantiate(uIClassList);
-        newClassList.transform.SetParent(container);
-
-        newClassList.OnAddListClasses(newList);
-        newClassList.GetComponentInChildren<RectTransform>().sizeDelta = new Vector2(id*-separation, 0);
-        id++;
+		uIClassList.OnAddListClasses(newList);
     }
 }

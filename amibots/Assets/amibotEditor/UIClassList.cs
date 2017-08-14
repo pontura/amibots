@@ -9,6 +9,8 @@ public class UIClassList : MonoBehaviour {
 
     public void OnAddListClasses(List<AmiClass> amiClasses)
     {
+		Utils.RemoveAllChildsIn (container);
+
         transform.localScale = Vector3.one;
         transform.localPosition = Vector3.zero;
 
@@ -16,7 +18,7 @@ public class UIClassList : MonoBehaviour {
         {
             UIClassButton newButton = Instantiate(button);
             newButton.Init(container, amiClass);
-        }
-        
+			newButton.transform.localScale = Vector3.one;
+        }        
     }
 }

@@ -5,18 +5,25 @@ using UnityEngine;
 public class UIEditing : MonoBehaviour {
 
     public GameObject state1;
-    public GameObject state2;
+    public GameObject popup;
     public UiClassManager uiClassManager;
 
 	void Start () {
         state1.SetActive(true);
-        state2.SetActive(false);
-    }
-    public void OpenInitClasses()
-    {
-      //  state1.SetActive(false);
-        state2.SetActive(true);
-        uiClassManager.Init();
-    }
-	
+		popup.SetActive(false);
+		Events.OnPopup += OnPopup;
+		Events.OnPopupClose += OnPopupClose;
+	}
+	void OnPopup(AmiClass.types a)
+	{
+		popup.SetActive(true);
+	}
+	void OnPopupClose()
+	{
+		popup.SetActive(false);
+	}
+	public void ClosePopup()
+	{		
+		Events.OnPopupClose ();
+	}
 }

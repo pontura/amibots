@@ -15,6 +15,7 @@ public class UIClassButton : MonoBehaviour {
     }
     public void OnSelected()
     {
-        Events.OnUIClassSelected(amiClass);
+		Events.OnUIClassSelected(amiClass);
+		Events.OnPopupClose ();
     }
 }
