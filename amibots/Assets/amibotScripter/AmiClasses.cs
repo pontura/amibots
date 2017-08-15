@@ -55,4 +55,16 @@ public class AmiClasses : MonoBehaviour {
         classes.Add(newClass);
         return newClass;
     }
+	public string GetSentenceFor(string value, AmiClass.types type)
+	{
+		switch (type) {
+		case AmiClass.types.DISTANCE:
+			return value + " feets";
+			break;
+		case AmiClass.types.TIME:
+			return "for " + value + " sec";
+			break;
+		}
+		return value;
+	}
 }

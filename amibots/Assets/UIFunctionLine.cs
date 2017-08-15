@@ -8,9 +8,11 @@ public class UIFunctionLine : MonoBehaviour {
 	public Text field;
 	public UIFunctionVarButton functionVarButton;
 	AmiClass amiClass;
+	public Transform container;
 
-	public List<AmiClass> classes;
+	public AmiFunction function;
 	public List<UIFunctionVarButton> functionVarButtons;
+	public Image filledImage;
 
 	void Start()
 	{
@@ -22,6 +24,11 @@ public class UIFunctionLine : MonoBehaviour {
 		lastIArgSelected = 0;
 	}
 	public void Init (AmiClass amiClass) {
+		
+		function = new AmiFunction ();
+		function.value = amiClass.className;
+		function.variables = new List<AmiClass> ();
+
 		field.text = amiClass.className;
 		this.amiClass = amiClass;
 		AddArguments ();
@@ -33,17 +40,20 @@ public class UIFunctionLine : MonoBehaviour {
 		foreach(AmiClass.types arg in amiClass.arguments)
 		{
 			UIFunctionVarButton newfunctionVarButton = Instantiate (functionVarButton);
-			newfunctionVarButton.transform.SetParent (transform);
+			newfunctionVarButton.transform.SetParent (container);
 			newfunctionVarButton.transform.localScale = Vector3.one;
 			List<AmiClass> all =  Data.Instance.amiClasses.GetClassesByArg (arg);
 
 			AmiClass newClass = new AmiClass ();
 			newClass.className = all [0].className;
 			newClass.type = arg;
-			classes.Add (newClass);
+
+			function.variables.Add (newClass);
 
 			newfunctionVarButton.Init ( this,  arg, id);
-			newfunctionVarButton.SetValue (newClass.className);
+
+			string sentence =  Data.Instance.amiClasses.GetSentenceFor (newClass.className, arg);
+			newfunctionVarButton.SetValue (sentence);
 
 			functionVarButtons.Add (newfunctionVarButton);
 
@@ -59,10 +69,18 @@ public class UIFunctionLine : MonoBehaviour {
 	}
 	void OnUIClassSelected(AmiClass animClass)
 	{
-		AmiClass amiClass= classes [lastIArgSelected];
+		AmiClass amiClass= function.variables[lastIArgSelected];
 		amiClass.className = animClass.className;
 
 		UIFunctionVarButton functionVarButton= functionVarButtons [lastIArgSelected];
 		functionVarButton.SetValue(animClass.className);
+	}
+	public void SetFilled(float fillAmount)
+	{
+		filledImage.fillAmount = fillAmount;
+	}
+	public void ResetFilled()
+	{
+		filledImage.fillAmount = 0;
 	}
 }

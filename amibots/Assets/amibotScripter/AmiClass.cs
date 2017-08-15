@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 
 [Serializable]
-public class AmiClass
+public class AmiClass 
 {
     public string className;
     public int level;
