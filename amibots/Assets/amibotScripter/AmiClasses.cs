@@ -8,14 +8,20 @@ public class AmiClasses : MonoBehaviour {
 
 	void Start () {
         AmiClass newClass;
-        newClass = CreateNewClass("Move", AmiClass.types.SIMPLE_ACTION, 0);
 
+
+        newClass = CreateNewClass("Move", AmiClass.types.SIMPLE_ACTION, 0);
 		newClass.arguments.Add(AmiClass.types.BODY_PART);
         newClass.arguments.Add(AmiClass.types.DIRECTION);        
         newClass.arguments.Add(AmiClass.types.DISTANCE);
         newClass.arguments.Add(AmiClass.types.TIME);
 
-        newClass = CreateNewClass("Rotate", AmiClass.types.SIMPLE_ACTION, 1);
+
+
+        newClass = CreateNewClass("Wait", AmiClass.types.SIMPLE_ACTION, 1);
+		newClass.arguments.Add(AmiClass.types.WAIT);
+
+
 
         CreateNewClass( "forward", AmiClass.types.DIRECTION, 0);
         CreateNewClass( "backward", AmiClass.types.DIRECTION, 0);
@@ -36,6 +42,10 @@ public class AmiClasses : MonoBehaviour {
 
         CreateNewClass( "1", AmiClass.types.TIME, 0);
         CreateNewClass( "2", AmiClass.types.TIME, 1);
+
+		CreateNewClass( "1", AmiClass.types.WAIT, 0);
+		CreateNewClass( "2", AmiClass.types.WAIT, 0);
+		CreateNewClass( "AllDone", AmiClass.types.WAIT, 0);
         
     }
 	public List<AmiClass> GetClassesByArg (AmiClass.types type) {
@@ -62,6 +72,11 @@ public class AmiClasses : MonoBehaviour {
 			return value + " feets";
 			break;
 		case AmiClass.types.TIME:
+			return "for " + value + " sec";
+			break;
+		case AmiClass.types.WAIT:
+			if(value == "AllDone")
+				return "Wait for all done!";
 			return "for " + value + " sec";
 			break;
 		}

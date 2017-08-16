@@ -7,7 +7,6 @@ public class UITimeLine : MonoBehaviour {
 	public GameObject functionsLineContainer;
 
 	public List<UIFunctionLine> allFunctions;
-	public List<UIFunctionLine> activeFunctions;
 
 	bool isPlaying;
 	public float timer;
@@ -21,7 +20,7 @@ public class UITimeLine : MonoBehaviour {
 	{
 		if (!isPlaying)
 			return;
-		if (activeFunctions.Count == 0)
+		if (allFunctions.Count == 0)
 			return;
 		ComputeAllActives ();
 	}
@@ -37,24 +36,28 @@ public class UITimeLine : MonoBehaviour {
 	{
 		foreach (UIFunctionLine uifl in functionsLineContainer.GetComponentsInChildren<UIFunctionLine>()) {
 			allFunctions.Add (uifl);
-			activeFunctions.Add (uifl);
 		}
 	}
 	void ComputeAllActives()
 	{
 		timer += Time.deltaTime;
 		float keyFrame = 0;
-		foreach (UIFunctionLine uifl in activeFunctions) {
+		foreach (UIFunctionLine uifl in allFunctions) {
+			
+			if (IfWaitFunctionStopsRoutine (uifl.function))
+				return;
+			
 			float duration = (float)GetFunctionDuration(uifl.function);
 			if (duration >= timer) {
 				uifl.SetFilled (timer / duration);
 			} else {
-				activeFunctions.Remove (uifl);
+				allFunctions.Remove (uifl);
 				break;
 			}
 			character.UpdateFunctions (uifl.function.variables, timer);
+
 		}
-		if (activeFunctions.Count == 0)
+		if (allFunctions.Count == 0)
 			Events.OnDebug (false);
 	}
 	float GetFunctionDuration(AmiFunction function)
@@ -64,5 +67,13 @@ public class UITimeLine : MonoBehaviour {
 				return float.Parse(amiClass.className);
 		}
 		return 0;
+	}
+	bool IfWaitFunctionStopsRoutine(AmiFunction function)
+	{
+		foreach (AmiClass amiClass in function.variables) {
+			if (amiClass.type == AmiClass.types.WAIT && timer<int.Parse(amiClass.className))
+				return true;
+		}
+		return false;
 	}
 }

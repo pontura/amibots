@@ -16,6 +16,7 @@ public class AmiClass
         BODY_PART,
         DIRECTION,
         DISTANCE,
-        TIME
+        TIME,
+		WAIT
     }
 }

@@ -10,7 +10,8 @@ public class UIClassButton : MonoBehaviour {
     public void Init(Transform parentContainer, AmiClass _amiClass)
     {
         this.amiClass = _amiClass;
-        field.text = amiClass.className;
+		string sentence = Data.Instance.amiClasses.GetSentenceFor (amiClass.className, amiClass.type);
+		field.text = sentence;
         transform.SetParent(parentContainer);
     }
     public void OnSelected()

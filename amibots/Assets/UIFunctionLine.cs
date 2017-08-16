@@ -21,7 +21,7 @@ public class UIFunctionLine : MonoBehaviour {
 	void OnPopupClose()
 	{
 		Events.OnUIClassSelected -= OnUIClassSelected;
-		lastIArgSelected = 0;
+		lastArgSelected = 0;
 	}
 	public void Init (AmiClass amiClass) {
 		
@@ -60,20 +60,24 @@ public class UIFunctionLine : MonoBehaviour {
 			id++;
 		}
 	}
-	int lastIArgSelected;
+	int lastIArgSelectedID;
+	AmiClass.types lastArgSelected;
 	public void OnArgumentSelected(AmiClass.types arg, int id)
 	{
-		lastIArgSelected = id;
+		lastIArgSelectedID = id;
+		lastArgSelected = arg;
 		Events.OnUIClassSelected += OnUIClassSelected;
 		Events.OnPopup( arg);
 	}
 	void OnUIClassSelected(AmiClass animClass)
 	{
-		AmiClass amiClass= function.variables[lastIArgSelected];
+		AmiClass amiClass= function.variables[lastIArgSelectedID];
 		amiClass.className = animClass.className;
 
-		UIFunctionVarButton functionVarButton= functionVarButtons [lastIArgSelected];
-		functionVarButton.SetValue(animClass.className);
+		UIFunctionVarButton functionVarButton= functionVarButtons [lastIArgSelectedID];
+		string sentence =  Data.Instance.amiClasses.GetSentenceFor (animClass.className, lastArgSelected);
+
+		functionVarButton.SetValue(sentence);
 	}
 	public void SetFilled(float fillAmount)
 	{
