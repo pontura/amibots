@@ -29,11 +29,14 @@ public class UiClassManager : MonoBehaviour {
         }
 
     }
-	void AddFunction(AmiClass amiClass)
+	public void AddFunction(AmiClass amiClass)
 	{
 		UIFunctionLine newFunctionLine = Instantiate (functionLine);
 		newFunctionLine.transform.SetParent (functionLineContainer);
 		newFunctionLine.transform.localScale = Vector3.one;
+		Vector3 pos = Input.mousePosition;
+		pos.x = 0;
+		newFunctionLine.transform.position = pos;
 		newFunctionLine.Init(amiClass);
 		newFunctionLine.gameObject.SetActive (true);
 	}

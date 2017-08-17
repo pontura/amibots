@@ -9,4 +9,8 @@ public static class Events {
 	public static System.Action<AmiClass.types> OnPopup = delegate { };
 	public static System.Action OnPopupClose = delegate { };
 	public static System.Action<bool> OnDebug = delegate { };
+
+	public static System.Action<string> DragStart = delegate { };
+	public static System.Action DragEnd = delegate { };
+	public static System.Action<bool> IsOverFunctionSlot = delegate { };
 }

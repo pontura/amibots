@@ -11,14 +11,10 @@ public class UIFunctionButton : MonoBehaviour {
 	}
     public void PointerDown()
     {
-        print("done " + className);
+		Events.DragStart (className);
     }
     public void PointerUp()
     {
-        print("up " + className);
-    }
-    public void PointerExit()
-    {
-        print("exit " + className);
+		Events.DragEnd ();
     }
 }

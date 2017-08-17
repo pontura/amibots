@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class UIFunctionSlot : MonoBehaviour {
-    
-	void Start () {
-		
-	}
+
 	public void OnOver () {
-        print("Over");
+		Events.IsOverFunctionSlot (true);
 	}
     public void OnExit()
     {
-        print("exit");
+		Events.IsOverFunctionSlot (false);
     }
+
 }

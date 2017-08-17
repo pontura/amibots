@@ -48,6 +48,13 @@ public class AmiClasses : MonoBehaviour {
 		CreateNewClass( "AllDone", AmiClass.types.WAIT, 0);
         
     }
+	public AmiClass GetClassesByClassName (string className) {
+		foreach (AmiClass amiClass in classes) {
+			if (amiClass.className == className)
+				return amiClass;
+		}
+		return null;
+	}
 	public List<AmiClass> GetClassesByArg (AmiClass.types type) {
 		List<AmiClass> classesByArg = new List<AmiClass> ();
 		foreach (AmiClass amiClass in classes) {
