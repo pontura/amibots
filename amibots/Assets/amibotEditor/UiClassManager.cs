@@ -29,6 +29,10 @@ public class UiClassManager : MonoBehaviour {
         }
 
     }
+	public void RepositionateFunction(GameObject go)
+	{
+		go.transform.SetParent (functionLineContainer);
+	}
 	public void AddFunction(AmiClass amiClass)
 	{
 		UIFunctionLine newFunctionLine = Instantiate (functionLine);

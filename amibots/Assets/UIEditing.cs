@@ -9,6 +9,7 @@ public class UIEditing : MonoBehaviour {
     public GameObject popup;
     public UiClassManager uiClassManager;
 	public Button PlayButton;
+	public Image actionIcon;
 
 	void Start () {
         state1.SetActive(true);
@@ -17,6 +18,13 @@ public class UIEditing : MonoBehaviour {
 		Events.OnPopup += OnPopup;
 		Events.OnPopupClose += OnPopupClose;
 		Events.OnUIClassSelected += OnUIClassSelected;
+		Events.OnUIFunctionChangeIconColor += OnUIFunctionChangeIconColor;
+	}
+
+	void OnUIFunctionChangeIconColor(Color color)
+	{
+		
+		actionIcon.color = color;
 	}
 	void OnUIClassSelected(AmiClass a)
 	{
@@ -37,5 +45,12 @@ public class UIEditing : MonoBehaviour {
 	public void OnDebug()
 	{
 		Events.OnDebug (true);
+	}
+	void Update()
+	{
+		if (uiClassManager.functionLineContainer.GetComponentInChildren<UIFunctionLine> ())
+			PlayButton.interactable = true;
+		else
+			PlayButton.interactable = false;
 	}
 }

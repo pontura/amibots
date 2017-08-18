@@ -45,7 +45,7 @@ public class AmiClasses : MonoBehaviour {
 
 		CreateNewClass( "1", AmiClass.types.WAIT, 0);
 		CreateNewClass( "2", AmiClass.types.WAIT, 0);
-		CreateNewClass( "AllDone", AmiClass.types.WAIT, 0);
+		//CreateNewClass( "AllDone", AmiClass.types.WAIT, 0);
         
     }
 	public AmiClass GetClassesByClassName (string className) {

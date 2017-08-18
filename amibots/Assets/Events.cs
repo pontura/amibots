@@ -11,6 +11,11 @@ public static class Events {
 	public static System.Action<bool> OnDebug = delegate { };
 
 	public static System.Action<string> DragStart = delegate { };
+	public static System.Action<GameObject> DragStartGameObject = delegate { };
 	public static System.Action DragEnd = delegate { };
 	public static System.Action<bool> IsOverFunctionSlot = delegate { };
+
+	public static System.Action<Color> OnUIFunctionChangeIconColor = delegate { };
+
+	public static System.Action<Character.states> CharacterFall = delegate { };
 }

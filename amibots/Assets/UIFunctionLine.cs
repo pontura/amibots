@@ -14,6 +14,9 @@ public class UIFunctionLine : MonoBehaviour {
 	public List<UIFunctionVarButton> functionVarButtons;
 	public Image filledImage;
 
+	public int sequenceID;
+	public bool done;
+
 	void Start()
 	{
 		Events.OnPopupClose += OnPopupClose;
@@ -83,8 +86,21 @@ public class UIFunctionLine : MonoBehaviour {
 	{
 		filledImage.fillAmount = fillAmount;
 	}
+	public void IsReady()
+	{
+		done = true;
+		ResetFilled ();
+	}
 	public void ResetFilled()
 	{
 		filledImage.fillAmount = 0;
+	}
+	public void PointerDown()
+	{
+		Events.DragStartGameObject (gameObject);
+	}
+	public void PointerUp()
+	{
+		Events.DragEnd ();
 	}
 }
