@@ -30,8 +30,8 @@ public class AmiClasses : MonoBehaviour {
         CreateNewClass( "left", AmiClass.types.DIRECTION, 0);
         CreateNewClass( "right", AmiClass.types.DIRECTION, 0);
         
-        CreateNewClass( "right food", AmiClass.types.BODY_PART, 0);
-        CreateNewClass( "left food", AmiClass.types.BODY_PART, 0);
+        CreateNewClass( "right foot", AmiClass.types.BODY_PART, 0);
+        CreateNewClass( "left foot", AmiClass.types.BODY_PART, 0);
 		CreateNewClass( "right hand", AmiClass.types.BODY_PART, 1);
 		CreateNewClass( "left hand", AmiClass.types.BODY_PART, 1);
         CreateNewClass( "body", AmiClass.types.BODY_PART, 2);
@@ -77,15 +77,12 @@ public class AmiClasses : MonoBehaviour {
 		switch (type) {
 		case AmiClass.types.DISTANCE:
 			return value + " feets";
-			break;
 		case AmiClass.types.TIME:
 			return "for " + value + " sec";
-			break;
 		case AmiClass.types.WAIT:
 			if(value == "AllDone")
 				return "Wait for all done!";
 			return "for " + value + " sec";
-			break;
 		}
 		return value;
 	}

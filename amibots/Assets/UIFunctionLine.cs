@@ -55,6 +55,11 @@ public class UIFunctionLine : MonoBehaviour {
 
 			newfunctionVarButton.Init ( this,  arg, id);
 
+            if (newClass.type == AmiClass.types.WAIT)
+            {
+                print("DO it");
+                GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 65);
+            }
 			string sentence =  Data.Instance.amiClasses.GetSentenceFor (newClass.className, arg);
 			newfunctionVarButton.SetValue (sentence);
 

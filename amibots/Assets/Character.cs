@@ -54,10 +54,10 @@ public class Character : MonoBehaviour {
 				time = int.Parse(amiClass.className);
 			if (amiClass.type == AmiClass.types.BODY_PART) {
 				switch (amiClass.className) {
-				case "right food":
+				case "right foot":
 					bodyPart = foot_right;
 					break;
-				case "left food":
+				case "left foot":
 					bodyPart = foot_left;
 					break;
 				}

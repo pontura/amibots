@@ -76,10 +76,12 @@ public class UITimeLine : MonoBehaviour {
 			character.Reset ();
 			allFunctions.Clear ();
 			print (character.body.transform.localPosition.z);
-			if (character.body.transform.localPosition.z > 1)
+            if(characterFalled)
+                Events.OnUIFunctionChangeIconColor(Color.red);
+            else if (character.body.transform.localPosition.z > 1)
 				Events.OnUIFunctionChangeIconColor (Color.green);
 			else
-				Events.OnUIFunctionChangeIconColor (Color.red);
+				Events.OnUIFunctionChangeIconColor (Color.yellow);
 			Events.OnDebug (false);
 		}
 	}

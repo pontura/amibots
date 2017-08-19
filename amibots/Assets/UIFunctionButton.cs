@@ -11,10 +11,12 @@ public class UIFunctionButton : MonoBehaviour {
 	}
     public void PointerDown()
     {
+        transform.localScale = Vector3.zero;
 		Events.DragStart (className);
     }
     public void PointerUp()
     {
-		Events.DragEnd ();
+        transform.localScale = Vector3.one;
+        Events.DragEnd ();
     }
 }

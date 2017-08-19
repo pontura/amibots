@@ -40,6 +40,6 @@ public class UIDragItem : MonoBehaviour {
 		//icons.transform.localPosition = new Vector3 (1000, 0, 0);
 		isOn = true;
 		go.transform.SetParent (icons.transform);
-		go.transform.localPosition =new Vector3(240,-20,0);
+		go.transform.localPosition =new Vector3(0,-20,0);
 	}
 }

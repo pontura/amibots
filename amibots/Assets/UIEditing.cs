@@ -10,6 +10,7 @@ public class UIEditing : MonoBehaviour {
     public UiClassManager uiClassManager;
 	public Button PlayButton;
 	public Image actionIcon;
+    public Text DebugText;
 
 	void Start () {
         state1.SetActive(true);
@@ -19,12 +20,20 @@ public class UIEditing : MonoBehaviour {
 		Events.OnPopupClose += OnPopupClose;
 		Events.OnUIClassSelected += OnUIClassSelected;
 		Events.OnUIFunctionChangeIconColor += OnUIFunctionChangeIconColor;
-	}
 
+    }
 	void OnUIFunctionChangeIconColor(Color color)
 	{
-		
-		actionIcon.color = color;
+        if (color == Color.grey)
+            DebugText.text = "playing...";
+        else if (color == Color.yellow)
+            DebugText.text = "Walk incomplete";
+        else if (color == Color.red)
+            DebugText.text = "Walk has Errors!";
+        else if (color == Color.green)
+            DebugText.text = "Walk is Done!";
+
+        actionIcon.color = color;
 	}
 	void OnUIClassSelected(AmiClass a)
 	{
@@ -48,9 +57,12 @@ public class UIEditing : MonoBehaviour {
 	}
 	void Update()
 	{
-		if (uiClassManager.functionLineContainer.GetComponentInChildren<UIFunctionLine> ())
-			PlayButton.interactable = true;
-		else
-			PlayButton.interactable = false;
+        if (uiClassManager.functionLineContainer.GetComponentInChildren<UIFunctionLine>())
+            PlayButton.interactable = true;
+        else
+        {
+            PlayButton.interactable = false;
+            DebugText.text = "Walk is empty";
+        }
 	}
 }
