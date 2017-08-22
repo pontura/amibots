@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class UIEditing : MonoBehaviour {
 
+    public GameObject tutorial;
     public GameObject state1;
     public GameObject popup;
     public UiClassManager uiClassManager;
@@ -13,6 +14,7 @@ public class UIEditing : MonoBehaviour {
     public Text DebugText;
 
 	void Start () {
+        tutorial.SetActive(true);
         state1.SetActive(true);
 		popup.SetActive(false);
 		PlayButton.interactable = false;
@@ -37,7 +39,8 @@ public class UIEditing : MonoBehaviour {
 	}
 	void OnUIClassSelected(AmiClass a)
 	{
-		PlayButton.interactable = true;
+        
+        PlayButton.interactable = true;
 	}
 	void OnPopup(AmiClass.types a)
 	{
@@ -55,14 +58,18 @@ public class UIEditing : MonoBehaviour {
 	{
 		Events.OnDebug (true);
 	}
-	void Update()
-	{
+    void Update()
+    {
         if (uiClassManager.functionLineContainer.GetComponentInChildren<UIFunctionLine>())
+        {
+            tutorial.SetActive(false);
             PlayButton.interactable = true;
+        }
         else
         {
             PlayButton.interactable = false;
             DebugText.text = "Walk is empty";
+            tutorial.SetActive(true);
         }
 	}
 }

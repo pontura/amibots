@@ -65,10 +65,11 @@ public class UITimeLine : MonoBehaviour {
 		foreach (UIFunctionLine uifl in allFunctions) {
 			if (uifl.sequenceID <= activeSequence && !uifl.done) {
 				someFunctionIsActive = true;
-				if (IfWaitFunctionStopsRoutine (uifl))
-					return;
+				
 				UpdateFuncion (uifl);
-				if(!characterFalled)
+                if (IfWaitFunctionStopsRoutine(uifl))
+                    return;
+                if (!characterFalled)
 					character.UpdateFunctions (uifl.function.variables, timer);
 			}
 		}
@@ -97,7 +98,9 @@ public class UITimeLine : MonoBehaviour {
 	float GetFunctionDuration(AmiFunction function)
 	{
 		foreach (AmiClass amiClass in function.variables) {
-			if (amiClass.type == AmiClass.types.TIME)
+            if (amiClass.type == AmiClass.types.WAIT)
+                return float.Parse(amiClass.className);
+            if (amiClass.type == AmiClass.types.TIME)
 				return float.Parse(amiClass.className);
 		}
 		return 0;
