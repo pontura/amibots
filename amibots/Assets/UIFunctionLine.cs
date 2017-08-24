@@ -13,22 +13,53 @@ public class UIFunctionLine : MonoBehaviour {
 	public AmiFunction function;
 	public List<UIFunctionVarButton> functionVarButtons;
 	public Image filledImage;
+    public Image bgImage;
 
-	public int sequenceID;
+    public int sequenceID;
 	public bool done;
+    public GameObject childs;
+    float _initialHeight;
 
 	void Start()
-	{
-		Events.OnPopupClose += OnPopupClose;
-	}
+	{   
+        Events.OnPopupClose += OnPopupClose;
+        Events.DragEnd += DragEnd;
+        _initialHeight = GetComponent<RectTransform>().sizeDelta.y;
+    }
 	void OnPopupClose()
 	{
-		Events.OnUIClassSelected -= OnUIClassSelected;
-		lastArgSelected = 0;
+		Events.OnUIClassSelected -= OnUIClassSelected;        
+        lastArgSelected = 0;
 	}
-	public void Init (AmiClass amiClass) {
-		
-		function = new AmiFunction ();
+    void OnDestroy()
+    {
+        Events.OnUIClassSelected -= OnUIClassSelected;
+        Events.DragEnd -= DragEnd;
+    }
+    void DragEnd()
+    {
+        if(childs.activeSelf)
+            Invoke("RecalculateHeightByContainer", 0.05f);
+    }
+    void RecalculateHeightByContainer()
+    {
+        float _y = _initialHeight +( childs.GetComponentsInChildren<UIFunctionLine>().Length * _initialHeight);
+        GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, _y);
+    }
+    public void Init (AmiClass amiClass) {
+
+        if (amiClass.className == "Parallel")
+        {
+            childs.SetActive(true);
+            bgImage.enabled = false;
+        }
+        else
+        {
+            childs.SetActive(false);
+            bgImage.enabled = true;
+        }
+
+        function = new AmiFunction ();
 		function.value = amiClass.className;
 		function.variables = new List<AmiClass> ();
 
@@ -55,12 +86,7 @@ public class UIFunctionLine : MonoBehaviour {
 
 			newfunctionVarButton.Init ( this,  arg, id);
 
-            if (newClass.type == AmiClass.types.WAIT)
-            {
-                print("DO it");
-                GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 65);
-            }
-			string sentence =  Data.Instance.amiClasses.GetSentenceFor (newClass.className, arg);
+            string sentence =  Data.Instance.amiClasses.GetSentenceFor (newClass.className, arg);
 			newfunctionVarButton.SetValue (sentence);
 
 			functionVarButtons.Add (newfunctionVarButton);

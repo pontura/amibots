@@ -24,9 +24,12 @@ public class UIGame : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetMouseButtonDown(0)) {
-			if (_color == Color.green)
-				return;
-			WalkButton.Activate ();
+            if (CharacterData.Instance.characterFunctions.functions.Count > 0)
+                return;
+            else
+                Events.OnTooltip("Action Empty", Vector3.zero);
+
+            WalkButton.Activate ();
 			tootltipActionEmpty.SetActive (true);
 			CancelInvoke ();
 			Invoke ("ResetTooltip", 2);

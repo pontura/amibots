@@ -50,7 +50,12 @@ public class UIEditing : MonoBehaviour {
 	{
 		popup.SetActive(false);
 	}
-	public void ClosePopup()
+    public void SaveFunction()
+    {
+        GetComponent<UITimeLine>().SaveFunction();
+        GetComponent<UIGame>().BakToGame();
+    }
+    public void ClosePopup()
 	{		
 		Events.OnPopupClose ();
 	}

@@ -5,7 +5,7 @@ using UnityEngine;
 public class UIDragManager : MonoBehaviour {
 
 	UiClassManager uiClassManager;
-	bool isOverSlot;
+    UIFunctionSlot overSlot;
 	string lastClassSelected;
 	GameObject draggedGO;
 
@@ -24,18 +24,18 @@ public class UIDragManager : MonoBehaviour {
 	{
 		this.draggedGO = go;
 	}
-	void IsOverFunctionSlot(bool _isOver)
+	void IsOverFunctionSlot(UIFunctionSlot _overSlot)
 	{
-		isOverSlot = _isOver;
+        overSlot = _overSlot;
 	}
 	void DragEnd()
 	{
-		if (isOverSlot && lastClassSelected != "") {
+		if (overSlot != null && lastClassSelected != "") {
 			AmiClass ac = Data.Instance.amiClasses.GetClassesByClassName (lastClassSelected);
-			uiClassManager.AddFunction (ac);
-		} else if (isOverSlot && draggedGO) {
+			uiClassManager.AddFunction (ac, overSlot.container.transform);
+		} else if (overSlot != null && draggedGO) {
 			uiClassManager.RepositionateFunction (draggedGO);
-		} else if (!isOverSlot && draggedGO != null) {
+		} else if (overSlot == null && draggedGO != null) {
 			Destroy (draggedGO);
 		}
 

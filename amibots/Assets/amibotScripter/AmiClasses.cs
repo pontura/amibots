@@ -21,6 +21,9 @@ public class AmiClasses : MonoBehaviour {
         newClass = CreateNewClass("Wait", AmiClass.types.SIMPLE_ACTION, 1);
 		newClass.arguments.Add(AmiClass.types.WAIT);
 
+        newClass = CreateNewClass("Parallel", AmiClass.types.SIMPLE_ACTION, 1);
+       // newClass.arguments.Add(AmiClass.types.PARALLEL);
+
 
 
         CreateNewClass( "forward", AmiClass.types.DIRECTION, 0);

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Character : MonoBehaviour {
 
+    public bool isEditorCharacter;
 	public GameObject body;
 	public GameObject head;
 
@@ -27,7 +28,8 @@ public class Character : MonoBehaviour {
 	void Start () {
 		characterRulesToFall = GetComponent<CharacterRulesToFall> ();
 		anim = GetComponent<Animation> ();
-		Events.CharacterFall += CharacterFall;
+        if(isEditorCharacter)
+		    Events.CharacterFall += CharacterFall;
 	}
 	void CharacterFall(states _state)
 	{

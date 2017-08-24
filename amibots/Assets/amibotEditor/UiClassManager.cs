@@ -25,24 +25,22 @@ public class UiClassManager : MonoBehaviour {
     {
         if (amiClass.arguments.Count > 0)
         {
-			AddFunction (amiClass);
+			AddFunction (amiClass, functionLineContainer);
         }
 
     }
 	public void RepositionateFunction(GameObject go)
 	{
-		go.transform.SetParent (functionLineContainer);
+		//go.transform.SetParent (functionLineContainer);
 	}
-	public void AddFunction(AmiClass amiClass)
+	public void AddFunction(AmiClass amiClass, Transform _container)
 	{
 		UIFunctionLine newFunctionLine = Instantiate (functionLine);
-		newFunctionLine.transform.SetParent (functionLineContainer);
+        newFunctionLine.gameObject.SetActive(true);
+        newFunctionLine.transform.SetParent (_container);
 		newFunctionLine.transform.localScale = Vector3.one;
-		Vector3 pos = Input.mousePosition;
-		pos.x = 0;
-		newFunctionLine.transform.position = pos;
 		newFunctionLine.Init(amiClass);
-		newFunctionLine.gameObject.SetActive (true);
+		
 	}
 	void OnPopup(AmiClass.types type)
 	{

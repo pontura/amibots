@@ -17,6 +17,7 @@ public class AmiClass
         DIRECTION,
         DISTANCE,
         TIME,
-		WAIT
+		WAIT,
+        PARALLEL
     }
 }

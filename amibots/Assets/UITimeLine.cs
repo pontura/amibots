@@ -38,18 +38,21 @@ public class UITimeLine : MonoBehaviour {
 		timer = 0;
 
 		allFunctions.Clear ();
-		if (isPlaying)
-			CatchFunctions ();
+        if (isPlaying)
+        {
+            Events.OnUIFunctionChangeIconColor(Color.grey);
+            CatchFunctions();
+        }
 	}
 	void CatchFunctions()
 	{
-		Events.OnUIFunctionChangeIconColor (Color.grey);
+		
 		int sequenceID = 0;
 		foreach (UIFunctionLine uifl in functionsLineContainer.GetComponentsInChildren<UIFunctionLine>()) {
 			uifl.sequenceID = sequenceID;
 			uifl.done = false;
 			allFunctions.Add (uifl);
-			if (IfWaitFunctionStopsRoutine (uifl))
+			//if (IfWaitFunctionStopsRoutine (uifl))
 				sequenceID++;
 		}
 	}
@@ -67,8 +70,8 @@ public class UITimeLine : MonoBehaviour {
 				someFunctionIsActive = true;
 				
 				UpdateFuncion (uifl);
-                if (IfWaitFunctionStopsRoutine(uifl))
-                    return;
+              //  if (IfWaitFunctionStopsRoutine(uifl))
+                //    return;
                 if (!characterFalled)
 					character.UpdateFunctions (uifl.function.variables, timer);
 			}
@@ -76,24 +79,31 @@ public class UITimeLine : MonoBehaviour {
 		if (!someFunctionIsActive) {
 			character.Reset ();
 			allFunctions.Clear ();
-			print (character.body.transform.localPosition.z);
-            if(characterFalled)
-                Events.OnUIFunctionChangeIconColor(Color.red);
-            else if (character.body.transform.localPosition.z > 1)
+           // if(characterFalled)
+           //     Events.OnUIFunctionChangeIconColor(Color.red);
+          //  else if (character.body.transform.localPosition.z > 0.9f)
 				Events.OnUIFunctionChangeIconColor (Color.green);
-			else
-				Events.OnUIFunctionChangeIconColor (Color.yellow);
+			//else
+			//	Events.OnUIFunctionChangeIconColor (Color.yellow);
 			Events.OnDebug (false);
 		}
 	}
+    public void SaveFunction()
+    {
+        CatchFunctions();
+        Events.SaveFunction(allFunctions);
+        allFunctions.Clear();
+    }
 	void UpdateFuncion(UIFunctionLine uifl)
 	{
 		float duration = (float)GetFunctionDuration (uifl.function);
 		if (duration >= timer) {
 			uifl.SetFilled (timer / duration);
 		} else {
-			uifl.IsReady ();
-		}
+            timer = 0;
+            activeSequence++;
+            uifl.IsReady();
+        }
 	}
 	float GetFunctionDuration(AmiFunction function)
 	{

@@ -4,12 +4,32 @@ using UnityEngine;
 
 public class UIFunctionSlot : MonoBehaviour {
 
+    public GameObject container;
+
+    void Start()
+    {
+        Events.DragEnd += DragEnd;
+    }
+    void OnDestroy()
+    {
+        Events.DragEnd -= DragEnd;
+    }
+    void DragEnd()
+    {
+        Invoke("RecalculateSize", 0.1f);
+    }
+    void RecalculateSize()
+    {
+       Vector2 s= GetComponent<RectTransform>().sizeDelta;
+        GetComponent<RectTransform>().sizeDelta = s;
+    }
+
 	public void OnOver () {
-		Events.IsOverFunctionSlot (true);
+		Events.IsOverFunctionSlot (this);
 	}
     public void OnExit()
     {
-		Events.IsOverFunctionSlot (false);
+        Events.IsOverFunctionSlot (null);
     }
 
 }
