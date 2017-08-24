@@ -31,8 +31,7 @@ public class Character : MonoBehaviour {
         scriptsProcessor = GetComponent<CharacterScriptsProcessor>();
         characterRulesToFall = GetComponent<CharacterRulesToFall> ();
 		anim = GetComponent<Animation> ();
-        if(isEditorCharacter)
-		    Events.CharacterFall += CharacterFall;
+        Events.CharacterFall += CharacterFall;
 	}
 
     void CharacterFall(string _anim)
@@ -51,7 +50,7 @@ public class Character : MonoBehaviour {
 			if (amiClass.type == AmiClass.types.DISTANCE) 
 				distance = int.Parse(amiClass.className);
 			if (amiClass.type == AmiClass.types.TIME) 
-				time = int.Parse(amiClass.className);
+				time = float.Parse(amiClass.className)/100;
 			if (amiClass.type == AmiClass.types.BODY_PART) {
 				switch (amiClass.className) {
 				case "right foot":
@@ -62,8 +61,9 @@ public class Character : MonoBehaviour {
 					break;
 				}
 			}
-			characterRulesToFall.Check (bodyPart, timer);
+
 		}
+		characterRulesToFall.Check (bodyPart);
 
 		if (bodyPart != null) {
 			Move (bodyPart, distance/time);
@@ -75,10 +75,6 @@ public class Character : MonoBehaviour {
 	{
 		if (qty == 0) 
 			startingPos = bodyPart.transform.localPosition;
-		
-		//  Vector3 pos = bodyPart.transform.localPosition;
-	    //	pos.z = qty + startingPos.z;
-        //	bodyPart.transform.localPosition = pos;
         bodyPart.transform.Translate(Vector3.forward * (Time.deltaTime * qty));
 
         AlignBodyToFoots ();
@@ -87,7 +83,6 @@ public class Character : MonoBehaviour {
 	{
         if (isEditorCharacter)
         {
-          //  startingPos = Vector3.zero;
             transform.localPosition = Vector3.zero;
         }
         else
@@ -97,12 +92,11 @@ public class Character : MonoBehaviour {
             pos.x = destpos.x;
             pos.z = destpos.z;
             startingPos = pos;
-            transform.localPosition = pos;
-           
+            transform.localPosition = pos;           
         }
-        print("IDLE");
 		anim.Play ("idle");
         falled = false;
+		state = states.IDLE;
     }
 	void AlignBodyToFoots()
 	{

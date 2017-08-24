@@ -43,11 +43,13 @@ public class AmiClasses : MonoBehaviour {
         CreateNewClass("1", AmiClass.types.DISTANCE, 0);
         CreateNewClass("2", AmiClass.types.DISTANCE, 1);
 
-        CreateNewClass( "1", AmiClass.types.TIME, 0);
-        CreateNewClass( "2", AmiClass.types.TIME, 1);
+        CreateNewClass( "50", AmiClass.types.TIME, 0);
+        CreateNewClass( "100", AmiClass.types.TIME, 1);
 
-		CreateNewClass( "1", AmiClass.types.WAIT, 0);
-		CreateNewClass( "2", AmiClass.types.WAIT, 0);
+		CreateNewClass( "25", AmiClass.types.WAIT, 0);
+		CreateNewClass( "5", AmiClass.types.WAIT, 0);
+		CreateNewClass( "75", AmiClass.types.WAIT, 0);
+		CreateNewClass( "100", AmiClass.types.WAIT, 0);
 		//CreateNewClass( "AllDone", AmiClass.types.WAIT, 0);
         
     }
@@ -81,11 +83,11 @@ public class AmiClasses : MonoBehaviour {
 		case AmiClass.types.DISTANCE:
 			return value + " feets";
 		case AmiClass.types.TIME:
-			return "for " + value + " sec";
+			return "for " + (float.Parse(value)/100) + " sec";
 		case AmiClass.types.WAIT:
 			if(value == "AllDone")
 				return "Wait for all done!";
-			return "for " + value + " sec";
+			return "for " + (float.Parse(value)/100) + " sec";
 		}
 		return value;
 	}

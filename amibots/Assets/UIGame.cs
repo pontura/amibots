@@ -9,6 +9,14 @@ public class UIGame : MonoBehaviour {
 	public GameObject UiEditing;
 	public GameObject UiPlaying;
 	public GameObject tootltipActionEmpty;
+	public states state;
+	public GameObject world;
+	public enum states
+	{
+		PLAYING,
+		EDITING,
+		TRANSITING
+	}
 
 	void Start () {
 		UiEditing.SetActive (false);
@@ -23,6 +31,9 @@ public class UIGame : MonoBehaviour {
 	}
 	// Update is called once per frame
 	void Update () {
+		if (state != states.PLAYING)
+			return;
+		
 		if (Input.GetMouseButtonDown(0)) {
             if (CharacterData.Instance.characterScripts.scripts.Count > 0)
                 return;
@@ -40,13 +51,22 @@ public class UIGame : MonoBehaviour {
 		tootltipActionEmpty.SetActive (false);
 	}
 	public void ButtonPressed()
-	{
+	{		
 		UiEditing.SetActive (true);
 		UiPlaying.SetActive (false);
+		state = states.EDITING;
+		world.SetActive (false);
 	}
 	public void BakToGame()
 	{
+		state = states.TRANSITING;
+		Invoke ("BackToGameDone", 0.1f);
+	}
+	public void BackToGameDone()
+	{
+		state = states.PLAYING;
 		UiEditing.SetActive (false);
 		UiPlaying.SetActive (true);
+		world.SetActive (true);
 	}
 }

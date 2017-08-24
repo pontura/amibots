@@ -16,6 +16,7 @@ public class InputManager : MonoBehaviour
     private Vector2 dragPosition;
 
     public int forward;
+	public UIGame UIGame;
 
     public enum states
     {
@@ -26,7 +27,8 @@ public class InputManager : MonoBehaviour
     bool dragStart;
     void Update()
     {
-
+		if (UIGame.state != UIGame.states.PLAYING)
+			return;
         //#if UNITY_ANDROID
         UpdateDevice();
         //#else
@@ -51,7 +53,7 @@ public class InputManager : MonoBehaviour
     void UpdateDevice()
     {
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonUp(0))
         {
             RaycastHit hit;
             Ray ray = c.ScreenPointToRay(Input.mousePosition);

@@ -10,8 +10,10 @@ public class CharacterRulesToFall : MonoBehaviour {
 	{
 		character = GetComponent<Character> ();
 	}
-	public void Check(GameObject movedPart, float qty) {			
-		CheckFor2FootsMoveing (movedPart, qty);
+	public void Check(GameObject movedPart) {	
+		if (character.state == Character.states.FALL)
+			return;
+		CheckFor2FootsMoveing (movedPart);
 		CheckFor2FootsSeparation ();
 	}
 
@@ -20,7 +22,7 @@ public class CharacterRulesToFall : MonoBehaviour {
 	float lastRightFootMoved;
 	float timeBothFootsMoveing;
 
-	void CheckFor2FootsMoveing(GameObject movedPart, float qty)
+	void CheckFor2FootsMoveing(GameObject movedPart)
 	{
 		if (movedPart == character.foot_left) 
 			lastLeftFootMoved = Time.time;
@@ -28,9 +30,9 @@ public class CharacterRulesToFall : MonoBehaviour {
 			lastRightFootMoved = Time.time;	
 
 		if (lastLeftFootMoved == lastRightFootMoved)
-			timeBothFootsMoveing+=Time.deltaTime/2;
+			timeBothFootsMoveing += Time.deltaTime/2;
 
-		if (timeBothFootsMoveing > 0.5f) {
+		if (timeBothFootsMoveing > 0.2f) {
 			timeBothFootsMoveing = 0;
 			Events.CharacterFall ("fall_2_foots");
 		}
@@ -39,7 +41,9 @@ public class CharacterRulesToFall : MonoBehaviour {
 
 	void CheckFor2FootsSeparation()
 	{
-		if (Mathf.Abs ( character.foot_left.transform.localPosition.z - character.foot_right.transform.localPosition.z ) >1.4f)
-			Events.CharacterFall("fall_foots_separation");
+		if (Mathf.Abs (character.foot_left.transform.localPosition.z - character.foot_right.transform.localPosition.z) > 1.1f) {
+			Events.CharacterFall ("fall_foots_separation");
+		//	print ("fall_foots_separation");
+		}
     }
 }

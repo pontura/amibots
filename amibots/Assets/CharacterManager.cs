@@ -6,6 +6,7 @@ public class CharacterManager : MonoBehaviour {
 
     public Character character;
     CharacterScripts characterScripts;
+	public UIGame UIGame;
 
 	void Start () {
         Events.ClickedOn += ClickedOn;
@@ -13,10 +14,18 @@ public class CharacterManager : MonoBehaviour {
     }
 	
 	void ClickedOn(Vector3 pos) {
+		if (UIGame.state == UIGame.states.EDITING)
+			return;
+		character.Reset ();
         character.transform.LookAt(pos);
+		Vector3 rot = character.transform.localEulerAngles;
+		rot.x = 0;
+		rot.z = 0;
+		character.transform.localEulerAngles = rot;
+
         if(characterScripts.scripts.Count >0)
         {
-            character.scriptsProcessor.ProcessScript(characterScripts.scripts[0]);
+           character.scriptsProcessor.ProcessScript(characterScripts.scripts[0]);
         }
 	}
 }

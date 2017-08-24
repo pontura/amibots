@@ -12,9 +12,6 @@ public class UITimeLine : MonoBehaviour {
 	public float timer;
 
 	public Character character;
-	
-	//Secuencia activa son los bloques de funciones divididos por "Waits":
-	public int activeSequence;
 
 	void Start () {
 		Events.OnDebug += OnDebug;	
@@ -32,7 +29,6 @@ public class UITimeLine : MonoBehaviour {
 	{
 		this.isPlaying = _isPlaying;
 
-		activeSequence = 0;
 		timer = 0;
 
 		allFunctions.Clear ();
@@ -46,10 +42,23 @@ public class UITimeLine : MonoBehaviour {
 	{		
 		int sequenceID = 0;
 		foreach (UIFunctionLine uifl in functionsLineContainer.GetComponentsInChildren<UIFunctionLine>()) {
+			
+
+			if (uifl.function.type == AmiClass.types.SIMPLE_ACTION && uifl.function.value == "Parallel") {
+			//	print ("is a sequence...");
+				// is a sequence...
+			} else if (uifl.transform.parent.gameObject.GetComponent<UIFunctionSlot> ()) {
+			//	print ("is child of a sequence...");
+				// is child of a sequence...
+			} else {
+			//	print ("is a free function");
+				sequenceID++;
+			}
+
 			uifl.sequenceID = sequenceID;
 			uifl.done = false;
 			allFunctions.Add (uifl);
-            sequenceID++;
+            
 		}
 	}
     public void SaveFunction()

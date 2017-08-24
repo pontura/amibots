@@ -57,24 +57,49 @@ public class CharacterScriptsProcessor : MonoBehaviour {
         float duration = (float)GetFunctionDuration(uifl.function);
         if (duration >= timer)
         {
-            uifl.SetFilled(timer / duration);
+			uifl.SetFilled((timer / duration));
         }
         else
         {
-            timer = 0;
-            activeSequence++;
-            uifl.IsReady();
+            
+			uifl.IsReady ();
+			if (uifl.function.value == "Parallel") {
+				//no suma sequencia:
+			} else {				
+				UIFunctionSlot parallelContainer = uifl.transform.parent.GetComponent<UIFunctionSlot> ();
+				if (parallelContainer != null) {
+					print ("es hijo de seq");
+					if (IsParallelSequenceDone (parallelContainer)) {
+						print ("es hijo y seqeu esta lista");
+						activeSequence++;
+						timer = 0;
+					}	
+				} else {
+					activeSequence++;		
+					timer = 0;
+				}
+			}
+
+			Debug.Log ("value de la funcion:  " + uifl.function.value + "    activeSequence: " + activeSequence);            
         }
     }
-
+	bool IsParallelSequenceDone(UIFunctionSlot parallelSequence)
+	{
+		foreach (UIFunctionLine uifl in parallelSequence.GetComponentsInChildren<UIFunctionLine>()) {
+			if (!uifl.done) {
+				return false;
+			}
+		}
+		return true;		
+	}
     float GetFunctionDuration(AmiFunction function)
     {
         foreach (AmiClass amiClass in function.variables)
         {
             if (amiClass.type == AmiClass.types.WAIT)
-                return float.Parse(amiClass.className);
+                return float.Parse(amiClass.className)/100;
             if (amiClass.type == AmiClass.types.TIME)
-                return float.Parse(amiClass.className);
+                return float.Parse(amiClass.className)/100;
         }
         return 0;
     }
