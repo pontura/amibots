@@ -16,32 +16,30 @@ public class Character : MonoBehaviour {
 
 	Animation anim;
 	CharacterRulesToFall characterRulesToFall;
+    public CharacterScriptsProcessor scriptsProcessor;
 
-	public states state;
+    public bool falled;
+
+    public states state;
 	public enum states
 	{
 		IDLE,
-		FALL_DOWN,
-		FALL_FOOTS_SEPARATION
+		FALL,
 	}
 
 	void Start () {
-		characterRulesToFall = GetComponent<CharacterRulesToFall> ();
+        scriptsProcessor = GetComponent<CharacterScriptsProcessor>();
+        characterRulesToFall = GetComponent<CharacterRulesToFall> ();
 		anim = GetComponent<Animation> ();
         if(isEditorCharacter)
 		    Events.CharacterFall += CharacterFall;
 	}
-	void CharacterFall(states _state)
+
+    void CharacterFall(string _anim)
 	{
-		state = _state;
-		switch (state) { 
-		case states.FALL_DOWN:
-			anim.Play ("fall_2_foots");
-			break;
-		case states.FALL_FOOTS_SEPARATION:
-			anim.Play ("fall_foots_separation");
-			break;
-		}
+        falled = true;
+        state = states.FALL;
+		anim.Play (_anim);
 	}
 	public void UpdateFunctions(List<AmiClass> amiClasses, float timer)
 	{		
@@ -68,7 +66,7 @@ public class Character : MonoBehaviour {
 		}
 
 		if (bodyPart != null) {
-			Move (bodyPart, timer*distance/time);
+			Move (bodyPart, distance/time);
 		}
 	}
 
@@ -78,17 +76,34 @@ public class Character : MonoBehaviour {
 		if (qty == 0) 
 			startingPos = bodyPart.transform.localPosition;
 		
-		Vector3 pos = bodyPart.transform.localPosition;
-		pos.z = qty + startingPos.z;
-		bodyPart.transform.localPosition = pos;
+		//  Vector3 pos = bodyPart.transform.localPosition;
+	    //	pos.z = qty + startingPos.z;
+        //	bodyPart.transform.localPosition = pos;
+        bodyPart.transform.Translate(Vector3.forward * (Time.deltaTime * qty));
 
-		AlignBodyToFoots ();
+        AlignBodyToFoots ();
 	}
 	public void Reset()
 	{
-		startingPos = Vector3.zero;
+        if (isEditorCharacter)
+        {
+          //  startingPos = Vector3.zero;
+            transform.localPosition = Vector3.zero;
+        }
+        else
+        {
+            Vector3 pos = transform.position;
+            Vector3 destpos = body.transform.TransformPoint(Vector3.zero);
+            pos.x = destpos.x;
+            pos.z = destpos.z;
+            startingPos = pos;
+            transform.localPosition = pos;
+           
+        }
+        print("IDLE");
 		anim.Play ("idle");
-	}
+        falled = false;
+    }
 	void AlignBodyToFoots()
 	{
 		Vector3 centerPos = body.transform.localPosition;

@@ -32,7 +32,7 @@ public class CharacterRulesToFall : MonoBehaviour {
 
 		if (timeBothFootsMoveing > 0.5f) {
 			timeBothFootsMoveing = 0;
-			Events.CharacterFall (Character.states.FALL_DOWN);
+			Events.CharacterFall ("fall_2_foots");
 		}
 	}
 
@@ -40,6 +40,6 @@ public class CharacterRulesToFall : MonoBehaviour {
 	void CheckFor2FootsSeparation()
 	{
 		if (Mathf.Abs ( character.foot_left.transform.localPosition.z - character.foot_right.transform.localPosition.z ) >1.4f)
-			Events.CharacterFall (Character.states.FALL_FOOTS_SEPARATION);
-	}
+			Events.CharacterFall("fall_foots_separation");
+    }
 }

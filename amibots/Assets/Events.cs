@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 
 public static class Events {
-
+    
     public static System.Action<string, Vector3> OnTooltip = delegate { };
     public static System.Action OnTooltipHide = delegate { };
     
-    public static System.Action<List<UIFunctionLine>> SaveFunction = delegate { };
+    public static System.Action<List<UIFunctionLine>, string> SaveScript = delegate { };
     public static System.Action<Vector3> ClickedOn = delegate { };
     public static System.Action ClickedOnScreen = delegate { };
     public static System.Action OnGameOver = delegate { };
@@ -23,5 +23,5 @@ public static class Events {
 
 	public static System.Action<Color> OnUIFunctionChangeIconColor = delegate { };
 
-	public static System.Action<Character.states> CharacterFall = delegate { };
+	public static System.Action<string> CharacterFall = delegate { };
 }

@@ -24,7 +24,7 @@ public class UIGame : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetMouseButtonDown(0)) {
-            if (CharacterData.Instance.characterFunctions.functions.Count > 0)
+            if (CharacterData.Instance.characterScripts.scripts.Count > 0)
                 return;
             else
                 Events.OnTooltip("Action Empty", Vector3.zero);

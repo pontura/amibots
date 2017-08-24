@@ -5,7 +5,7 @@ using UnityEngine;
 public class CharacterData : MonoBehaviour {
     
     static CharacterData mInstance = null;
-    public CharacterFunctions characterFunctions;
+    public CharacterScripts characterScripts;
 
     public static CharacterData Instance
     {
@@ -25,6 +25,6 @@ public class CharacterData : MonoBehaviour {
             return;
         }
         DontDestroyOnLoad(this.gameObject);
-        characterFunctions = GetComponent<CharacterFunctions>();
+        characterScripts = GetComponent<CharacterScripts>();
     }
 }
