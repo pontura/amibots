@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class UIDragManager : MonoBehaviour {
 
-	UiClassManager uiClassManager;
+   public UIFunctionSlot parent_Slot;
+
+    UiClassManager uiClassManager;
     UIFunctionSlot overSlot;
 	string lastClassSelected;
 	GameObject draggedGO;
@@ -26,8 +28,12 @@ public class UIDragManager : MonoBehaviour {
 	}
 	void IsOverFunctionSlot(UIFunctionSlot _overSlot)
 	{
-        overSlot = _overSlot;
+        if(overSlot != null && overSlot.gameObject.name == "FunctionSlot_Childs")
+            overSlot = parent_Slot;
+        else
+            overSlot = _overSlot;
 	}
+    
 	void DragEnd()
 	{
 		if (overSlot != null && lastClassSelected != "") {

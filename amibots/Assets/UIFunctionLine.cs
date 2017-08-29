@@ -33,6 +33,7 @@ public class UIFunctionLine : MonoBehaviour {
 	}
     void OnDestroy()
     {
+        Events.OnPopupClose -= OnPopupClose;
         Events.OnUIClassSelected -= OnUIClassSelected;
         Events.DragEnd -= DragEnd;
     }

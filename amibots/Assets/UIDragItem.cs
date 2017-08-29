@@ -13,7 +13,9 @@ public class UIDragItem : MonoBehaviour {
 		DragEnd ();
 		Events.DragStart += DragStart;
 		Events.DragEnd += DragEnd;
-		Events.DragStartGameObject += DragStartGameObject;
+       
+
+        Events.DragStartGameObject += DragStartGameObject;
 		icons = Instantiate (_icons);
 		icons.transform.SetParent (transform);
 		icons.transform.localPosition = Vector3.zero;
@@ -24,7 +26,9 @@ public class UIDragItem : MonoBehaviour {
 			transform.position = Input.mousePosition;
 		}
 	}
-	public void DragStart(string className)
+   
+
+    public void DragStart(string className)
 	{
 		//icons.transform.localPosition = new Vector3 (0, 0, 0);
 		isOn = true;

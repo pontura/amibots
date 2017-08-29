@@ -30,18 +30,19 @@ public class AmiClasses : MonoBehaviour {
         CreateNewClass( "backward", AmiClass.types.DIRECTION, 0);
         CreateNewClass( "up", AmiClass.types.DIRECTION, 0);
         CreateNewClass( "down", AmiClass.types.DIRECTION, 0);
-        CreateNewClass( "left", AmiClass.types.DIRECTION, 0);
-        CreateNewClass( "right", AmiClass.types.DIRECTION, 0);
+     //   CreateNewClass( "left", AmiClass.types.DIRECTION, 0);
+      //  CreateNewClass( "right", AmiClass.types.DIRECTION, 0);
         
         CreateNewClass( "right foot", AmiClass.types.BODY_PART, 0);
         CreateNewClass( "left foot", AmiClass.types.BODY_PART, 0);
 		CreateNewClass( "right hand", AmiClass.types.BODY_PART, 1);
 		CreateNewClass( "left hand", AmiClass.types.BODY_PART, 1);
-        CreateNewClass( "body", AmiClass.types.BODY_PART, 2);
+        CreateNewClass( "hips", AmiClass.types.BODY_PART, 2);
         CreateNewClass( "head", AmiClass.types.BODY_PART, 3);
 
-        CreateNewClass("1", AmiClass.types.DISTANCE, 0);
-        CreateNewClass("2", AmiClass.types.DISTANCE, 1);
+        CreateNewClass("50", AmiClass.types.DISTANCE, 0);
+        CreateNewClass("100", AmiClass.types.DISTANCE, 0);
+        CreateNewClass("200", AmiClass.types.DISTANCE, 1);
 
         CreateNewClass( "50", AmiClass.types.TIME, 0);
         CreateNewClass( "100", AmiClass.types.TIME, 1);

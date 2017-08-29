@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterManager : MonoBehaviour {
-
+    
     public Character character;
     CharacterScripts characterScripts;
 	public UIGame UIGame;
@@ -17,13 +17,17 @@ public class CharacterManager : MonoBehaviour {
 		if (UIGame.state == UIGame.states.EDITING)
 			return;
 		character.Reset ();
-        character.transform.LookAt(pos);
-		Vector3 rot = character.transform.localEulerAngles;
-		rot.x = 0;
-		rot.z = 0;
-		character.transform.localEulerAngles = rot;
+        character.pivot.transform.LookAt(pos);
+       Vector3 rot = character.pivot.transform.localEulerAngles;
+        rot.x = rot.z = 0;
+        character.pivot.transform.localEulerAngles = rot;
 
-        if(characterScripts.scripts.Count >0)
+        if (pos.x > character.transform.localPosition.x)
+            character.transform.localScale = new Vector3(-1, 1, 1);
+        else
+            character.transform.localScale = new Vector3(1, 1, 1);
+
+        if (characterScripts.scripts.Count >0)
         {
            character.scriptsProcessor.ProcessScript(characterScripts.scripts[0]);
         }

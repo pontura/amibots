@@ -19,7 +19,7 @@ public static class Events {
 	public static System.Action<string> DragStart = delegate { };
 	public static System.Action<GameObject> DragStartGameObject = delegate { };
 	public static System.Action DragEnd = delegate { };
-	public static System.Action<UIFunctionSlot> IsOverFunctionSlot = delegate { };
+    public static System.Action<UIFunctionSlot> IsOverFunctionSlot = delegate { };
 
 	public static System.Action<Color> OnUIFunctionChangeIconColor = delegate { };
 

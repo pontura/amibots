@@ -12,6 +12,7 @@ public class CharacterScriptsProcessor : MonoBehaviour {
 
     void Start () {
         character = GetComponent<Character>();
+        activeSequence = 1;
     }
     void Update()
     {
@@ -57,30 +58,26 @@ public class CharacterScriptsProcessor : MonoBehaviour {
         float duration = (float)GetFunctionDuration(uifl.function);
         if (duration >= timer)
         {
-			uifl.SetFilled((timer / duration));
+            uifl.SetFilled((timer / duration));
         }
         else
-        {
-            
+        {            
 			uifl.IsReady ();
 			if (uifl.function.value == "Parallel") {
-				//no suma sequencia:
-			} else {				
+               // activeSequence++;
+                timer = 0;
+            } else {				
 				UIFunctionSlot parallelContainer = uifl.transform.parent.GetComponent<UIFunctionSlot> ();
 				if (parallelContainer != null) {
-					print ("es hijo de seq");
 					if (IsParallelSequenceDone (parallelContainer)) {
-						print ("es hijo y seqeu esta lista");
 						activeSequence++;
 						timer = 0;
 					}	
 				} else {
-					activeSequence++;		
+                    activeSequence++;		
 					timer = 0;
 				}
-			}
-
-			Debug.Log ("value de la funcion:  " + uifl.function.value + "    activeSequence: " + activeSequence);            
+			}          
         }
     }
 	bool IsParallelSequenceDone(UIFunctionSlot parallelSequence)
@@ -107,7 +104,7 @@ public class CharacterScriptsProcessor : MonoBehaviour {
     {
         script = null;
         timer = 0;
-        activeSequence = 0;
+        activeSequence = 1;
         character.Reset();
         if (character.isEditorCharacter)
         {

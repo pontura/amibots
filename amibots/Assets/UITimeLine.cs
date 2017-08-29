@@ -42,24 +42,26 @@ public class UITimeLine : MonoBehaviour {
 	{		
 		int sequenceID = 0;
 		foreach (UIFunctionLine uifl in functionsLineContainer.GetComponentsInChildren<UIFunctionLine>()) {
-			
 
-			if (uifl.function.type == AmiClass.types.SIMPLE_ACTION && uifl.function.value == "Parallel") {
-			//	print ("is a sequence...");
-				// is a sequence...
-			} else if (uifl.transform.parent.gameObject.GetComponent<UIFunctionSlot> ()) {
+            
+
+            if (uifl.function.type == AmiClass.types.SIMPLE_ACTION && uifl.function.value == "Parallel") {
+                sequenceID++;
+            } else if (uifl.transform.parent.gameObject.GetComponent<UIFunctionSlot> () != null) {
 			//	print ("is child of a sequence...");
 				// is child of a sequence...
 			} else {
-			//	print ("is a free function");
+				print ("is a free function");
 				sequenceID++;
 			}
 
-			uifl.sequenceID = sequenceID;
-			uifl.done = false;
-			allFunctions.Add (uifl);
-            
-		}
+            uifl.sequenceID = sequenceID;
+            uifl.done = false;
+            allFunctions.Add(uifl);
+
+
+
+        }
 	}
     public void SaveFunction()
     {
