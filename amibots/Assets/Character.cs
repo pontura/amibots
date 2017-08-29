@@ -107,6 +107,8 @@ public class Character : MonoBehaviour {
                 return hand_left;
             case "hips":
                 return hips;
+			case "head":
+				return head;
         }
         return null;
     }

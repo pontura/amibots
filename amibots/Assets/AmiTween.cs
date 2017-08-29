@@ -5,10 +5,13 @@ using UnityEngine;
 public class AmiTween : MonoBehaviour {
 
     Character character;
+
     Vector2 foot_r_OriginalPos;
     Vector2 foot_l_OriginalPos;
     Vector2 arm_r_OriginalPos;
     Vector2 arm_l_OriginalPos;
+	Vector2 head_OriginalPos;
+
     public Vector2 body_r_OriginalPos;
 
     void Start () {
@@ -23,6 +26,7 @@ public class AmiTween : MonoBehaviour {
         arm_l_OriginalPos = character.hand_left.transform.localPosition;
 
         body_r_OriginalPos = character.body.transform.localPosition;
+		head_OriginalPos = character.head.transform.localPosition;
     }
     public void Reset()
     {
@@ -33,10 +37,11 @@ public class AmiTween : MonoBehaviour {
         character.hand_left.transform.localPosition = arm_l_OriginalPos;
 
         character.body.transform.localPosition = body_r_OriginalPos;
+		character.head.transform.localPosition = head_OriginalPos;
     }
     public void Move(GameObject bodyPart, string _direction, float qty)
     {
-        Vector3 direction = GetDirection(_direction);
+		Vector3 direction = GetDirection(bodyPart.name, _direction);
 
         if (direction != Vector3.zero)
         {
@@ -51,19 +56,31 @@ public class AmiTween : MonoBehaviour {
             }
         }
     }
-    Vector3 GetDirection(string direction)
+    Vector3 GetDirection(string bodyPart, string direction)
     {
-        switch (direction)
-        {
-            case "forward":
-                return -Vector3.right;
-            case "backward":
-                return Vector3.right;
-            case "up":
-                return Vector3.up;
-            case "down":
-                return -Vector3.up;
-        }
+		if (bodyPart == "L Foot Ik" || bodyPart == "R Foot Ik" || bodyPart == "Hips bone") {
+			switch (direction) {
+			case "forward":
+				return -Vector3.right;
+			case "backward":
+				return Vector3.right;
+			case "up":
+				return Vector3.up;
+			case "down":
+				return -Vector3.up;
+			}
+		} else {
+			switch (direction) {
+			case "forward":
+				return Vector3.up;
+			case "backward":
+				return -Vector3.up;
+			case "up":
+				return -Vector3.right;
+			case "down":
+				return Vector3.right;
+			}
+		}
         return Vector3.zero;
     }
     float lastCenterPos = 0;

@@ -40,10 +40,13 @@ public class AmiClasses : MonoBehaviour {
         CreateNewClass( "hips", AmiClass.types.BODY_PART, 2);
         CreateNewClass( "head", AmiClass.types.BODY_PART, 3);
 
+		CreateNewClass("10", AmiClass.types.DISTANCE, 0);
+		CreateNewClass("25", AmiClass.types.DISTANCE, 0);
         CreateNewClass("50", AmiClass.types.DISTANCE, 0);
         CreateNewClass("100", AmiClass.types.DISTANCE, 0);
         CreateNewClass("200", AmiClass.types.DISTANCE, 1);
 
+		CreateNewClass( "25", AmiClass.types.TIME, 0);
         CreateNewClass( "50", AmiClass.types.TIME, 0);
         CreateNewClass( "100", AmiClass.types.TIME, 1);
 
