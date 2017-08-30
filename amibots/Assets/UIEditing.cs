@@ -10,7 +10,6 @@ public class UIEditing : MonoBehaviour {
     public GameObject popup;
     public UiClassManager uiClassManager;
 	public Button PlayButton;
-	public Image actionIcon;
     public Text DebugText;
 
 	void Start () {
@@ -35,7 +34,6 @@ public class UIEditing : MonoBehaviour {
         else if (color == Color.green)
             DebugText.text = "Walk is Done!";
 
-        actionIcon.color = color;
 	}
 	void OnUIClassSelected(AmiClass a)
 	{
