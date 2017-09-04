@@ -8,7 +8,7 @@ public class UIFunctionSlot : MonoBehaviour {
     public GameObject container;
     public Image image;
     Color imageColor;
-    public bool isFunctionOfChilds;
+    public UIFunctionLine functionLine;
 
     void Start()
     {
@@ -33,14 +33,14 @@ public class UIFunctionSlot : MonoBehaviour {
 
 	public void OnOver () {
 		Events.IsOverFunctionSlot (this);
-        if(isFunctionOfChilds)
+        if(functionLine != null)
             image.color = Color.green;
         RecalculateSize();
     }
     public void OnExit()
     {
         RecalculateSize();
-        if (isFunctionOfChilds)
+        if (functionLine != null)
             image.color = imageColor;
         Events.IsOverFunctionSlot (null);
     }

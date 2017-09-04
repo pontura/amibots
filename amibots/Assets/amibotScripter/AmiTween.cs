@@ -47,12 +47,18 @@ public class AmiTween : MonoBehaviour {
         {
             //  bodyPart.transform.Translate(direction * (Time.deltaTime * qty));           
             Vector3 pos = direction * (Time.deltaTime * qty);
-            bodyPart.transform.localPosition += pos;
-            print(bodyPart.name);
+            bodyPart.transform.Translate(pos);
+          //  bodyPart.transform.localPosition += pos;
+         //   print(bodyPart.name);
             if ( bodyPart.name == "L Foot Ik" || bodyPart.name == "R Foot Ik")
             {
                 AlignBodyToFoots();
-                character.OnCharacterMoveInX(-pos.x);
+
+               // if (character.transform.localPosition.x > character.lookAtTarget.x)
+                //    character.OnCharacterMoveInX(-pos.x);
+               // else
+                    character.OnCharacterMoveInX(pos.x);
+
             }
         }
     }
@@ -61,9 +67,9 @@ public class AmiTween : MonoBehaviour {
 		if (bodyPart == "L Foot Ik" || bodyPart == "R Foot Ik" || bodyPart == "Hips bone") {
 			switch (direction) {
 			case "forward":
-				return -Vector3.right;
-			case "backward":
 				return Vector3.right;
+			case "backward":
+				return -Vector3.right;
 			case "up":
 				return Vector3.up;
 			case "down":

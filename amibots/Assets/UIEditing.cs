@@ -5,25 +5,59 @@ using UnityEngine.UI;
 
 public class UIEditing : MonoBehaviour {
 
+    public GameObject panel;
     public GameObject tutorial;
     public GameObject state1;
     public GameObject popup;
     public UiClassManager uiClassManager;
 	public Button PlayButton;
     public Text DebugText;
+    public AmiScript.categories category;
+    public string scriptName;
+    public Text title;
+    public AmiScript edittingScript;
 
 	void Start () {
         tutorial.SetActive(true);
         state1.SetActive(true);
 		popup.SetActive(false);
 		PlayButton.interactable = false;
-		Events.OnPopup += OnPopup;
+        Events.CreateNewEmptyScript += CreateNewEmptyScript;
+        Events.OnUIChangeState += OnUIChangeState;
+        Events.OnEditScript += OnEditScript;
+
+        Events.OnPopup += OnPopup;
 		Events.OnPopupClose += OnPopupClose;
 		Events.OnUIClassSelected += OnUIClassSelected;
 		Events.OnUIFunctionChangeIconColor += OnUIFunctionChangeIconColor;
+        panel.SetActive(false);
 
     }
-	void OnUIFunctionChangeIconColor(Color color)
+    void OnUIChangeState(UIGame.states state)
+    {
+        if (state == UIGame.states.PLAYING)
+            panel.SetActive(false);
+    }
+    void OnEditScript(AmiScript amiScript)
+    {
+        this.edittingScript = amiScript;
+        title.text = amiScript.category.ToString() + "->" + amiScript.scriptName;
+        this.panel.SetActive(true);
+        this.category = amiScript.category;
+        this.scriptName = amiScript.scriptName;
+
+        GetComponent<UiClassManager>().AddFunctionsFromScript(amiScript);
+    }
+    void CreateNewEmptyScript(AmiScript.categories _category, string _scriptName)
+    {
+        edittingScript = null;
+        title.text = _category.ToString() + "->" + _scriptName;
+        this.panel.SetActive(true);
+        this.category = _category;
+        this.scriptName = _scriptName;
+    }
+
+    void OnUIFunctionChangeIconColor(Color color)
 	{
         if (color == Color.grey)
             DebugText.text = "playing...";

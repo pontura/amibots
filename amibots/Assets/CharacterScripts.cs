@@ -8,16 +8,38 @@ public class CharacterScripts : MonoBehaviour {
     public List<AmiScript> scripts;
 
     void Start () {
-        Events.SaveScript += SaveScript;
+        Events.SaveNewScript += SaveNewScript;
+        Events.UpdateScript += UpdateScript;
     }
-	
-	void SaveScript(List<UIFunctionLine> uifl, string scriptName) {
-        scripts.Clear();
+    void UpdateScript(AmiScript originalScript, AmiScript.categories category, string scriptName, List<UIFunctionLine> uifl)
+    {
+        foreach (AmiScript amiScript in scripts)
+        {
+            if (amiScript == originalScript)
+            {
+            }
+        }
+    }
+    void SaveNewScript(AmiScript.categories category, string scriptName, List<UIFunctionLine> uifl) {
         AmiScript amiScript = new AmiScript();
         amiScript.Init(scriptName);
+        amiScript.category = category;
+        amiScript.classes = new List<AmiClass>();
         
         foreach (UIFunctionLine line in uifl)
-            amiScript.lines.Add(line);
+        {
+            print(line.parallelOf);
+            AmiClass newClass = new AmiClass();
+            newClass.argumentValues = new List<AmiArgument>();
+            foreach (UIFunctionVarButton b in line.functionVarButtons)
+            {
+                AmiArgument arg = new AmiArgument();
+                arg.argument = b.arg;
+                arg.value = b.GetValue();
+                newClass.argumentValues.Add(arg);
+            }
+            amiScript.classes.Add(newClass);
+        }
 
         scripts.Add(amiScript);
     }

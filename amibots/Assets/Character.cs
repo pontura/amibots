@@ -22,10 +22,13 @@ public class Character : MonoBehaviour {
 	CharacterRulesToFall characterRulesToFall;
     public CharacterScriptsProcessor scriptsProcessor;
     AmiTween amiTween;
+    AmiLookAt amiLookAt;
     public bool falled;
 
     public states state;
-	public enum states
+    public Vector3 lookAtTarget;
+
+    public enum states
 	{
 		IDLE,
 		FALL,
@@ -33,11 +36,22 @@ public class Character : MonoBehaviour {
 
 	void Start () {
         amiTween = GetComponent<AmiTween>();
+        amiLookAt = GetComponent<AmiLookAt>();
         scriptsProcessor = GetComponent<CharacterScriptsProcessor>();
         characterRulesToFall = GetComponent<CharacterRulesToFall> ();
 		anim = GetComponent<Animation> ();
         Events.CharacterFall += CharacterFall;
-	}
+        Events.ClickedOn += ClickedOn;
+    }
+    void OnDestroy()
+    {
+        Events.CharacterFall -= CharacterFall;
+        Events.ClickedOn -= ClickedOn;
+    }
+    void ClickedOn(Vector3 pos)
+    {
+        lookAtTarget = pos;
+    }
 
     void CharacterFall(string _anim)
 	{
@@ -46,12 +60,17 @@ public class Character : MonoBehaviour {
 		anim.Play (_anim);
 	}
 	public void UpdateFunctions(List<AmiClass> amiClasses, float timer)
-	{		
+	{
 		GameObject bodyPart = null;
 		float distance = 1;
 		float time = 1;
         string direction = "";
 		foreach (AmiClass amiClass in amiClasses) {
+            if (amiClass.type == AmiClass.types.LOOK_AT_TARGET)
+            {
+                amiLookAt.Activate(amiClass.className);
+                return;
+            }
             if (amiClass.type == AmiClass.types.DIRECTION)
                 direction = amiClass.className;
             if (amiClass.type == AmiClass.types.DISTANCE) 

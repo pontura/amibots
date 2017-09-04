@@ -6,11 +6,13 @@ public class UIDragItem : MonoBehaviour {
 
 	public UIIcons _icons;
 	private UIIcons icons;
+    public Transform dragSimpleIconsContainer;
+
 	bool isOn;
 
 	void Start()
 	{
-		DragEnd ();
+		
 		Events.DragStart += DragStart;
 		Events.DragEnd += DragEnd;
        
@@ -19,7 +21,9 @@ public class UIDragItem : MonoBehaviour {
 		icons = Instantiate (_icons);
 		icons.transform.SetParent (transform);
 		icons.transform.localPosition = Vector3.zero;
-	}
+
+        DragEnd();
+    }
 	void Update()
 	{
 		if (isOn) {
@@ -38,12 +42,15 @@ public class UIDragItem : MonoBehaviour {
 	{
 		isOn = false;
 		transform.localPosition = new Vector3 (1000, 0, 0);
-	}
+        Utils.RemoveAllChildsIn(dragSimpleIconsContainer);
+        icons.gameObject.SetActive(true);
+    }
 	void DragStartGameObject(GameObject go)
 	{
-		//icons.transform.localPosition = new Vector3 (1000, 0, 0);
-		isOn = true;
-		go.transform.SetParent (icons.transform);
-		go.transform.localPosition =new Vector3(0,-20,0);
+        icons.gameObject.SetActive(false);
+        //icons.transform.localPosition = new Vector3 (1000, 0, 0);
+        isOn = true;
+		go.transform.SetParent (dragSimpleIconsContainer.transform);
+		go.transform.localPosition =new Vector3(253, -28,0);
 	}
 }

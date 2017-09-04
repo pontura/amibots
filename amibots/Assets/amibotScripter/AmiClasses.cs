@@ -9,22 +9,24 @@ public class AmiClasses : MonoBehaviour {
 	void Start () {
         AmiClass newClass;
 
-
         newClass = CreateNewClass("Move", AmiClass.types.SIMPLE_ACTION, 0);
 		newClass.arguments.Add(AmiClass.types.BODY_PART);
         newClass.arguments.Add(AmiClass.types.DIRECTION);        
         newClass.arguments.Add(AmiClass.types.DISTANCE);
         newClass.arguments.Add(AmiClass.types.TIME);
 
-
+        newClass = CreateNewClass("LookAt", AmiClass.types.SIMPLE_ACTION, 1);
+        newClass.arguments.Add(AmiClass.types.LOOK_AT_TARGET);
 
         newClass = CreateNewClass("Wait", AmiClass.types.SIMPLE_ACTION, 1);
 		newClass.arguments.Add(AmiClass.types.WAIT);
 
         newClass = CreateNewClass("Parallel", AmiClass.types.SIMPLE_ACTION, 1);
-       // newClass.arguments.Add(AmiClass.types.PARALLEL);
+        // newClass.arguments.Add(AmiClass.types.PARALLEL);
 
 
+        CreateNewClass("tap", AmiClass.types.LOOK_AT_TARGET, 0);
+        CreateNewClass("opposite", AmiClass.types.LOOK_AT_TARGET, 0);
 
         CreateNewClass( "forward", AmiClass.types.DIRECTION, 0);
         CreateNewClass( "backward", AmiClass.types.DIRECTION, 0);

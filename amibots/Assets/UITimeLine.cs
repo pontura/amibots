@@ -14,10 +14,16 @@ public class UITimeLine : MonoBehaviour {
 	public Character character;
 
 	void Start () {
-		Events.OnDebug += OnDebug;	
-		
-	}
-	void Update()
+		Events.OnDebug += OnDebug;
+        Events.CreateNewEmptyScript += CreateNewEmptyScript;
+    }
+    void CreateNewEmptyScript(AmiScript.categories c, string s)
+    {
+        allFunctions.Clear();
+        Utils.RemoveAllChildsIn(functionsLineContainer.transform);
+    }
+
+    void Update()
 	{
 		if (!isPlaying)
 			return;
@@ -41,9 +47,7 @@ public class UITimeLine : MonoBehaviour {
 	void CatchFunctions()
 	{		
 		int sequenceID = 0;
-		foreach (UIFunctionLine uifl in functionsLineContainer.GetComponentsInChildren<UIFunctionLine>()) {
-
-            
+		foreach (UIFunctionLine uifl in functionsLineContainer.GetComponentsInChildren<UIFunctionLine>()) {            
 
             if (uifl.function.type == AmiClass.types.SIMPLE_ACTION && uifl.function.value == "Parallel") {
                 sequenceID++;
@@ -51,23 +55,27 @@ public class UITimeLine : MonoBehaviour {
 			//	print ("is child of a sequence...");
 				// is child of a sequence...
 			} else {
-				print ("is a free function");
+				//print ("is a free function");
 				sequenceID++;
 			}
 
             uifl.sequenceID = sequenceID;
             uifl.done = false;
             allFunctions.Add(uifl);
-
-
-
         }
 	}
     public void SaveFunction()
     {
         CatchFunctions();
-        Events.SaveScript(allFunctions, "walk");
+        UIEditing uiEditting = GetComponent<UIEditing>();
+
+        if(uiEditting.edittingScript != null)
+            Events.UpdateScript(uiEditting.edittingScript, uiEditting.category, uiEditting.scriptName, allFunctions);
+        else
+            Events.SaveNewScript(uiEditting.category, uiEditting.scriptName, allFunctions);
+
         allFunctions.Clear();
+        Events.OnUIChangeState(UIGame.states.PLAYING);
     }
 	
 }

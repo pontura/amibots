@@ -8,7 +8,7 @@ public class CharacterScriptsProcessor : MonoBehaviour {
     public float timer;
     private int activeSequence;
     bool characterFalled;
-    AmiScript script;
+    public List<UIFunctionLine> uiFunctionLines;
 
     void Start () {
         character = GetComponent<Character>();
@@ -16,24 +16,39 @@ public class CharacterScriptsProcessor : MonoBehaviour {
     }
     void Update()
     {
-        if (script == null)
-            return;
-       Compute(script.lines);
+        if (uiFunctionLines.Count > 0)
+             Compute(uiFunctionLines);
     }
     public void ProcessScript(AmiScript _script) {
         Reset();
-        this.script = new AmiScript();
-        script.lines = new List<UIFunctionLine>();
-        foreach (UIFunctionLine uifl in _script.lines)
+        uiFunctionLines.Clear();
+        int sequenceID = 1;
+        foreach (AmiClass amiClass in _script.classes)
         {
-            uifl.done = false;
-            script.lines.Add(uifl);
+            UIFunctionLine uiFunctionLine = new UIFunctionLine();
+            uiFunctionLine.SetFunction(amiClass);
+            uiFunctionLine.sequenceID = sequenceID;
+            uiFunctionLine.functionVarButtons = new List<UIFunctionVarButton>();
+            uiFunctionLine.function = new AmiFunction();
+            uiFunctionLine.function.variables = new List<AmiClass>();
+            foreach (AmiArgument amiArgument in amiClass.argumentValues)
+            {
+                AmiClass newClass = new AmiClass();
+                newClass.className = amiArgument.value;
+                newClass.type = amiArgument.argument;
+                uiFunctionLine.function.variables.Add(newClass);    
+            }
+            uiFunctionLine.done = false;
+            uiFunctionLine.amiClass = amiClass;
+            uiFunctionLines.Add(uiFunctionLine);
+            sequenceID++;
         }
     }
     
     public void Compute(List<UIFunctionLine> functions)
     {
         timer += Time.deltaTime;
+      
         bool someFunctionIsActive = false;
         foreach (UIFunctionLine uifl in functions)
         {
@@ -44,7 +59,9 @@ public class CharacterScriptsProcessor : MonoBehaviour {
                 UpdateFuncion(uifl);
 
                 if (!characterFalled)
+                {
                     character.UpdateFunctions(uifl.function.variables, timer);
+                }
             }
         }
         if (!someFunctionIsActive)
@@ -56,20 +73,20 @@ public class CharacterScriptsProcessor : MonoBehaviour {
     void UpdateFuncion(UIFunctionLine uifl)
     {
         float duration = (float)GetFunctionDuration(uifl.function);
-        if (duration >= timer)
+        if (duration>0 && duration >= timer)
         {
             uifl.SetFilled((timer / duration));
         }
         else
         {            
 			uifl.IsReady ();
-			if (uifl.function.value == "Parallel") {
-               // activeSequence++;
+            if (uifl.function.value == "Parallel") {
+                // activeSequence++;
                 timer = 0;
             } else {				
-				UIFunctionSlot parallelContainer = uifl.transform.parent.GetComponent<UIFunctionSlot> ();
-				if (parallelContainer != null) {
-					if (IsParallelSequenceDone (parallelContainer)) {
+                if(uifl.parallelOf != null)
+                { 
+					if (IsParallelSequenceDone (uifl.parallelOf)) {
 						activeSequence++;
 						timer = 0;
 					}	
@@ -80,12 +97,12 @@ public class CharacterScriptsProcessor : MonoBehaviour {
 			}          
         }
     }
-	bool IsParallelSequenceDone(UIFunctionSlot parallelSequence)
+	bool IsParallelSequenceDone(UIFunctionLine parallelLine)
 	{
-		foreach (UIFunctionLine uifl in parallelSequence.GetComponentsInChildren<UIFunctionLine>()) {
-			if (!uifl.done) {
+	//	foreach (UIFunctionLine uifl in parallelSequence.GetComponentsInChildren<UIFunctionLine>()) {
+			if (!parallelLine.done) {
 				return false;
-			}
+		//	}
 		}
 		return true;		
 	}
@@ -96,13 +113,15 @@ public class CharacterScriptsProcessor : MonoBehaviour {
             if (amiClass.type == AmiClass.types.WAIT)
                 return float.Parse(amiClass.className)/100;
             if (amiClass.type == AmiClass.types.TIME)
-                return float.Parse(amiClass.className)/100;
+            {
+                return float.Parse(amiClass.className) / 100;
+            }
         }
         return 0;
     }
     void Reset()
     {
-        script = null;
+        uiFunctionLines.Clear();
         timer = 0;
         activeSequence = 1;
         character.Reset();

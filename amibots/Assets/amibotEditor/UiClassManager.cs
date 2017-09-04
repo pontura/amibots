@@ -27,21 +27,32 @@ public class UiClassManager : MonoBehaviour {
         {
 			AddFunction (amiClass, functionLineContainer);
         }
-
     }
 	public void RepositionateFunction(GameObject go)
 	{
 		//go.transform.SetParent (functionLineContainer);
 	}
+    public void AddFunctionsFromScript(AmiScript amiScript)
+    {
+        //foreach (UIFunctionLine functionLine in amiScript.lines)
+        //{
+        //    AddFunction(functionLine.amiClass, container);
+        //}
+    }
 	public void AddFunction(AmiClass amiClass, Transform _container)
-	{
+	{        
 		UIFunctionLine newFunctionLine = Instantiate (functionLine);
         newFunctionLine.gameObject.SetActive(true);
         newFunctionLine.transform.SetParent (_container);
 		newFunctionLine.transform.localScale = Vector3.one;
 		newFunctionLine.Init(amiClass);
-		
-	}
+        if (_container.name == "FunctionSlot_Childs")
+        {
+            newFunctionLine.SetParallelOf( _container.GetComponent<UIFunctionSlot>().functionLine );
+            Debug.LogError("A");
+        }
+
+    }
 	void OnPopup(AmiClass.types type)
 	{
         List<AmiClass> initClasses = new List<AmiClass>();

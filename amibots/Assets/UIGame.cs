@@ -5,8 +5,7 @@ using UnityEngine.UI;
 
 public class UIGame : MonoBehaviour {
 
-	public Actionbutton WalkButton;
-	public GameObject UiEditing;
+	public Button NewButton;
 	public GameObject UiPlaying;
 	public GameObject tootltipActionEmpty;
 	public states state;
@@ -19,15 +18,22 @@ public class UIGame : MonoBehaviour {
 	}
 
 	void Start () {
-		UiEditing.SetActive (false);
 		UiPlaying.SetActive (true);
 		Events.OnUIFunctionChangeIconColor += OnUIFunctionChangeIconColor;
-	}
-	Color _color;
+        Events.OnUIChangeState += OnUIChangeState;
+    }
+    void OnUIChangeState(states state)
+    {
+        if (state == states.PLAYING)
+            UiPlaying.SetActive(true);
+        else
+            UiPlaying.SetActive(false);
+    }
+
+    Color _color;
 	void OnUIFunctionChangeIconColor(Color color)
 	{
 		_color = color;
-		WalkButton.ChangeColor (color);
 	}
 	// Update is called once per frame
 	void Update () {
@@ -39,8 +45,7 @@ public class UIGame : MonoBehaviour {
                 return;
             else
                 Events.OnTooltip("Action Empty", Vector3.zero);
-
-            WalkButton.Activate ();
+            
 			tootltipActionEmpty.SetActive (true);
 			CancelInvoke ();
 			Invoke ("ResetTooltip", 2);
@@ -50,9 +55,14 @@ public class UIGame : MonoBehaviour {
 	{
 		tootltipActionEmpty.SetActive (false);
 	}
+    public void NewAction()
+    {
+        Events.OpenCategorySelector();
+        UiPlaying.SetActive(false);
+    }
 	public void ButtonPressed()
 	{		
-		UiEditing.SetActive (true);
+		//UiEditing.SetActive (true);
 		UiPlaying.SetActive (false);
 		state = states.EDITING;
 		world.SetActive (false);
@@ -65,7 +75,7 @@ public class UIGame : MonoBehaviour {
 	public void BackToGameDone()
 	{
 		state = states.PLAYING;
-		UiEditing.SetActive (false);
+		
 		UiPlaying.SetActive (true);
 		world.SetActive (true);
 	}

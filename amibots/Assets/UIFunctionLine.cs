@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class UIFunctionLine : MonoBehaviour {
 
-	public Text field;
+    public UIFunctionLine parallelOf;
+    public Text field;
 	public UIFunctionVarButton functionVarButton;
-	AmiClass amiClass;
+	public AmiClass amiClass;
 	public Transform container;
 
 	public AmiFunction function;
@@ -33,13 +35,16 @@ public class UIFunctionLine : MonoBehaviour {
 	}
     void OnDestroy()
     {
+        Destroy(GetComponent<EventTrigger>());
+
+        CancelInvoke();
         Events.OnPopupClose -= OnPopupClose;
         Events.OnUIClassSelected -= OnUIClassSelected;
         Events.DragEnd -= DragEnd;
     }
     void DragEnd()
     {
-        if(childs.activeSelf)
+        if(gameObject != null && childs.activeSelf)
             Invoke("RecalculateHeightByContainer", 0.05f);
     }
     void RecalculateHeightByContainer()
@@ -49,6 +54,7 @@ public class UIFunctionLine : MonoBehaviour {
     }
     public void Init (AmiClass amiClass) {
 
+        this.amiClass = amiClass;
         if (amiClass.className == "Parallel")
         {
             childs.SetActive(true);
@@ -60,15 +66,17 @@ public class UIFunctionLine : MonoBehaviour {
             bgImage.enabled = true;
         }
 
-        function = new AmiFunction ();
-		function.value = amiClass.className;
-		function.variables = new List<AmiClass> ();
-
-		field.text = amiClass.className;
-		this.amiClass = amiClass;
-		AddArguments ();
-
-	}
+        SetFunction(amiClass);
+        field.text = amiClass.className;
+        AddArguments();
+    }
+    public void SetFunction(AmiClass amiClass)
+    {
+        function = new AmiFunction();
+        function.value = amiClass.className;
+        function.variables = new List<AmiClass>();
+        this.amiClass = amiClass;       
+    }
 	void AddArguments()
 	{
 		int id = 0;
@@ -86,11 +94,10 @@ public class UIFunctionLine : MonoBehaviour {
 			function.variables.Add (newClass);
 
 			newfunctionVarButton.Init ( this,  arg, id);
+           
+			newfunctionVarButton.SetValue(newClass.className, arg);
 
-            string sentence =  Data.Instance.amiClasses.GetSentenceFor (newClass.className, arg);
-			newfunctionVarButton.SetValue (sentence);
-
-			functionVarButtons.Add (newfunctionVarButton);
+            functionVarButtons.Add (newfunctionVarButton);
 
 			id++;
 		}
@@ -101,7 +108,8 @@ public class UIFunctionLine : MonoBehaviour {
 	{
 		lastIArgSelectedID = id;
 		lastArgSelected = arg;
-		Events.OnUIClassSelected += OnUIClassSelected;
+        Events.OnUIClassSelected -= OnUIClassSelected;
+        Events.OnUIClassSelected += OnUIClassSelected;
 		Events.OnPopup( arg);
 	}
 	void OnUIClassSelected(AmiClass animClass)
@@ -110,12 +118,12 @@ public class UIFunctionLine : MonoBehaviour {
 		amiClass.className = animClass.className;
 
 		UIFunctionVarButton functionVarButton= functionVarButtons [lastIArgSelectedID];
-		string sentence =  Data.Instance.amiClasses.GetSentenceFor (animClass.className, lastArgSelected);
 
-		functionVarButton.SetValue(sentence);
+		functionVarButton.SetValue(animClass.className, lastArgSelected);
 	}
 	public void SetFilled(float fillAmount)
 	{
+        if (filledImage == null) return;
 		filledImage.fillAmount = fillAmount;
 	}
 	public void IsReady()
@@ -125,14 +133,24 @@ public class UIFunctionLine : MonoBehaviour {
 	}
 	public void ResetFilled()
 	{
-		filledImage.fillAmount = 0;
+        if(filledImage != null)
+		    filledImage.fillAmount = 0;
 	}
 	public void PointerDown()
 	{
-		Events.DragStartGameObject (gameObject);
-	}
+        try
+        {
+            Events.DragStartGameObject(gameObject);
+        }
+        catch { }
+    }
 	public void PointerUp()
 	{
-		Events.DragEnd ();
+        try { Events.DragEnd(); } catch { }
+            
 	}
+    public void SetParallelOf(UIFunctionLine _parallelOf)
+    {
+        this.parallelOf = _parallelOf;
+    }
 }

@@ -6,22 +6,25 @@ public class UIFunctionButtonManager : MonoBehaviour {
 
     public UIFunctionButton button;
     public Transform container;
-    public string[] buttonClasses;
 
 	void Start () {
-        OnAddFunctions();
+        Invoke("OnAddFunctions", 0.5f);
     }
     public void OnAddFunctions()
     {
         Utils.RemoveAllChildsIn(container);
 
-        foreach (string  className in buttonClasses)
+        foreach (AmiClass  amiClass in Data.Instance.amiClasses.classes)
         {
-            UIFunctionButton newButton = Instantiate(button);
-            newButton.Init(className);
-            newButton.transform.SetParent(container);
-            newButton.transform.localScale = Vector3.one;
-            newButton.transform.localPosition = Vector3.zero;
+            if (amiClass.type == AmiClass.types.SIMPLE_ACTION)
+            {
+                UIFunctionButton newButton = Instantiate(button);
+
+                newButton.Init(amiClass.className);
+                newButton.transform.SetParent(container);
+                newButton.transform.localScale = Vector3.one;
+                newButton.transform.localPosition = Vector3.zero;
+            }
         }
     }
 }

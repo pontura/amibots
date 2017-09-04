@@ -7,8 +7,9 @@ public class UIFunctionVarButton : MonoBehaviour {
 
 	public Text field;
 	UIFunctionLine line;
-	AmiClass.types arg;
+    public AmiClass.types arg;
 	public int id;
+    public string value;
 
 	public void Init(UIFunctionLine line,  AmiClass.types arg, int id)
 	{
@@ -16,12 +17,18 @@ public class UIFunctionVarButton : MonoBehaviour {
 		this.arg = arg;
 		this.line = line;
 	}
-	public void SetValue(string value)
+	public void SetValue(string className, AmiClass.types type)
 	{
-		field.text = value;
+        this.value = className;
+        string sentence = Data.Instance.amiClasses.GetSentenceFor(className, arg);
+        field.text = sentence;
 	}
 	public void OnSelected()
 	{
 		line.OnArgumentSelected (arg, id);
 	}
+    public string GetValue()
+    {
+        return value;
+    }
 }
