@@ -10,18 +10,18 @@ public class AmiClasses : MonoBehaviour {
         AmiClass newClass;
 
         newClass = CreateNewClass("Move", AmiClass.types.SIMPLE_ACTION, 0);
-		newClass.arguments.Add(AmiClass.types.BODY_PART);
-        newClass.arguments.Add(AmiClass.types.DIRECTION);        
-        newClass.arguments.Add(AmiClass.types.DISTANCE);
-        newClass.arguments.Add(AmiClass.types.TIME);
+		newClass.AddNewArgument(AmiClass.types.BODY_PART);
+		newClass.AddNewArgument(AmiClass.types.DIRECTION);        
+		newClass.AddNewArgument(AmiClass.types.DISTANCE);
+		newClass.AddNewArgument(AmiClass.types.TIME);
 
         newClass = CreateNewClass("LookAt", AmiClass.types.SIMPLE_ACTION, 1);
-        newClass.arguments.Add(AmiClass.types.LOOK_AT_TARGET);
+		newClass.AddNewArgument(AmiClass.types.LOOK_AT_TARGET);
 
         newClass = CreateNewClass("Wait", AmiClass.types.SIMPLE_ACTION, 1);
-		newClass.arguments.Add(AmiClass.types.WAIT);
+		newClass.AddNewArgument(AmiClass.types.WAIT);
 
-        newClass = CreateNewClass("Parallel", AmiClass.types.SIMPLE_ACTION, 1);
+    //    newClass = CreateNewClass("Parallel", AmiClass.types.SIMPLE_ACTION, 1);
         // newClass.arguments.Add(AmiClass.types.PARALLEL);
 
 
@@ -79,7 +79,7 @@ public class AmiClasses : MonoBehaviour {
         newClass.className = className;
         newClass.type = type;
         newClass.level = level;
-        newClass.arguments = new List<AmiClass.types>();
+		newClass.argumentValues = new List<AmiArgument>();
         classes.Add(newClass);
         return newClass;
     }

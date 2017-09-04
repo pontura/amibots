@@ -7,13 +7,27 @@ public class CharacterManager : MonoBehaviour {
     public Character character;
     CharacterScripts characterScripts;
 	public UIGame UIGame;
+	public UIButtonsInGame uiButtonsInGame;
+	AmiScript script;
 
 	void Start () {
         Events.ClickedOn += ClickedOn;
+		Events.SetScriptSelected += SetScriptSelected;
         characterScripts = CharacterData.Instance.characterScripts;
     }
-	
+	void SetInvoked()
+	{
+		script = uiButtonsInGame.GetScriptSelected ();
+	}
+	void SetScriptSelected(AmiScript _script)
+	{
+		this.script = _script;
+	}
 	void ClickedOn(Vector3 pos) {
+		
+		if(script == null)
+			return;
+		
 		if (UIGame.state == UIGame.states.EDITING)
 			return;
 		character.Reset ();
@@ -26,10 +40,7 @@ public class CharacterManager : MonoBehaviour {
             character.transform.localScale = new Vector3(-1, 1, 1);
         else
             character.transform.localScale = new Vector3(1, 1, 1);
-
-        if (characterScripts.scripts.Count >0)
-        {
-           character.scriptsProcessor.ProcessScript(characterScripts.scripts[0]);
-        }
+		
+		character.scriptsProcessor.ProcessScript(script);
 	}
 }

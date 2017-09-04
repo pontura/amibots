@@ -19,17 +19,20 @@ public class UITimeLine : MonoBehaviour {
     }
     void CreateNewEmptyScript(AmiScript.categories c, string s)
     {
-        allFunctions.Clear();
-        Utils.RemoveAllChildsIn(functionsLineContainer.transform);
+		Reset ();
     }
-
+	void Reset()
+	{
+		allFunctions.Clear();
+		Utils.RemoveAllChildsIn(functionsLineContainer.transform);
+	}
     void Update()
 	{
 		if (!isPlaying)
 			return;
 		if (allFunctions.Count == 0)
 			return;
-        character.scriptsProcessor.Compute(allFunctions);
+      //  character.scriptsProcessor.Compute(allFunctions);
 	}
 	void OnDebug(bool _isPlaying)
 	{
@@ -51,8 +54,9 @@ public class UITimeLine : MonoBehaviour {
 
             if (uifl.function.type == AmiClass.types.SIMPLE_ACTION && uifl.function.value == "Parallel") {
                 sequenceID++;
-            } else if (uifl.transform.parent.gameObject.GetComponent<UIFunctionSlot> () != null) {
-			//	print ("is child of a sequence...");
+				//print ("is a Parallel");
+			} else if (uifl.parallelOf != null) {
+				//print ("is child of a sequence...");
 				// is child of a sequence...
 			} else {
 				//print ("is a free function");
@@ -76,6 +80,7 @@ public class UITimeLine : MonoBehaviour {
 
         allFunctions.Clear();
         Events.OnUIChangeState(UIGame.states.PLAYING);
+		Reset ();
     }
 	
 }

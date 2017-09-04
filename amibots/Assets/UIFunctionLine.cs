@@ -52,9 +52,9 @@ public class UIFunctionLine : MonoBehaviour {
         float _y = _initialHeight +( childs.GetComponentsInChildren<UIFunctionLine>().Length * _initialHeight);
         GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, _y);
     }
-    public void Init (AmiClass amiClass) {
+    public void Init (AmiClass _amiClass) {
 
-        this.amiClass = amiClass;
+		this.amiClass = _amiClass;
         if (amiClass.className == "Parallel")
         {
             childs.SetActive(true);
@@ -74,28 +74,39 @@ public class UIFunctionLine : MonoBehaviour {
     {
         function = new AmiFunction();
         function.value = amiClass.className;
+
         function.variables = new List<AmiClass>();
-        this.amiClass = amiClass;       
+        //this.amiClass = amiClass;       
     }
 	void AddArguments()
 	{
 		int id = 0;
-		foreach(AmiClass.types arg in amiClass.arguments)
+		print (amiClass.argumentValues.Count);
+		foreach(AmiArgument arg in amiClass.argumentValues)
 		{
 			UIFunctionVarButton newfunctionVarButton = Instantiate (functionVarButton);
 			newfunctionVarButton.transform.SetParent (container);
 			newfunctionVarButton.transform.localScale = Vector3.one;
-			List<AmiClass> all =  Data.Instance.amiClasses.GetClassesByArg (arg);
+			List<AmiClass> all =  Data.Instance.amiClasses.GetClassesByArg (arg.type);
 
 			AmiClass newClass = new AmiClass ();
-			newClass.className = all [0].className;
-			newClass.type = arg;
+
+			//si el boton es nuevo:
+			if (arg.value == null || arg.value == "") {
+			//	print ("es nuevo");
+				newClass.className = all [0].className;
+			} else {
+				//print ("estas editando");
+				newClass.className = arg.value;
+			}
+
+			newClass.type = arg.type;
 
 			function.variables.Add (newClass);
 
-			newfunctionVarButton.Init ( this,  arg, id);
+			newfunctionVarButton.Init( this,  arg.type, id);
            
-			newfunctionVarButton.SetValue(newClass.className, arg);
+			newfunctionVarButton.SetValue(newClass.className, arg.type);
 
             functionVarButtons.Add (newfunctionVarButton);
 

@@ -23,7 +23,7 @@ public class UiClassManager : MonoBehaviour {
 	}
 	void OnUIClassSelected(AmiClass amiClass)
     {
-        if (amiClass.arguments.Count > 0)
+        if (amiClass.argumentValues.Count > 0)
         {
 			AddFunction (amiClass, functionLineContainer);
         }
@@ -34,10 +34,9 @@ public class UiClassManager : MonoBehaviour {
 	}
     public void AddFunctionsFromScript(AmiScript amiScript)
     {
-        //foreach (UIFunctionLine functionLine in amiScript.lines)
-        //{
-        //    AddFunction(functionLine.amiClass, container);
-        //}
+		foreach (AmiClass amiClass in amiScript.classes) {
+			AddFunction (amiClass, functionLineContainer);
+		}
     }
 	public void AddFunction(AmiClass amiClass, Transform _container)
 	{        
@@ -45,13 +44,14 @@ public class UiClassManager : MonoBehaviour {
         newFunctionLine.gameObject.SetActive(true);
         newFunctionLine.transform.SetParent (_container);
 		newFunctionLine.transform.localScale = Vector3.one;
-		newFunctionLine.Init(amiClass);
-        if (_container.name == "FunctionSlot_Childs")
-        {
-            newFunctionLine.SetParallelOf( _container.GetComponent<UIFunctionSlot>().functionLine );
-            Debug.LogError("A");
-        }
 
+		print ("argumentValues " + amiClass.argumentValues.Count + " _container " + _container);
+
+		newFunctionLine.Init(amiClass);
+      //  if (_container.name == "FunctionSlot_Childs")
+      //  {
+       //     newFunctionLine.SetParallelOf( _container.GetComponent<UIFunctionSlot>().functionLine );
+      //  }
     }
 	void OnPopup(AmiClass.types type)
 	{

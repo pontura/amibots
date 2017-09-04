@@ -8,14 +8,21 @@ public class UIButtonInGame : MonoBehaviour {
     Animation anim;
     public Image colorizable;
     public AmiScript script;
+	public GameObject selectedIcon;
+	UIButtonsInGame uiButtonsInGame;
 
-    public void Init(AmiScript _script)
+	public void Init(UIButtonsInGame uiButtonsInGame, AmiScript _script)
     {
+		this.uiButtonsInGame = uiButtonsInGame;
         this.script = _script;
     }
+	public void Edit()
+	{
+		Events.OnEditScript(script);
+	}
     public void Clicked()
     {
-        Events.OnEditScript(script);
+		uiButtonsInGame.SetSelected (this);
     }
     void Start()
     {
@@ -29,4 +36,15 @@ public class UIButtonInGame : MonoBehaviour {
     {
         colorizable.color = _color;
     }
+	public void SetSelected(bool isOn)
+	{
+		selectedIcon.SetActive (isOn);
+	}
+	public bool IsSelected()
+	{
+		if (selectedIcon.activeSelf)
+			return true;
+		return false;
+
+	}
 }

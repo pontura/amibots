@@ -14,6 +14,7 @@ public static class Events {
     public static System.Action<AmiScript.categories, string, List<UIFunctionLine>> SaveNewScript = delegate { };
     public static System.Action<AmiScript, AmiScript.categories, string, List<UIFunctionLine>> UpdateScript = delegate { };
     public static System.Action<Vector3> ClickedOn = delegate { };
+	public static System.Action<AmiScript> SetScriptSelected = delegate { };
     public static System.Action ClickedOnScreen = delegate { };
     public static System.Action OnGameOver = delegate { };
     public static System.Action<AmiClass> OnUIClassSelected = delegate { };

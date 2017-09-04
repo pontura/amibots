@@ -6,7 +6,6 @@ using System;
 [Serializable]
 public class AmiArgument  {
 
-    public AmiClass.types argument;
+    public AmiClass.types type;
     public string value;
-
 }

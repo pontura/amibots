@@ -21,6 +21,7 @@ public class UIGame : MonoBehaviour {
 		UiPlaying.SetActive (true);
 		Events.OnUIFunctionChangeIconColor += OnUIFunctionChangeIconColor;
         Events.OnUIChangeState += OnUIChangeState;
+		Events.OnEditScript += OnEditScript;
     }
     void OnUIChangeState(states state)
     {
@@ -78,5 +79,9 @@ public class UIGame : MonoBehaviour {
 		
 		UiPlaying.SetActive (true);
 		world.SetActive (true);
+	}
+	void OnEditScript(AmiScript script)
+	{
+		UiPlaying.SetActive (false);
 	}
 }

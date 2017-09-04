@@ -59,26 +59,26 @@ public class Character : MonoBehaviour {
         state = states.FALL;
 		anim.Play (_anim);
 	}
-	public void UpdateFunctions(List<AmiClass> amiClasses, float timer)
+	public void UpdateFunctions(AmiClass amiClass, float timer)
 	{
 		GameObject bodyPart = null;
 		float distance = 1;
 		float time = 1;
         string direction = "";
-		foreach (AmiClass amiClass in amiClasses) {
-            if (amiClass.type == AmiClass.types.LOOK_AT_TARGET)
+		foreach (AmiArgument amiArgument in amiClass.argumentValues) {
+			if (amiArgument.type == AmiClass.types.LOOK_AT_TARGET)
             {
-                amiLookAt.Activate(amiClass.className);
+				amiLookAt.Activate(amiArgument.value);
                 return;
             }
-            if (amiClass.type == AmiClass.types.DIRECTION)
-                direction = amiClass.className;
-            if (amiClass.type == AmiClass.types.DISTANCE) 
-				distance = float.Parse(amiClass.className)/100;
-			if (amiClass.type == AmiClass.types.TIME) 
-				time = float.Parse(amiClass.className)/100;
-			if (amiClass.type == AmiClass.types.BODY_PART) {
-                bodyPart = GetBodyPartByClassName(amiClass.className);
+			if (amiArgument.type == AmiClass.types.DIRECTION)
+				direction = amiArgument.value;
+			if (amiArgument.type == AmiClass.types.DISTANCE) 
+				distance = float.Parse(amiArgument.value)/100;
+			if (amiArgument.type == AmiClass.types.TIME) 
+				time = float.Parse(amiArgument.value)/100;
+			if (amiArgument.type == AmiClass.types.BODY_PART) {
+				bodyPart = GetBodyPartByClassName(amiArgument.value);
             }
         }
         if (direction != "") {

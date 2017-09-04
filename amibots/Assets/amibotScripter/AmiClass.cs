@@ -9,9 +9,8 @@ public class AmiClass
     public string className;
     public int level;
     public types type;
-
-    [HideInInspector]
-    public List<types> arguments;
+	public int sequenceID;
+	public bool isDone;
 
     public enum types
     {
@@ -25,4 +24,11 @@ public class AmiClass
         PARALLEL
     }
     public List<AmiArgument> argumentValues;
+
+	public void AddNewArgument(types type)
+	{
+		AmiArgument newArg = new AmiArgument ();
+		newArg.type = type;
+		argumentValues.Add (newArg);
+	}
 }
