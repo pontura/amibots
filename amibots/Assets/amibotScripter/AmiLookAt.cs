@@ -27,7 +27,6 @@ public class AmiLookAt : MonoBehaviour {
                 transform.localScale = new Vector3(-transform.localScale.x, 1, 1);
                 break;
         }
-        print("Look at " + direction);
     }
     
 }

@@ -81,7 +81,6 @@ public class UIFunctionLine : MonoBehaviour {
 	void AddArguments()
 	{
 		int id = 0;
-		print (amiClass.argumentValues.Count);
 		foreach(AmiArgument arg in amiClass.argumentValues)
 		{
 			UIFunctionVarButton newfunctionVarButton = Instantiate (functionVarButton);

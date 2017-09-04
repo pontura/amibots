@@ -45,7 +45,7 @@ public class UiClassManager : MonoBehaviour {
         newFunctionLine.transform.SetParent (_container);
 		newFunctionLine.transform.localScale = Vector3.one;
 
-		print ("argumentValues " + amiClass.argumentValues.Count + " _container " + _container);
+		//print ("argumentValues " + amiClass.argumentValues.Count + " _container " + _container);
 
 		newFunctionLine.Init(amiClass);
       //  if (_container.name == "FunctionSlot_Childs")

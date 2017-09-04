@@ -21,7 +21,7 @@ public class CharacterScriptsProcessor : MonoBehaviour {
              Compute();
     }
     public void ProcessScript(AmiScript _script) {		
-        Reset();
+        //Reset();
 		this.script = _script;
 		isProcessing = true;
     }
