@@ -18,7 +18,7 @@ public class UIFunctionLine : MonoBehaviour {
     public Image bgImage;
 
     public int sequenceID;
-	public bool done;
+	public bool isDone;
     public GameObject childs;
     float _initialHeight;
 
@@ -76,7 +76,6 @@ public class UIFunctionLine : MonoBehaviour {
         function.value = amiClass.className;
 
         function.variables = new List<AmiClass>();
-        //this.amiClass = amiClass;       
     }
 	void AddArguments()
 	{
@@ -100,13 +99,9 @@ public class UIFunctionLine : MonoBehaviour {
 			}
 
 			newClass.type = arg.type;
-
 			function.variables.Add (newClass);
-
-			newfunctionVarButton.Init( this,  arg.type, id);
-           
+			newfunctionVarButton.Init( this,  arg.type, id);           
 			newfunctionVarButton.SetValue(newClass.className, arg.type);
-
             functionVarButtons.Add (newfunctionVarButton);
 
 			id++;
@@ -134,12 +129,8 @@ public class UIFunctionLine : MonoBehaviour {
 	public void SetFilled(float fillAmount)
 	{
         if (filledImage == null) return;
+        if (fillAmount > 1) fillAmount = 1;
 		filledImage.fillAmount = fillAmount;
-	}
-	public void IsReady()
-	{
-		done = true;
-		ResetFilled ();
 	}
 	public void ResetFilled()
 	{

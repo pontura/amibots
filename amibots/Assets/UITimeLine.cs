@@ -31,21 +31,25 @@ public class UITimeLine : MonoBehaviour {
     }
 	void OnDebug(bool _isPlaying)
 	{
-		this.isPlaying = _isPlaying;
-        
+		this.isPlaying = _isPlaying;        
 		allFunctions.Clear ();
+
         if (isPlaying)
         {
             Events.OnUIFunctionChangeIconColor(Color.grey);
             CatchFunctions();
-        }
-        amiScript = characterScripts.CreateScriptFromLines(new AmiScript(), allFunctions);
-        character.scriptsProcessor.ProcessScript(amiScript);
+            amiScript = characterScripts.CreateScriptFromLines(new AmiScript(), allFunctions);
+            character.scriptsProcessor.ProcessScript(amiScript);
+        }        
     }
 	void CatchFunctions()
 	{		
 		int sequenceID = 0;
-		foreach (UIFunctionLine uifl in functionsLineContainer.GetComponentsInChildren<UIFunctionLine>()) {            
+		foreach (UIFunctionLine uifl in functionsLineContainer.GetComponentsInChildren<UIFunctionLine>()) {
+
+            uifl.sequenceID = sequenceID;
+            uifl.ResetFilled();
+            allFunctions.Add(uifl);
 
             if (uifl.function.type == AmiClass.types.SIMPLE_ACTION && uifl.function.value == "Parallel") {
                 sequenceID++;
@@ -58,9 +62,7 @@ public class UITimeLine : MonoBehaviour {
 				sequenceID++;
 			}
 
-            uifl.sequenceID = sequenceID;
-            uifl.done = false;
-            allFunctions.Add(uifl);
+           
         }
 	}
     public void SaveFunction()
@@ -76,5 +78,38 @@ public class UITimeLine : MonoBehaviour {
         Events.OnUIChangeState(UIGame.states.PLAYING);
 		Reset ();
     }
-	
+    void Update()
+    {
+        if (isPlaying)
+        {
+            float timer = character.scriptsProcessor.timer;
+            int activeSequence = character.scriptsProcessor.activeSequence;
+            foreach (UIFunctionLine line in allFunctions)
+            {
+                if (line.sequenceID == activeSequence)
+                {
+                    line.SetFilled(timer / GetFunctionDuration(line.function.variables));
+                }
+                else
+                {
+                    line.ResetFilled();
+                }
+            }
+            print(timer + " " + activeSequence + "    " + allFunctions.Count);
+        }
+    }
+    float GetFunctionDuration(List<AmiClass> variables)
+    {
+        foreach (AmiClass amiClass in variables)
+        {
+            if (amiClass.type == AmiClass.types.WAIT)
+                return float.Parse(amiClass.className) / 100;
+            if (amiClass.type == AmiClass.types.TIME)
+            {
+                return float.Parse(amiClass.className) / 100;
+            }
+        }
+        return 0;
+    }
+
 }

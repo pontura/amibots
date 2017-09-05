@@ -6,14 +6,14 @@ public class CharacterScriptsProcessor : MonoBehaviour {
 
     Character character;
     public float timer;
-    private int activeSequence;
+    public int activeSequence;
     bool characterFalled;
 	public AmiScript script;
 	bool isProcessing;
 
     void Start () {
         character = GetComponent<Character>();
-        activeSequence = 1;
+        activeSequence = 0;
     }
     void Update()
     {
