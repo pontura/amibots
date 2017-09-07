@@ -28,9 +28,13 @@ public class UiClassManager : MonoBehaviour {
 			AddFunction (amiClass, functionLineContainer);
         }
     }
-	public void RepositionateFunction(GameObject go)
+	public void RepositionateFunction(UIFunctionSlot slot, GameObject go)
 	{
-		//go.transform.SetParent (functionLineContainer);
+		if (slot.functionLine != null) {
+			go.GetComponent<UIFunctionLine> ().sequenceID = slot.functionLine.sequenceID + 1;
+			go.GetComponent<UIFunctionLine> ().isParallel = true;
+		}
+		go.transform.SetParent (slot.container.transform);
 	}
     public void AddFunctionsFromScript(AmiScript amiScript)
     {

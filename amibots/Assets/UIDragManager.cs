@@ -24,6 +24,7 @@ public class UIDragManager : MonoBehaviour {
 	}
 	void DragStartGameObject(GameObject go)
 	{
+		print ("DragStartGameObject " + go);
 		this.draggedGO = go;
 	}
 	void IsOverFunctionSlot(UIFunctionSlot _overSlot)
@@ -40,7 +41,7 @@ public class UIDragManager : MonoBehaviour {
 			AmiClass ac = Data.Instance.amiClasses.GetClassesByClassName (lastClassSelected);
 			uiClassManager.AddFunction (ac, overSlot.container.transform);
 		} else if (overSlot != null && draggedGO) {
-			uiClassManager.RepositionateFunction (draggedGO);
+			uiClassManager.RepositionateFunction (overSlot, draggedGO);
 		} else if (overSlot == null && draggedGO != null) {
 			Destroy (draggedGO);
 		}
