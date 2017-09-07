@@ -48,10 +48,10 @@ public class UiClassManager : MonoBehaviour {
 		//print ("argumentValues " + amiClass.argumentValues.Count + " _container " + _container);
 
 		newFunctionLine.Init(amiClass);
-      //  if (_container.name == "FunctionSlot_Childs")
-      //  {
-       //     newFunctionLine.SetParallelOf( _container.GetComponent<UIFunctionSlot>().functionLine );
-      //  }
+        if (_container.name == "FunctionSlot_Childs")
+        {
+            newFunctionLine.SetParallelOf( _container.GetComponent<UIFunctionSlot>().functionLine );
+        }
     }
 	void OnPopup(AmiClass.types type)
 	{

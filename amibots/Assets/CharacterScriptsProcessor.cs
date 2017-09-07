@@ -58,8 +58,13 @@ public class CharacterScriptsProcessor : MonoBehaviour {
 		{            
 			//print ("done " + uifl.function.value);
 			amiClass.isDone = true;
-			activeSequence++;
-			timer = 0;
+            if (IsAllSequenceDone(amiClass.sequenceID))
+            {
+                activeSequence++;
+                timer = 0;
+            }
+                
+			
 			//if (uifl.function.value == "Parallel") {
 				//  activeSequence++;
 			//	timer = 0;
@@ -77,7 +82,7 @@ public class CharacterScriptsProcessor : MonoBehaviour {
 			//}
 		}
     }
-	bool IsParallelSequenceDone(int sequenceID)
+	bool IsAllSequenceDone(int sequenceID)
 	{
 		foreach (AmiClass amiClass in script.classes) {
 			if (amiClass.sequenceID == sequenceID && !amiClass.isDone) {

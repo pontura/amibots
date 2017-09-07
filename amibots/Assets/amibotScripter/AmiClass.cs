@@ -21,7 +21,8 @@ public class AmiClass
         DISTANCE,
         TIME,
 		WAIT,
-        PARALLEL
+        PARALLEL,
+        EXPRESSIONS
     }
     public List<AmiArgument> argumentValues;
 

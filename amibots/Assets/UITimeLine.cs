@@ -44,25 +44,22 @@ public class UITimeLine : MonoBehaviour {
     }
 	void CatchFunctions()
 	{		
-		int sequenceID = 0;
+		int sequenceID = -1;
 		foreach (UIFunctionLine uifl in functionsLineContainer.GetComponentsInChildren<UIFunctionLine>()) {
 
-            uifl.sequenceID = sequenceID;
+            
             uifl.ResetFilled();
-            allFunctions.Add(uifl);
+            allFunctions.Add(uifl);           
 
-            if (uifl.function.type == AmiClass.types.SIMPLE_ACTION && uifl.function.value == "Parallel") {
-                sequenceID++;
-				//print ("is a Parallel");
-			} else if (uifl.parallelOf != null) {
-				//print ("is child of a sequence...");
-				// is child of a sequence...
-			} else {
-				//print ("is a free function");
+             if (uifl.isParallel) {
+             //   print("is a function in a parallel" + sequenceID);
+            } else {
+				//print ("is a free function " + sequenceID);
 				sequenceID++;
 			}
+            uifl.sequenceID = sequenceID;
 
-           
+
         }
 	}
     public void SaveFunction()
@@ -95,7 +92,7 @@ public class UITimeLine : MonoBehaviour {
                     line.ResetFilled();
                 }
             }
-            print(timer + " " + activeSequence + "    " + allFunctions.Count);
+         //   print(timer + " " + activeSequence + "    " + allFunctions.Count);
         }
     }
     float GetFunctionDuration(List<AmiClass> variables)

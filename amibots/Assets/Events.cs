@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public static class Events {
 
+    public static System.Action<CharacterCustomizer.parts, string> OnCustomize = delegate { };
     public static System.Action<AmiScript.categories> EditNameOfAction = delegate { };
     public static System.Action<AmiScript.categories, string> CreateNewEmptyScript = delegate { };
     public static System.Action<AmiScript> OnEditScript = delegate { };

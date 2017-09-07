@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 public class UIFunctionLine : MonoBehaviour {
 
-    public UIFunctionLine parallelOf;
+    public bool isParallel;
     public Text field;
 	public UIFunctionVarButton functionVarButton;
 	public AmiClass amiClass;
@@ -79,20 +79,27 @@ public class UIFunctionLine : MonoBehaviour {
     }
 	void AddArguments()
 	{
+
 		int id = 0;
 		foreach(AmiArgument arg in amiClass.argumentValues)
 		{
-			UIFunctionVarButton newfunctionVarButton = Instantiate (functionVarButton);
+            List<AmiClass> all = Data.Instance.amiClasses.GetClassesByArg(arg.type);
+
+            //no tiene argumentos
+            if (all.Count == 0) return;
+
+            UIFunctionVarButton newfunctionVarButton = Instantiate (functionVarButton);
 			newfunctionVarButton.transform.SetParent (container);
 			newfunctionVarButton.transform.localScale = Vector3.one;
-			List<AmiClass> all =  Data.Instance.amiClasses.GetClassesByArg (arg.type);
+			
 
 			AmiClass newClass = new AmiClass ();
 
 			//si el boton es nuevo:
 			if (arg.value == null || arg.value == "") {
 			//	print ("es nuevo");
-				newClass.className = all [0].className;
+               
+				    newClass.className = all [0].className;
 			} else {
 				//print ("estas editando");
 				newClass.className = arg.value;
@@ -152,6 +159,6 @@ public class UIFunctionLine : MonoBehaviour {
 	}
     public void SetParallelOf(UIFunctionLine _parallelOf)
     {
-        this.parallelOf = _parallelOf;
+        this.isParallel = true;
     }
 }

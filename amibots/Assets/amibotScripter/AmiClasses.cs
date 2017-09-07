@@ -21,9 +21,10 @@ public class AmiClasses : MonoBehaviour {
         newClass = CreateNewClass("Wait", AmiClass.types.SIMPLE_ACTION, 1);
 		newClass.AddNewArgument(AmiClass.types.WAIT);
 
-    //    newClass = CreateNewClass("Parallel", AmiClass.types.SIMPLE_ACTION, 1);
-        // newClass.arguments.Add(AmiClass.types.PARALLEL);
+        newClass = CreateNewClass("Parallel", AmiClass.types.SIMPLE_ACTION, 1);
 
+        newClass = CreateNewClass("Heads", AmiClass.types.SIMPLE_ACTION, 0);
+        newClass.AddNewArgument(AmiClass.types.EXPRESSIONS);
 
         CreateNewClass("tap", AmiClass.types.LOOK_AT_TARGET, 0);
         CreateNewClass("opposite", AmiClass.types.LOOK_AT_TARGET, 0);
@@ -56,8 +57,11 @@ public class AmiClasses : MonoBehaviour {
 		CreateNewClass( "5", AmiClass.types.WAIT, 0);
 		CreateNewClass( "75", AmiClass.types.WAIT, 0);
 		CreateNewClass( "100", AmiClass.types.WAIT, 0);
-		//CreateNewClass( "AllDone", AmiClass.types.WAIT, 0);
-        
+        //CreateNewClass( "AllDone", AmiClass.types.WAIT, 0);
+
+        CreateNewClass("idle", AmiClass.types.EXPRESSIONS, 0);
+        CreateNewClass("smile", AmiClass.types.EXPRESSIONS, 0);
+
     }
 	public AmiClass GetClassesByClassName (string className) {
 		foreach (AmiClass amiClass in classes) {

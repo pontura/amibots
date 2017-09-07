@@ -23,6 +23,7 @@ public class Character : MonoBehaviour {
     public CharacterScriptsProcessor scriptsProcessor;
     AmiTween amiTween;
     AmiLookAt amiLookAt;
+    AmiCustomize amiCustomizer;
     public bool falled;
 
     public states state;
@@ -39,7 +40,8 @@ public class Character : MonoBehaviour {
         amiLookAt = GetComponent<AmiLookAt>();
         scriptsProcessor = GetComponent<CharacterScriptsProcessor>();
         characterRulesToFall = GetComponent<CharacterRulesToFall> ();
-		anim = GetComponent<Animation> ();
+        amiCustomizer = GetComponent<AmiCustomize>();
+        anim = GetComponent<Animation> ();
         Events.CharacterFall += CharacterFall;
         Events.ClickedOn += ClickedOn;
     }
@@ -66,7 +68,13 @@ public class Character : MonoBehaviour {
 		float time = 1;
         string direction = "";
 		foreach (AmiArgument amiArgument in amiClass.argumentValues) {
-			if (amiArgument.type == AmiClass.types.LOOK_AT_TARGET)
+            if (amiArgument.type == AmiClass.types.EXPRESSIONS)
+            {
+                print("amiArgument.type: " + amiArgument.type + " " + amiArgument.value);
+                amiCustomizer.Activate(CharacterCustomizer.parts.HEAD, amiArgument.value);
+                return;
+            }
+            if (amiArgument.type == AmiClass.types.LOOK_AT_TARGET)
             {
 				amiLookAt.Activate(amiArgument.value);
                 return;

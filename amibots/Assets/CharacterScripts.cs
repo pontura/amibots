@@ -32,9 +32,14 @@ public class CharacterScripts : MonoBehaviour
     public AmiScript CreateScriptFromLines(AmiScript amiScript, List<UIFunctionLine> uifl)
     {
         amiScript.classes = new List<AmiClass>();
-        int sequenceID = 0;
+        int sequenceID = -1;
         foreach (UIFunctionLine line in uifl)
         {
+            if (!line.isParallel)
+            {
+                print("::::::::::::");
+                sequenceID++;
+            }
             AmiClass newClass = new AmiClass();
             newClass.className = line.field.text;
             newClass.argumentValues = new List<AmiArgument>();
@@ -47,7 +52,8 @@ public class CharacterScripts : MonoBehaviour
                 newClass.argumentValues.Add(arg);
             }
             amiScript.classes.Add(newClass);
-            sequenceID++;
+           
+
         }
         return amiScript;
     }
