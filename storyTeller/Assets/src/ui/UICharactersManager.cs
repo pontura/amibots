@@ -47,7 +47,7 @@ public class UICharactersManager : MonoBehaviour
     }
     void Select(UIButton thisUIButton)
     {
-        Events.OnSelectCharacter(thisUIButton.id);
+        Events.OnSelectCharacterID(thisUIButton.id);
         foreach (UIButton uiButton in container.GetComponentsInChildren<UIButton>())
         {
             if (uiButton == thisUIButton)

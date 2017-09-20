@@ -8,16 +8,21 @@ public class UIButton : MonoBehaviour {
     public Text field;
     public int id;
     public types type;
+    public string value;
+
     public enum types
     {
         CHARACTER,
         EXPRESION,
         ACTION,
-        CHAT
+        CHAT,
+        REAL_ACTION,
+        REAL_EXPRESION
     }
 	public void Init(int id, string text) {
         field.text = text;
         this.id = id;
+        this.value = text;
     }
 	public void OnSelected()
     {

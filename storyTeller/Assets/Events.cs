@@ -12,5 +12,8 @@ public static class Events {
 
     public static System.Action<int> AddCharacter = delegate { };
 
-    public static System.Action<int> OnSelectCharacter = delegate { };
+    public static System.Action<int> OnSelectCharacterID = delegate { };
+    public static System.Action<Character> OnSelectCharacter = delegate { };
+
+    public static System.Action<Settings.actions> OnCharacterAction = delegate { };
 }

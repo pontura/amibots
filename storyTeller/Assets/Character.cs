@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Character : MonoBehaviour {
 
+    public int id;
     public bool isEditorCharacter;
     public GameObject pivot;
     public GameObject allBody;
@@ -24,15 +25,28 @@ public class Character : MonoBehaviour {
     public states state;
     public Vector3 lookAtTarget;
 
+    public CharacterActionsManager actions;
+
     public enum states
 	{
 		IDLE,
-		FALL,
+		WALK,
 	}
 
 	void Start () {
         anim = GetComponent<Animation> ();
+        actions = GetComponent<CharacterActionsManager>();
         Events.ClickedOn += ClickedOn;
+    }
+    void Updatessss()
+    {
+        if (lookAtTarget != null)
+            allBody.transform.LookAt(lookAtTarget);
+    }
+    public void Init(int id)
+    {
+        this.id = id;
+        lookAtTarget = World.Instance.camera_in_scene.transform.localPosition;
     }
     void OnDestroy()
     {
@@ -42,15 +56,6 @@ public class Character : MonoBehaviour {
     {
         lookAtTarget = pos;
     }
-
-    void CharacterFall(string _anim)
-	{
-        falled = true;
-        state = states.FALL;
-		anim.Play (_anim);
-	}
-	
-    float XOffset;
 	public void Reset()
 	{
       
