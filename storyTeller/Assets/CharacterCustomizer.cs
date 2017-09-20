@@ -11,11 +11,15 @@ public class CharacterCustomizer : MonoBehaviour {
         HEAD
     }
 	void Start () {
-        Events.OnCustomize += OnCustomize;
+
     }
-	
+	public void OnChangeExpression(string value)
+	{
+		print("OnChangeExpression " + value);
+		HeadAsset.sprite = Resources.Load("character/expressions/" + value, typeof(Sprite)) as Sprite;
+	}
 	void OnCustomize(parts part, string newImage) {
-        print("ok" + newImage);
-        HeadAsset.sprite = Resources.Load("heads/" + newImage, typeof(Sprite)) as Sprite;
+      //  print("ok" + newImage);
+      //  HeadAsset.sprite = Resources.Load("character/expressions/" + newImage, typeof(Sprite)) as Sprite;
     }
 }

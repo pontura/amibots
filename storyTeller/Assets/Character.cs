@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class Character : MonoBehaviour {
 
+	public float speed;
     public int id;
     public bool isEditorCharacter;
-    public GameObject pivot;
+
     public GameObject allBody;
 
     public GameObject body;
@@ -22,44 +23,60 @@ public class Character : MonoBehaviour {
 	Animation anim;
     public bool falled;
 
-    public states state;
+   
     public Vector3 lookAtTarget;
 
     public CharacterActionsManager actions;
+	public CharacterChatLine chatLine;
+	public CharacterCustomizer customizer;
 
+	public states state;
     public enum states
 	{
 		IDLE,
-		WALK,
+		MOVEING,
 	}
 
 	void Start () {
         anim = GetComponent<Animation> ();
         actions = GetComponent<CharacterActionsManager>();
-        Events.ClickedOn += ClickedOn;
+		chatLine = GetComponent<CharacterChatLine> ();
+		customizer = GetComponent<CharacterCustomizer> ();
     }
-    void Updatessss()
+    void Update()
     {
-        if (lookAtTarget != null)
-            allBody.transform.LookAt(lookAtTarget);
+		if (newPos == Vector3.zero)
+			return;
+		if (state != states.MOVEING) {
+			actions.Walk ();
+			state = states.MOVEING;
+		}
+		transform.localPosition = Vector3.MoveTowards(transform.localPosition, newPos, speed*Time.deltaTime);
+
+		float dist = Vector3.Distance (transform.localPosition, newPos);
+		if (dist < 0.5f) {
+			Reset ();
+		}
     }
     public void Init(int id)
     {
         this.id = id;
         lookAtTarget = World.Instance.camera_in_scene.transform.localPosition;
     }
-    void OnDestroy()
-    {
-        Events.ClickedOn -= ClickedOn;
-    }
-    void ClickedOn(Vector3 pos)
-    {
-        lookAtTarget = pos;
-    }
-	public void Reset()
+	Vector3 newPos;
+	public void Move(Vector3 _newPos)
 	{
-      
-        //anim.Play ("idle");
+		Vector3 newScale = allBody.transform.localScale;
+		if ((_newPos.x > transform.position.x && allBody.transform.localScale.x>0) || (_newPos.x < transform.position.x && allBody.transform.localScale.x<0)) {
+			newScale.x *= -1;
+		}
+		allBody.transform.localScale = newScale;
+		newPos = _newPos;
+	}
+	public void Reset()
+	{      
+		newPos = Vector3.zero;
+		actions.Idle ();
         falled = false;
 		state = states.IDLE;
     }

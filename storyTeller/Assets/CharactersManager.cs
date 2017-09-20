@@ -16,6 +16,9 @@ public class CharactersManager : MonoBehaviour
         Events.AddCharacter += AddCharacter;
         Events.OnSelectCharacterID += OnSelectCharacterID;
         Events.OnCharacterAction += OnCharacterAction;
+		Events.ClickedOn += ClickedOn;
+		Events.OnCharacterSay += OnCharacterSay;
+		Events.OnChangeExpression += OnChangeExpression;
     }
     void AddCharacter(int id)
     {
@@ -25,6 +28,21 @@ public class CharactersManager : MonoBehaviour
         character.Init(id);
         character.transform.localScale = new Vector3(characterScale, characterScale, characterScale);
     }
+	void OnChangeExpression(string value)
+	{
+		if (selectedCharacter)
+			selectedCharacter.customizer.OnChangeExpression(value);
+	}
+	void OnCharacterSay(string text)
+	{
+		if (selectedCharacter)
+			selectedCharacter.chatLine.Say(text);
+	}
+	void ClickedOn(Vector3 pos)
+	{
+		if (selectedCharacter)
+			selectedCharacter.Move(pos);
+	}
     void OnSelectCharacterID(int id)
     {
         selectedCharacter = GetCharacter(id);

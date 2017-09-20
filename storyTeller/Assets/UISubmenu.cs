@@ -25,6 +25,10 @@ public class UISubmenu : MonoBehaviour {
                 lists = System.Enum.GetNames(typeof(Settings.actions));
                 newType = UIButton.types.REAL_ACTION;
                 break;
+			case UIButton.types.EXPRESION:
+				lists = System.Enum.GetNames(typeof(Settings.expressions));
+				newType = UIButton.types.REAL_EXPRESION;
+				break;
             default:
                 lists = System.Enum.GetNames(typeof(Settings.actions));
                 newType = UIButton.types.REAL_EXPRESION;
@@ -55,6 +59,7 @@ public class UISubmenu : MonoBehaviour {
                 Close();
                 break;
             case UIButton.types.REAL_EXPRESION:
+				Events.OnChangeExpression( uiButton.value );
                 Close();
                 break;
         }
