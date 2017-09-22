@@ -1,5 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.EventSystems;
+
+using System.Collections.Generic;
+
 
 public class InputManager : MonoBehaviour
 {
@@ -15,9 +19,39 @@ public class InputManager : MonoBehaviour
     bool dragStart;
     void Update()
     {
-		if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject ())
+       
+        if (EventSystem.current.currentSelectedGameObject != null)
+            return;
+        if (EventSystem.current.IsPointerOverGameObject())
+            return;
+        if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject ())
 			return;
-		if (Input.GetMouseButtonUp(0)) {
+//        if (IsPointerOverUIObject())
+  //          return;
+
+
+
+
+  ////////////////// esta funciona en android:
+        if (Input.touchCount > 0)
+        {
+            Touch touch = Input.GetTouch(0);
+
+            if (touch.phase == TouchPhase.Ended)
+            {
+                //prevent touch through
+                if (EventSystem.current.IsPointerOverGameObject(touch.fingerId))
+                    return;
+
+                RaycastHit hit;
+                Ray ray = c.ScreenPointToRay(touch.position);
+                if (Physics.Raycast(ray, out hit))
+                    if (hit.collider != null)
+                        Events.ClickedOn(hit.point);
+            }
+        }
+////////////////////////////////////
+        if (Input.GetMouseButtonUp(0) && 2==3) {
 			RaycastHit hit;
 			Ray ray = c.ScreenPointToRay (Input.mousePosition);
 			if (Physics.Raycast (ray, out hit))
@@ -25,5 +59,13 @@ public class InputManager : MonoBehaviour
 				Events.ClickedOn(hit.point);
 		}
     }
-    
+    private bool IsPointerOverUIObject()
+    {
+        PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
+        eventDataCurrentPosition.position = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
+        return results.Count > 0;
+    }
+
 }
