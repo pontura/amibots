@@ -45,18 +45,22 @@ public class InputManager : MonoBehaviour
 
                 RaycastHit hit;
                 Ray ray = c.ScreenPointToRay(touch.position);
-                if (Physics.Raycast(ray, out hit))
-                    if (hit.collider != null)
-                        Events.ClickedOn(hit.point);
+				if (Physics.Raycast (ray, out hit))
+				if (hit.collider != null && hit.collider.gameObject.tag == "Tile")
+				{
+					Events.ClickedOn (hit.collider.gameObject.GetComponent<Tile>());
+				}
             }
         }
 ////////////////////////////////////
-        if (Input.GetMouseButtonUp(0) && 2==3) {
+        if (Input.GetMouseButtonUp(0)) {
 			RaycastHit hit;
 			Ray ray = c.ScreenPointToRay (Input.mousePosition);
 			if (Physics.Raycast (ray, out hit))
-			if (hit.collider != null)
-				Events.ClickedOn(hit.point);
+			if (hit.collider != null && hit.collider.gameObject.tag == "Tile")
+			{
+				Events.ClickedOn (hit.collider.gameObject.GetComponent<Tile>());
+			}
 		}
     }
     private bool IsPointerOverUIObject()

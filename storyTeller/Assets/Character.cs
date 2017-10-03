@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using NesScripts.Controls.PathFind;
 
 public class Character : MonoBehaviour {
 
@@ -54,8 +55,10 @@ public class Character : MonoBehaviour {
 		transform.localPosition = Vector3.MoveTowards(transform.localPosition, newPos, speed*Time.deltaTime);
 
 		float dist = Vector3.Distance (transform.localPosition, newPos);
-		if (dist < 0.5f) {
-			Reset ();
+		if (dist < 1f) {
+			CharacterReachTile ();
+			//Events.OnCharacterReachTile (this);
+			//Reset ();
 		}
     }
     public void Init(int id)
@@ -63,6 +66,25 @@ public class Character : MonoBehaviour {
         this.id = id;
         lookAtTarget = World.Instance.camera_in_scene.transform.localPosition;
     }
+	int pathStep;
+	List<Point> points;
+	public void MoveFromPath(List<Point> points)
+	{
+		this.points = points;
+		pathStep = 0;
+		CharacterReachTile ();
+	}
+	void CharacterReachTile()
+	{
+		print ("CharacterReachTile  points.Count: " + points.Count + "   pathStep: " + pathStep);
+		if (pathStep >= points.Count-1) {
+			Reset ();
+			return;
+		}
+		pathStep++;
+		Vector3 newPos = new Vector3 (points [pathStep].x, 0, points [pathStep].y);
+		Move (newPos);
+	}
 	Vector3 newPos;
 	public void Move(Vector3 _newPos)
 	{

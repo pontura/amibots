@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using NesScripts.Controls.PathFind;
 
 public class CharactersManager : MonoBehaviour
 {
@@ -19,12 +20,14 @@ public class CharactersManager : MonoBehaviour
 		Events.ClickedOn += ClickedOn;
 		Events.OnCharacterSay += OnCharacterSay;
 		Events.OnChangeExpression += OnChangeExpression;
+		//Events.OnCharacterReachTile += OnCharacterReachTile;
     }
     void AddCharacter(int id)
     {
+		
         Character character = Instantiate(character_to_initialize);
         character.transform.SetParent(container);
-        character.transform.localPosition = new Vector3(GetTotalCharacters()*separationInitial, 0, 0);
+		character.transform.localPosition = World.Instance.tiles.GetFreeTileInCenter ();
         character.Init(id);
         character.transform.localScale = new Vector3(characterScale, characterScale, characterScale);
     }
@@ -38,10 +41,14 @@ public class CharactersManager : MonoBehaviour
 		if (selectedCharacter)
 			selectedCharacter.chatLine.Say(text);
 	}
-	void ClickedOn(Vector3 pos)
+	void ClickedOn(Tile tile)
 	{
-		if (selectedCharacter)
-			selectedCharacter.Move(pos);
+		List<Point> points = World.Instance.tiles.GetPathfinder (selectedCharacter.transform.position, tile.transform.position);
+		if (selectedCharacter) {
+			if (points.Count > 0) {
+				selectedCharacter.MoveFromPath (points);
+			}
+		}
 	}
     void OnSelectCharacterID(int id)
     {
