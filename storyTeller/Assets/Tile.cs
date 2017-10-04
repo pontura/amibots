@@ -17,9 +17,19 @@ public class Tile : MonoBehaviour {
 		else
 			ResetPath ();
 	}
+	public Vector2 GetVector2()
+	{
+		return new Vector2(transform.position.x, transform.position.z);
+	}
 	public void SetAsUnwalkable()
 	{
+		isWalkable = false;
 		material.color = Color.red;
+	}
+	public void SetAsWalkable()
+	{
+		isWalkable = true;
+		ResetPath ();
 	}
 	public void MarkAsPath()
 	{

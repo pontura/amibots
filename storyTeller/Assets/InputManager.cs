@@ -34,7 +34,7 @@ public class InputManager : MonoBehaviour
     {
        
 		if (!CanCompute ()) {
-		//	return;
+			return;
 		}
 
 #if UNITY_EDITOR

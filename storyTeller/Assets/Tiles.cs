@@ -16,7 +16,7 @@ public class Tiles : MonoBehaviour {
 	Grid grid;
 
 	void Start () {
-		
+		Events.Blocktile += Blocktile;
 		tilesmap = new float[tilesWidth, tilesWHeight];
 
 		int id = 0;
@@ -37,6 +37,22 @@ public class Tiles : MonoBehaviour {
 			}
 		}		
 		grid= new Grid(tilesWidth, tilesWHeight, tilesmap);
+	}
+	void Blocktile(Tile tile, bool isBlock)
+	{
+		int value = 0;
+
+		if (!isBlock) {
+			tile.SetAsWalkable ();
+			value = 1;
+		} else {
+			tile.SetAsUnwalkable ();
+			value = 0;
+		}
+		print ((int)tile.transform.localPosition.x + " __ " + (int)tile.transform.localPosition.z + "Blocktile ____" + isBlock + "  :  " + value);
+		tilesmap [(int)tile.transform.localPosition.x, (int)tile.transform.localPosition.z] = value;
+		grid= new Grid(tilesWidth, tilesWHeight, tilesmap);
+
 	}
 	public List<Point> GetPathfinder(Vector3 _from , Vector3 _to )
 	{		

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public static class Events {
 
+	public static System.Action<Tile, bool> Blocktile = delegate { };
 	public static System.Action<string> OnDrag = delegate { };
 	public static System.Action OnEndDrag = delegate { };
 
