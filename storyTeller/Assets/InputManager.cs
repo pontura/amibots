@@ -16,27 +16,40 @@ public class InputManager : MonoBehaviour
         PRESSING,
         DRAGGING
     }
+
     bool dragStart;
+	bool CanCompute()
+	{
+		if (EventSystem.current.currentSelectedGameObject != null)
+			return false;
+		if (EventSystem.current.IsPointerOverGameObject())
+			return false;
+		if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject ())
+			return false;
+
+		return true;
+	}
+
     void Update()
     {
        
-        if (EventSystem.current.currentSelectedGameObject != null)
-            return;
-        if (EventSystem.current.IsPointerOverGameObject())
-            return;
-        if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject ())
-			return;
-//        if (IsPointerOverUIObject())
-  //          return;
+		if (!CanCompute ()) {
+		//	return;
+		}
 
-
-
-
-  ////////////////// esta funciona en android:
+#if UNITY_EDITOR
+		if (Input.GetMouseButtonUp(0)) {
+			RaycastHit hit;
+			Ray ray = c.ScreenPointToRay (Input.mousePosition);
+			if (Physics.Raycast (ray, out hit))
+			if (hit.collider != null && hit.collider.gameObject.tag == "Tile")
+			{
+				Events.ClickedOn (hit.collider.gameObject.GetComponent<Tile>());
+			}
+		}
+#else
         if (Input.touchCount > 0)
         {
-            Touch touch = Input.GetTouch(0);
-
             if (touch.phase == TouchPhase.Ended)
             {
                 //prevent touch through
@@ -52,16 +65,8 @@ public class InputManager : MonoBehaviour
 				}
             }
         }
-////////////////////////////////////
-        if (Input.GetMouseButtonUp(0)) {
-			RaycastHit hit;
-			Ray ray = c.ScreenPointToRay (Input.mousePosition);
-			if (Physics.Raycast (ray, out hit))
-			if (hit.collider != null && hit.collider.gameObject.tag == "Tile")
-			{
-				Events.ClickedOn (hit.collider.gameObject.GetComponent<Tile>());
-			}
-		}
+#endif
+       
     }
     private bool IsPointerOverUIObject()
     {

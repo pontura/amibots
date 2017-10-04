@@ -5,12 +5,29 @@ using UnityEngine;
 public class Tile : MonoBehaviour {
 
 	public bool isWalkable;
+	Material material;
 
 	public void Init(bool isWalkable, Vector3 pos)
 	{
+		material = GetComponent<MeshRenderer> ().material;
 		this.isWalkable = isWalkable;
 		transform.localPosition = pos;
 		if (!isWalkable)
-			transform.localScale = new Vector3 (0.7f, 0.7f, 0.7f);
+			SetAsUnwalkable ();
+		else
+			ResetPath ();
+	}
+	public void SetAsUnwalkable()
+	{
+		material.color = Color.red;
+	}
+	public void MarkAsPath()
+	{
+		material.color = Color.yellow;
+	}
+	public void ResetPath()
+	{
+		if (isWalkable)
+			material.color = Color.green;
 	}
 }

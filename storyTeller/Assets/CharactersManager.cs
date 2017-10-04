@@ -12,6 +12,8 @@ public class CharactersManager : MonoBehaviour
     public Transform container;
     public Character selectedCharacter;
 
+	public UIDragItem uiDragItem;
+
     void Start()
     {
         Events.AddCharacter += AddCharacter;
@@ -42,9 +44,9 @@ public class CharactersManager : MonoBehaviour
 			selectedCharacter.chatLine.Say(text);
 	}
 	void ClickedOn(Tile tile)
-	{
-		List<Point> points = World.Instance.tiles.GetPathfinder (selectedCharacter.transform.position, tile.transform.position);
-		if (selectedCharacter) {
+	{		
+		if (selectedCharacter && tile != null && !uiDragItem.isDragging) {
+			List<Point> points = World.Instance.tiles.GetPathfinder (selectedCharacter.transform.position, tile.transform.position);
 			if (points.Count > 0) {
 				selectedCharacter.MoveFromPath (points);
 			}

@@ -17,7 +17,10 @@ public class UIButton : MonoBehaviour {
         ACTION,
         CHAT,
         REAL_ACTION,
-        REAL_EXPRESION
+        REAL_EXPRESION,
+		CHARACTER_EDITOR,
+		SCENE_EDITOR,
+		SCENEOBJECT
     }
 	public void Init(int id, string text) {
         field.text = text;

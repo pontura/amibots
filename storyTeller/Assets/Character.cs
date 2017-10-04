@@ -55,7 +55,7 @@ public class Character : MonoBehaviour {
 		transform.localPosition = Vector3.MoveTowards(transform.localPosition, newPos, speed*Time.deltaTime);
 
 		float dist = Vector3.Distance (transform.localPosition, newPos);
-		if (dist < 1f) {
+		if (dist < 0.01f) {
 			CharacterReachTile ();
 			//Events.OnCharacterReachTile (this);
 			//Reset ();
@@ -76,14 +76,15 @@ public class Character : MonoBehaviour {
 	}
 	void CharacterReachTile()
 	{
-		print ("CharacterReachTile  points.Count: " + points.Count + "   pathStep: " + pathStep);
-		if (pathStep >= points.Count-1) {
+	//	print ("CharacterReachTile  points.Count: " + points.Count + "   pathStep: " + pathStep);
+		if (pathStep >= points.Count) {
 			Reset ();
 			return;
 		}
 		pathStep++;
-		Vector3 newPos = new Vector3 (points [pathStep].x, 0, points [pathStep].y);
+		Vector3 newPos = new Vector3 (points [pathStep-1].x, 0, points [pathStep-1].y);
 		Move (newPos);
+
 	}
 	Vector3 newPos;
 	public void Move(Vector3 _newPos)

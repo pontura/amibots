@@ -8,6 +8,8 @@ public class CameraInScene : MonoBehaviour {
     public Vector3 offsetPos;
     private Camera camera_in_scene;
     public CharactersManager charactersManager;
+	private Vector2 limitsY = new Vector2(-12, -3);
+	private Vector2 limitsX = new Vector2(4, 21);
 
 	void Start () {
         camera_in_scene = GetComponent<Camera>();
@@ -19,6 +21,17 @@ public class CameraInScene : MonoBehaviour {
         {
             Vector3 pos = charactersManager.selectedCharacter.transform.localPosition;
             pos += offsetPos;
+
+			if (pos.z < limitsY.x)
+				pos.z = limitsY.x;
+			else if (pos.z > limitsY.y)
+				pos.z = limitsY.y;
+
+			if (pos.x < limitsX.x)
+				pos.x = limitsX.x;
+			else if (pos.x > limitsX.y)
+				pos.x = limitsX.y;
+			
             transform.localPosition = Vector3.Lerp(transform.localPosition, pos, smooth);
         }
     }

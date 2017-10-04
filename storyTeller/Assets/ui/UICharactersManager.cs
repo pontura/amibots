@@ -4,16 +4,25 @@ using UnityEngine;
 
 public class UICharactersManager : MonoBehaviour
 {
-
+	public UIButton characterButton;
+	public GameObject panel;
     public UIButton uiButton_to_instantiate;
     public Transform container;
 
     void Start()
     {
+		SetActive (true);
         Events.OnUIButtonClicked += OnUIButtonClicked;
     }
     void OnUIButtonClicked(UIButton uiButton)
-    {
+	{
+		if (uiButton.type == UIButton.types.CHARACTER_EDITOR) {
+			SetActive (true);
+		} else
+		if (uiButton.type == UIButton.types.SCENE_EDITOR)
+		{
+				SetActive (false);
+		} else
         if (uiButton.type == UIButton.types.CHARACTER)
         {
             if (uiButton.id == 0)
@@ -26,6 +35,16 @@ public class UICharactersManager : MonoBehaviour
             }
         }
     }
+	void SetActive(bool isActive)
+	{
+		if (!isActive) {
+			characterButton.gameObject.SetActive (true);
+			panel.SetActive (false);
+		} else {
+			characterButton.gameObject.SetActive (false);
+			panel.SetActive (true);
+		}
+	}
     int id = 1;
     UIButton uiButton;
     void AddNewButton()
@@ -56,4 +75,5 @@ public class UICharactersManager : MonoBehaviour
                 uiButton.Select(false);
         }
     }
+
 }

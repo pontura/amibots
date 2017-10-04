@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class World : MonoBehaviour {
 
+	public SceneObjectsManager sceneObjectsManager;
     public CameraInScene camera_in_scene;
 	public Tiles tiles;
 
@@ -18,7 +19,8 @@ public class World : MonoBehaviour {
     }
     void Awake()
     {
-       mInstance = this;
+      	mInstance = this;
 		tiles = GetComponent<Tiles> ();
+		sceneObjectsManager = GetComponent<SceneObjectsManager> ();
     }
 }
