@@ -18,7 +18,10 @@ public class Tiles : MonoBehaviour {
 	void Start () {
 		Events.Blocktile += Blocktile;
 		tilesmap = new float[tilesWidth, tilesWHeight];
-
+		string[] randomObjects = new string[3];
+		randomObjects [0] = "florero";
+		randomObjects [1] = "arbol";
+		randomObjects [2] = "sillon";
 		int id = 0;
 		for (int a = 0; a < tilesWidth; a++) {
 			for (int b = 0; b < tilesWHeight; b++) {
@@ -28,7 +31,9 @@ public class Tiles : MonoBehaviour {
 					tilesmap [a, b] = 1;
 					isWalkable = true;
 				} else {
-					Events.AddGenericObject (new Vector2(a,b));
+					SceneObjectData data = new SceneObjectData ();
+					data.sceneObjectName = randomObjects [Random.Range (0, randomObjects.Length-1)];
+					Events.AddGenericObject (data, new Vector2(a,b));
 				}
 				Tile newTile = Instantiate (tile);
 				newTile.transform.SetParent (container);

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public static class Events {
 
 	public static System.Action<Tile, bool> Blocktile = delegate { };
-	public static System.Action<string> OnDrag = delegate { };
+	public static System.Action<SceneObjectData> OnDrag = delegate { };
 	public static System.Action OnEndDrag = delegate { };
 
 	public static System.Action<Character> OnCharacterReachTile = delegate { };
@@ -16,7 +16,7 @@ public static class Events {
     public static System.Action<Tile> ClickedOn = delegate { };
 
     public static System.Action<int> AddCharacter = delegate { };
-	public static System.Action<Vector2> AddGenericObject = delegate { };
+	public static System.Action<SceneObjectData, Vector2> AddGenericObject = delegate { };
 
 
     public static System.Action<int> OnSelectCharacterID = delegate { };

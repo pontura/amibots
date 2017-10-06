@@ -11,13 +11,15 @@ public class SceneObject : MonoBehaviour {
 		VEHICLES,
 		SPORT
 	}
+	public SceneObjectData data;
 
 	void Start()
 	{
 		OnStart ();
 	}
-	public void Init(Vector2 pos)
+	public void Init(SceneObjectData data, Vector2 pos)
 	{
+		this.data = data;
 		transform.position = new Vector3 (pos.x, 0, pos.y);
 		OnInit ();
 	}

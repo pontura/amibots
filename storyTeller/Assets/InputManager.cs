@@ -29,7 +29,7 @@ public class InputManager : MonoBehaviour
 
 		return true;
 	}
-
+	bool isDragging;
     void Update()
     {
        
@@ -50,12 +50,10 @@ public class InputManager : MonoBehaviour
 #else
         if (Input.touchCount > 0)
         {
-            if (touch.phase == TouchPhase.Ended)
+			isDragging = true;
+			Touch touch = Input.touches [0];
+			if (touch.phase == TouchPhase.Ended)
             {
-                //prevent touch through
-                if (EventSystem.current.IsPointerOverGameObject(touch.fingerId))
-                    return;
-
                 RaycastHit hit;
                 Ray ray = c.ScreenPointToRay(touch.position);
 				if (Physics.Raycast (ray, out hit))
@@ -64,7 +62,7 @@ public class InputManager : MonoBehaviour
 					Events.ClickedOn (hit.collider.gameObject.GetComponent<Tile>());
 				}
             }
-        }
+		}
 #endif
        
     }

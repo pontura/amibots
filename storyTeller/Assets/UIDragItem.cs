@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class UIDragItem : MonoBehaviour {
 
+	public SceneObjectData sceneObjectData;
 	public GameObject dragItem;
 	public bool isDragging;
 
 	void Start () {
 		SetActive (false);
 		Events.OnDrag += OnDrag;
-		Events.OnEndDrag += OnEndDrag;
+		//Events.OnEndDrag += OnEndDrag;
 		Events.ClickedOn += ClickedOn;
 	}
 	void Update()
@@ -21,15 +22,14 @@ public class UIDragItem : MonoBehaviour {
 	void ClickedOn(Tile tile)
 	{
 		if (isDragging) {
-			Invoke ("Reset", 0.05f);
+			Events.AddGenericObject(sceneObjectData, new Vector2((int)tile.transform.position.x, (int)tile.transform.position.z));
+			Events.Blocktile (tile, true);
+			OnEndDrag ();
 		}
 	}
-	void Reset()
+	void OnDrag(SceneObjectData sceneObjectData)
 	{
-		OnEndDrag ();
-	}
-	void OnDrag(string soName)
-	{
+		this.sceneObjectData = sceneObjectData;
 		isDragging = true;
 		SetActive (true);
 	}

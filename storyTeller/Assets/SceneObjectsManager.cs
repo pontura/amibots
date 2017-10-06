@@ -10,21 +10,21 @@ public class SceneObjectsManager : MonoBehaviour {
 
 	void Start () {
 		Events.AddGenericObject += AddGenericObject;
-		Events.ClickedOn += ClickedOn;
+	//	Events.ClickedOn += ClickedOn;
 	}
-	void ClickedOn(Tile tile)
+	void _________________ClickedOn(Tile tile)
 	{
 		if (!uiDragItem.isDragging)
 			return;
-		SceneObject newGenericObject = Instantiate ( GetGenericObject() );
+		GenericObject newGenericObject = Instantiate ( GetGenericObject() );
 		newGenericObject.transform.SetParent (container);
-		newGenericObject.Init ( tile.GetVector2() );
+		newGenericObject.Init ( uiDragItem.sceneObjectData, tile.GetVector2() );
 		Events.Blocktile (tile, true);
 	}
-	void AddGenericObject (Vector2 pos) {
+	void AddGenericObject (SceneObjectData data, Vector2 pos) {
 		SceneObject newGenericObject = Instantiate ( GetGenericObject() );
 		newGenericObject.transform.SetParent (container);
-		newGenericObject.Init (pos);
+		newGenericObject.Init (data, pos);
 	}
 	GenericObject GetGenericObject()
 	{

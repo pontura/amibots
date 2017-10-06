@@ -25,7 +25,9 @@ public class UISceneEditor : MonoBehaviour {
 			SetActive (false);
 				break;
 		case UIButton.types.SCENEOBJECT:
-			Events.OnDrag ("GenericObject");
+			SceneObjectData data = new SceneObjectData ();
+			data.sceneObjectName = uiButton.field.text;
+			Events.OnDrag (data);
 			break;
 		}
 	}
@@ -46,11 +48,14 @@ public class UISceneEditor : MonoBehaviour {
 		int id = 0;
 		foreach (SceneObject so in World.Instance.sceneObjectsManager.GetObjectsByType(type))
 		{
-			UIButton newUiButton = Instantiate(uiButton);
-			newUiButton.transform.SetParent(container);
-			newUiButton.Init(id, so.name);
-			newUiButton.type = UIButton.types.SCENEOBJECT;
-			id++;
+			foreach (GameObject go in so.GetComponent<GenericObject>().all)
+			{
+				UIButton newUiButton = Instantiate(uiButton);
+				newUiButton.transform.SetParent(container);
+				newUiButton.Init(id, go.name);
+				newUiButton.type = UIButton.types.SCENEOBJECT;
+				id++;
+			}
 		}
 		panel.SetActive(true);
 	}
