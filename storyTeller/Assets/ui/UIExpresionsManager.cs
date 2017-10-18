@@ -4,13 +4,17 @@ using UnityEngine;
 
 public class UIExpresionsManager : MonoBehaviour {
 
-	// Use this for initialization
+	public GameObject panel;
+
 	void Start () {
-		
+		panel.SetActive (false);
+		Events.AddCharacter += AddCharacter;
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+	void OnDestroy () {
+		Events.AddCharacter -= AddCharacter;
+	}
+	void AddCharacter(int id)
+	{
+		panel.SetActive (true);
 	}
 }

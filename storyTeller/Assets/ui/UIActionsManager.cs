@@ -4,6 +4,17 @@ using UnityEngine;
 
 public class UIActionsManager : MonoBehaviour {
     
+	public GameObject panel;
+
 	void Start () {
-    }
+		panel.SetActive (false);
+		Events.AddCharacter += AddCharacter;
+	}
+	void OnDestroy () {
+		Events.AddCharacter -= AddCharacter;
+	}
+	void AddCharacter(int id)
+	{
+		panel.SetActive (true);
+	}
 }

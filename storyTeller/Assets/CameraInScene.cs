@@ -16,7 +16,7 @@ public class CameraInScene : MonoBehaviour {
     }
 	
 	// Update is called once per frame
-	void Update () {
+	void _________Update () {
         if (charactersManager.selectedCharacter != null)
         {
             Vector3 pos = charactersManager.selectedCharacter.transform.localPosition;

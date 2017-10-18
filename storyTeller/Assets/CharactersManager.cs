@@ -5,6 +5,7 @@ using NesScripts.Controls.PathFind;
 
 public class CharactersManager : MonoBehaviour
 {
+	public List<Character> characters;
     public float characterScale;
     public float separationInitial;
 
@@ -13,6 +14,7 @@ public class CharactersManager : MonoBehaviour
     public Character selectedCharacter;
 
 	public UIDragItem uiDragItem;
+	bool isRecording;
 
     void Start()
     {
@@ -20,36 +22,43 @@ public class CharactersManager : MonoBehaviour
         Events.OnSelectCharacterID += OnSelectCharacterID;
         Events.OnCharacterAction += OnCharacterAction;
 		Events.ClickedOn += ClickedOn;
-		Events.OnCharacterSay += OnCharacterSay;
 		Events.OnChangeExpression += OnChangeExpression;
-		//Events.OnCharacterReachTile += OnCharacterReachTile;
+		Events.OnRecording += OnRecording;
     }
     void AddCharacter(int id)
     {
-		
         Character character = Instantiate(character_to_initialize);
         character.transform.SetParent(container);
 		character.transform.localPosition = World.Instance.tiles.GetFreeTileInCenter ();
         character.Init(id);
         character.transform.localScale = new Vector3(characterScale, characterScale, characterScale);
+		characters.Add (character);
     }
 	void OnChangeExpression(string value)
 	{
-		if (selectedCharacter)
-			selectedCharacter.customizer.OnChangeExpression(value);
+		ChangeExpression(selectedCharacter.id, value);
+		Events.AddKeyFrameExpression (selectedCharacter, value);
 	}
-	void OnCharacterSay(string text)
+	public void RestartScene()
 	{
-		if (selectedCharacter)
-			selectedCharacter.chatLine.Say(text);
+		////////a mejorar:!
+		selectedCharacter = characters [0];
+		foreach (Character character in characters) {
+			character.transform.position = new Vector3 (0, 1000, 0);
+		}
+	}
+	public void ChangeExpression(int id, string value)
+	{
+		GetCharacter(id).customizer.OnChangeExpression(value);
 	}
 	void ClickedOn(Tile tile)
 	{		
 		if (selectedCharacter && tile != null && !uiDragItem.isDragging) {
-			List<Point> points = World.Instance.tiles.GetPathfinder (selectedCharacter.transform.position, tile.transform.position);
-			if (points.Count > 0) {
-				selectedCharacter.MoveFromPath (points);
-			}
+			
+			if (isRecording && selectedCharacter != null)
+				Events.AddKeyFrameMove (selectedCharacter, tile.transform.position);
+
+			MoveCharacter (selectedCharacter.id,  tile.transform.position);
 		}
 	}
     void OnSelectCharacterID(int id)
@@ -58,12 +67,17 @@ public class CharactersManager : MonoBehaviour
         if (selectedCharacter)
             Events.OnSelectCharacter(selectedCharacter);
     }
-    void OnCharacterAction(Settings.actions action)
+	void OnCharacterAction(string value)
     {
         if (selectedCharacter == null) return;
-        selectedCharacter.actions.Set(action);
+		selectedCharacter.actions.Set(value);
+		Events.AddKeyFrameAction (selectedCharacter, value);
     }
-    Character GetCharacter(int id)
+	public void CharacterAction(int id, string value)
+	{
+		GetCharacter(id).actions.Set(value);
+	}
+	public Character GetCharacter(int id)
     {
         foreach (Character character in container.GetComponentsInChildren<Character>())
         {
@@ -76,4 +90,21 @@ public class CharactersManager : MonoBehaviour
     {
         return container.GetComponentsInChildren<Character>().Length;
     }
+	void OnRecording(bool isRecording)
+	{
+		this.isRecording = isRecording;
+	}
+	public void PositionateCharacter(int id, Vector3 pos)
+	{
+		GetCharacter (id).transform.position = pos;
+	}
+	public void MoveCharacter(int id, Vector3 moveTo)
+	{
+		Character character = GetCharacter (id);
+		selectedCharacter = character;
+		List<Point> points = World.Instance.tiles.GetPathfinder (character.transform.position, moveTo);
+		if (points.Count > 0) {
+			GetCharacter(id).MoveFromPath (points);
+		}
+	}
 }

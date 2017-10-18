@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CharacterActionsManager : MonoBehaviour {
 
-    public Settings.actions action;
+    public string action;
     private Animation anim;
 	Character character;
 
@@ -13,22 +13,23 @@ public class CharacterActionsManager : MonoBehaviour {
 		character = GetComponent<Character> ();
         anim = GetComponent<Animation>();
     }
-
-	public void Set(Settings.actions newAction) {
-      //  if (newAction == action) return;
-
+	void Start()
+	{
+		ResetAnim ();
+	}
+	public void Set(string newAction) {
 		character.Reset ();
 
         action = newAction;
         switch (newAction)
         {
-            case Settings.actions.IDLE:
+            case "IDLE":
                 Idle();
                 break;
-			case Settings.actions.HELLO:
+			case "HELLO":
 				Hello();
 				break;
-			case Settings.actions.TURN:
+			case "TURN":
 				Turn();
 				break;
 			default:
@@ -51,7 +52,7 @@ public class CharacterActionsManager : MonoBehaviour {
 	}
 	void ResetAnim()
 	{
-		action = Settings.actions.IDLE;
+		action = "IDLE";
 		Idle ();
 	}
 	void Turn()

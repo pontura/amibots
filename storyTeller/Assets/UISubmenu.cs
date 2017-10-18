@@ -55,7 +55,7 @@ public class UISubmenu : MonoBehaviour {
                 Open(uiButton.type);
                 break;
             case UIButton.types.REAL_ACTION:
-                Events.OnCharacterAction( GetAction(uiButton.value) );
+                Events.OnCharacterAction( uiButton.value );
                 Close();
                 break;
             case UIButton.types.REAL_EXPRESION:
@@ -63,15 +63,6 @@ public class UISubmenu : MonoBehaviour {
                 Close();
                 break;
         }
-    }
-    Settings.actions GetAction(string value)
-    {
-        foreach (Settings.actions enumValue in System.Enum.GetValues(typeof(Settings.actions)))
-        {
-            if (enumValue.ToString() == value)
-                return enumValue;
-        }
-        return Settings.actions.IDLE;
     }
     public void Close()
     {

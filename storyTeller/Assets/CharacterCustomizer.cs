@@ -6,16 +6,18 @@ public class CharacterCustomizer : MonoBehaviour {
 
     public SpriteRenderer HeadAsset;
     public parts part;
+	public string value;
+
     public enum parts
     {
         HEAD
     }
 	void Start () {
-
+		value = Settings.expressions.h0.ToString ();
     }
 	public void OnChangeExpression(string value)
 	{
-		print("OnChangeExpression " + value);
+		this.value = value;
 		HeadAsset.sprite = Resources.Load("character/expressions/" + value, typeof(Sprite)) as Sprite;
 	}
 	void OnCustomize(parts part, string newImage) {

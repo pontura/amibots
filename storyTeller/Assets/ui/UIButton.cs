@@ -20,7 +20,11 @@ public class UIButton : MonoBehaviour {
         REAL_EXPRESION,
 		CHARACTER_EDITOR,
 		SCENE_EDITOR,
-		SCENEOBJECT
+		SCENEOBJECT,
+		REC_TOGGLE,
+		PLAY_TOGGLE,
+		REWIND,
+		FAST_FORWARD
     }
 	public void Init(int id, string text) {
         field.text = text;
