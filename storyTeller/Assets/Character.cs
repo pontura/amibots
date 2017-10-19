@@ -78,6 +78,7 @@ public class Character : MonoBehaviour {
 	{
 	//	print ("CharacterReachTile  points.Count: " + points.Count + "   pathStep: " + pathStep);
 		if (pathStep >= points.Count) {
+			Events.OnCharacterReachTile (this);
 			Reset ();
 			return;
 		}

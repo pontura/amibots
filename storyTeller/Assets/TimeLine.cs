@@ -10,6 +10,7 @@ public class TimeLine : MonoBehaviour {
 	public UITimeline uiTimeline;
 
 	void Start () {
+		Events.OnCharacterReachTile += OnCharacterReachTile;
 		Events.AddKeyFrameNewCharacter += AddKeyFrameNewCharacter;
 		Events.OnRecording += OnRecording;
 		Events.OnPlaying += OnPlaying;
@@ -17,6 +18,15 @@ public class TimeLine : MonoBehaviour {
 		Events.AddKeyFrameAction += AddKeyFrameAction;
 		Events.AddKeyFrameExpression += AddKeyFrameExpression;
 		Events.OnCharacterSay += OnCharacterSay;
+	}
+	void OnCharacterReachTile(Character character)
+	{
+		if (uiTimeline.state != UITimeline.states.RECORDING)
+			return;
+		KeyframeBase keyframe = GetNewKeyframeAvatar (character);
+		if (keyframe == null)
+			return;
+		keyframes.Add (keyframe);
 	}
 	void AddKeyFrameNewCharacter(Character character)
 	{
@@ -26,10 +36,9 @@ public class TimeLine : MonoBehaviour {
 		keyframes.Add (keyframe);
 	}
 	void OnRecording(bool isRecording)
-	{
-		
-		int selectedAvatarID = charactersManager.selectedCharacter.id;
+	{		
 		if (isRecording) {
+			int selectedAvatarID = charactersManager.selectedCharacter.id;
 			foreach(Character character in World.Instance.charactersManager.characters)
 				RemoveLaterKeyFramesFor (selectedAvatarID);
 
@@ -40,7 +49,7 @@ public class TimeLine : MonoBehaviour {
 				keyframes.Add (keyframe);
 			}
 		}
-
+		Events.OnTimelineUpdated ();
 	}
 	void AddKeyFrameMove(Character character, Vector3 moveTo)
 	{
@@ -131,7 +140,6 @@ public class TimeLine : MonoBehaviour {
 	}
 	void RemoveLaterKeyFramesFor(int avatarID)
 	{
-		return;
 		List<KeyframeBase> keyframesToDelete = new List<KeyframeBase>();
 		foreach (KeyframeBase keyFrame in keyframes) {
 			if (keyFrame.avatar != null) {
@@ -143,14 +151,14 @@ public class TimeLine : MonoBehaviour {
 		foreach (KeyframeBase k in keyframesToDelete)
 			keyframes.Remove (k);
 	}
-	public int GetLastRecordedKeyFrame(int avatarID)
+	public float GetLastRecordedKeyFrame(int avatarID)
 	{
-		int keyframeTime = 0;
+		float keyframeTime = 0;
 		foreach (KeyframeBase keyFrame in keyframes) {
 			if (keyFrame.avatar != null) {
 				KeyframeAvatar keyframeAvatar = keyFrame.avatar;
 				if (keyframeAvatar.avatarID == avatarID)
-					keyframeTime = (int)keyFrame.time;
+					keyframeTime = keyFrame.time;
 			}
 		}
 		return keyframeTime;
@@ -165,11 +173,27 @@ public class TimeLine : MonoBehaviour {
 	}
 	public void FastForward()
 	{
-		foreach (KeyframeBase keyFrame in keyframes) {
-			if(keyFrame.time == 0)
-			{
-				//SetActiveKeyFrame (keyFrame);
-			}
+		foreach (Character character in charactersManager.characters) {
+			float duration = GetDuration ();
+			charactersManager.PositionateCharacter (character.id, GetLastPositionInTime (character.id, duration));
 		}
+	}
+	public float GetDuration()
+	{
+		float duration = 0;
+		foreach (KeyframeBase keyFrame in keyframes) {
+			if (keyFrame.time > duration)
+				duration = keyFrame.time;
+		}
+		return duration;
+	}
+	Vector3 GetLastPositionInTime(int characterID, float time)
+	{
+		Vector3 pos = Vector3.zero;
+		foreach (KeyframeBase keyFrame in keyframes) {
+			if (keyFrame.avatar.avatarID == characterID)
+				pos = keyFrame.pos;
+		}
+		return pos;
 	}
 }

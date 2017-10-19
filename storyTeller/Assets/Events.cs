@@ -31,4 +31,6 @@ public static class Events {
 	public static System.Action<string> OnCharacterAction = delegate { };
 	public static System.Action<string> OnChangeExpression = delegate { };
 	public static System.Action<int, string> OnCharacterSay= delegate { };
+	public static System.Action OnTimelineUpdated= delegate { };
+
 }
