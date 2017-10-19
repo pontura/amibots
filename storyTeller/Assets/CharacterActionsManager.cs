@@ -12,6 +12,7 @@ public class CharacterActionsManager : MonoBehaviour {
     {
 		character = GetComponent<Character> ();
         anim = GetComponent<Animation>();
+		action = "IDLE";
     }
 	void Start()
 	{

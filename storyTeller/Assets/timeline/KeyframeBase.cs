@@ -5,6 +5,7 @@ using System;
 
 [Serializable]
 public class KeyframeBase {
+	public bool played;
 	public float time;
 	public Vector3 pos;
 	public Vector3 moveTo;

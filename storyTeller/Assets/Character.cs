@@ -38,7 +38,7 @@ public class Character : MonoBehaviour {
 		MOVEING,
 	}
 
-	void Start () {
+	void Awake () {
         anim = GetComponent<Animation> ();
         actions = GetComponent<CharacterActionsManager>();
 		chatLine = GetComponent<CharacterChatLine> ();

@@ -12,7 +12,7 @@ public class CharacterCustomizer : MonoBehaviour {
     {
         HEAD
     }
-	void Start () {
+	void Awake () {
 		value = Settings.expressions.h0.ToString ();
     }
 	public void OnChangeExpression(string value)

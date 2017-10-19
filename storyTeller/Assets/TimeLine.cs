@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class TimeLine : MonoBehaviour {
 	
-	public int timer;
+	public float timer;
 	public List<KeyframeBase> keyframes;
 	public CharactersManager charactersManager;
 	public UITimeline uiTimeline;
 
 	void Start () {
+		Events.AddKeyFrameNewCharacter += AddKeyFrameNewCharacter;
 		Events.OnRecording += OnRecording;
 		Events.OnPlaying += OnPlaying;
 		Events.AddKeyFrameMove += AddKeyFrameMove;
@@ -17,20 +18,29 @@ public class TimeLine : MonoBehaviour {
 		Events.AddKeyFrameExpression += AddKeyFrameExpression;
 		Events.OnCharacterSay += OnCharacterSay;
 	}
-
+	void AddKeyFrameNewCharacter(Character character)
+	{
+		KeyframeBase keyframe = GetNewKeyframeAvatar (character);
+		if (keyframe == null)
+			return;
+		keyframes.Add (keyframe);
+	}
 	void OnRecording(bool isRecording)
 	{
+		
+		int selectedAvatarID = charactersManager.selectedCharacter.id;
 		if (isRecording) {
 			foreach(Character character in World.Instance.charactersManager.characters)
-				RemoveLaterKeyFramesFor (character.id);
+				RemoveLaterKeyFramesFor (selectedAvatarID);
+
+			foreach (Character character in World.Instance.charactersManager.characters) {
+				KeyframeBase keyframe = GetNewKeyframeAvatar (character);
+				if (keyframe == null)
+					return;
+				keyframes.Add (keyframe);
+			}
 		}
 
-		foreach (Character character in World.Instance.charactersManager.characters) {
-			KeyframeBase keyframe = GetNewKeyframeAvatar (character);
-			if (keyframe == null)
-				return;
-			keyframes.Add (keyframe);
-		}
 	}
 	void AddKeyFrameMove(Character character, Vector3 moveTo)
 	{
@@ -64,7 +74,7 @@ public class TimeLine : MonoBehaviour {
 	{
 		RemoveLaterKeyFramesFor (character.id);
 		KeyframeBase keyframe = new KeyframeBase ();
-		keyframe.time = (int)uiTimeline.timer;
+		keyframe.time = uiTimeline.timer;
 
 		KeyframeAvatar keyframeAvatar = new KeyframeAvatar ();
 		keyframeAvatar.avatarID = character.id;
@@ -78,24 +88,20 @@ public class TimeLine : MonoBehaviour {
 
 	void OnPlaying(bool isPlaying) 
 	{
-		timer = -1;
+		timer = uiTimeline.timer;
+		foreach (KeyframeBase keyFrame in keyframes)
+			keyFrame.played = false;
 	}
 
 	void Update()
 	{
-		if (uiTimeline.state == UITimeline.states.PLAYING) {
-			int uiTimelineTimer = (int)uiTimeline.timer;
-			if (uiTimelineTimer != timer) {
-				NewSecond ();
-				timer = uiTimelineTimer;
-			}
-		}
-	}
-	void NewSecond()
-	{
-		foreach (KeyframeBase keyFrame in keyframes) {
-			if (keyFrame.time == timer) {
-				SetActiveKeyFrame (keyFrame);
+		if (uiTimeline.state == UITimeline.states.PLAYING || uiTimeline.state == UITimeline.states.RECORDING) {
+			timer += Time.deltaTime;
+			foreach (KeyframeBase keyFrame in keyframes) {
+				if (keyFrame.time <= timer && keyFrame.played == false) {
+					SetActiveKeyFrame (keyFrame);
+					keyFrame.played = true;
+				}
 			}
 		}
 	}
@@ -125,6 +131,7 @@ public class TimeLine : MonoBehaviour {
 	}
 	void RemoveLaterKeyFramesFor(int avatarID)
 	{
+		return;
 		List<KeyframeBase> keyframesToDelete = new List<KeyframeBase>();
 		foreach (KeyframeBase keyFrame in keyframes) {
 			if (keyFrame.avatar != null) {

@@ -32,6 +32,10 @@ public class CharactersManager : MonoBehaviour
 		character.transform.localPosition = World.Instance.tiles.GetFreeTileInCenter ();
         character.Init(id);
         character.transform.localScale = new Vector3(characterScale, characterScale, characterScale);
+
+		if(characters.Count>0)
+			Events.AddKeyFrameNewCharacter (character);
+
 		characters.Add (character);
     }
 	void OnChangeExpression(string value)
