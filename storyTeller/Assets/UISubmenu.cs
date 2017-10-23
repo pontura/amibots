@@ -39,6 +39,7 @@ public class UISubmenu : MonoBehaviour {
         {
             UIButton newUiButton = Instantiate(uiButton);
             newUiButton.transform.SetParent(container);
+			newUiButton.transform.localScale = Vector2.one;
             newUiButton.Init(id, buttonString);
             newUiButton.type = newType;
             id++;

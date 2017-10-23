@@ -39,8 +39,7 @@ public class TimeLine : MonoBehaviour {
 	{		
 		if (isRecording) {
 			int selectedAvatarID = charactersManager.selectedCharacter.id;
-			foreach(Character character in World.Instance.charactersManager.characters)
-				RemoveLaterKeyFramesFor (selectedAvatarID);
+			RemoveLaterKeyFramesFor (selectedAvatarID);
 
 			foreach (Character character in World.Instance.charactersManager.characters) {
 				KeyframeBase keyframe = GetNewKeyframeAvatar (character);
@@ -81,7 +80,7 @@ public class TimeLine : MonoBehaviour {
 	}
 	KeyframeBase GetNewKeyframeAvatar(Character character)
 	{
-		RemoveLaterKeyFramesFor (character.id);
+		//RemoveLaterKeyFramesFor (character.id);
 		KeyframeBase keyframe = new KeyframeBase ();
 		keyframe.time = uiTimeline.timer;
 
@@ -178,6 +177,13 @@ public class TimeLine : MonoBehaviour {
 			charactersManager.PositionateCharacter (character.id, GetLastPositionInTime (character.id, duration));
 		}
 	}
+	public void JumpTo(float _timer)
+	{
+		//World.Instance.charactersManager.RestartScene ();
+		foreach (Character character in charactersManager.characters) {
+			charactersManager.PositionateCharacter (character.id, GetLastPositionInTime (character.id, _timer));
+		}
+	}
 	public float GetDuration()
 	{
 		float duration = 0;
@@ -191,7 +197,7 @@ public class TimeLine : MonoBehaviour {
 	{
 		Vector3 pos = Vector3.zero;
 		foreach (KeyframeBase keyFrame in keyframes) {
-			if (keyFrame.avatar.avatarID == characterID)
+			if (keyFrame.avatar.avatarID == characterID && keyFrame.time<=time)
 				pos = keyFrame.pos;
 		}
 		return pos;

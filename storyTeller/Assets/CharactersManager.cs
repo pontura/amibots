@@ -105,7 +105,7 @@ public class CharactersManager : MonoBehaviour
 	public void MoveCharacter(int id, Vector3 moveTo)
 	{
 		Character character = GetCharacter (id);
-		selectedCharacter = character;
+		//selectedCharacter = character;
 		List<Point> points = World.Instance.tiles.GetPathfinder (character.transform.position, moveTo);
 		if (points.Count > 0) {
 			GetCharacter(id).MoveFromPath (points);

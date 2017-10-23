@@ -68,6 +68,12 @@ public class UITimeline : MonoBehaviour {
 			uiSmallTimeline.JumpTo (1);
 		}
 	}
+	public void JumptTo(float value)
+	{		
+		timer = value;
+		World.Instance.timeLine.JumpTo(timer);
+		SetTimerField ();
+	}
 	public void Toggle()
 	{
 		if (state != states.RECORDING)

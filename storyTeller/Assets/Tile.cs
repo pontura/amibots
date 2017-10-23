@@ -33,7 +33,7 @@ public class Tile : MonoBehaviour {
 	}
 	public void MarkAsPath()
 	{
-		material.color = Color.yellow;
+		//material.color = Color.yellow;
 	}
 	public void ResetPath()
 	{

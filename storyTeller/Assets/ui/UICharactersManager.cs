@@ -51,6 +51,8 @@ public class UICharactersManager : MonoBehaviour
     {
         uiButton = Instantiate(uiButton_to_instantiate);
         uiButton.transform.SetParent(container);
+		uiButton.transform.localScale = Vector2.one;
+		uiButton.GetComponent<RectTransform> ().sizeDelta = new Vector2 (uiButton.GetComponent<RectTransform> ().sizeDelta.x, 37.7f);
         uiButton.Init(id, "Char" + id);
         AddCharacter(id);
         id++;

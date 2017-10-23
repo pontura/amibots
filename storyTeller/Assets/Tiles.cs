@@ -83,9 +83,9 @@ public class Tiles : MonoBehaviour {
 	}
 	public Vector3 GetFreeTileInCenter()
 	{
-		for (int a = tilesWidth/3; a < tilesWidth; a++) {
-			for (int b = 0; b < tilesWHeight/3; b++) {
-				if (tilesmap [a, b] == 0)
+		for (int a = (int)(tilesWidth/2f); a < tilesWidth; a++) {
+			for (int b = (int)(tilesWHeight/2); b < tilesWHeight; b++) {
+				if (tilesmap [a, b] == 1)
 					return new Vector3 (a, 0, b);
 			}
 		}

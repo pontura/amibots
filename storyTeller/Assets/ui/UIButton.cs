@@ -24,7 +24,9 @@ public class UIButton : MonoBehaviour {
 		REC_TOGGLE,
 		PLAY_TOGGLE,
 		REWIND,
-		FAST_FORWARD
+		FAST_FORWARD,
+		REW_TO_CHECKPOINT,
+		FAST_TO_CHECKPOINT
     }
 	public void Init(int id, string text) {
         field.text = text;
