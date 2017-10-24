@@ -32,6 +32,7 @@ public class CharactersManager : MonoBehaviour
 		character.transform.localPosition = World.Instance.tiles.GetFreeTileInCenter ();
         character.Init(id);
         character.transform.localScale = new Vector3(characterScale, characterScale, characterScale);
+		character.transform.localEulerAngles = new Vector3 (20, 0, 0);
 
 		if(characters.Count>0)
 			Events.AddKeyFrameNewCharacter (character);

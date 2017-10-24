@@ -25,6 +25,7 @@ public class SceneObjectsManager : MonoBehaviour {
 		SceneObject newGenericObject = Instantiate ( GetGenericObject() );
 		newGenericObject.transform.SetParent (container);
 		newGenericObject.Init (data, pos);
+		newGenericObject.transform.localEulerAngles = new Vector3 (90+20, 0, 0);
 	}
 	GenericObject GetGenericObject()
 	{
