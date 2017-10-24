@@ -7,8 +7,10 @@ public class Settings : MonoBehaviour {
     public enum actions
     {
         IDLE,
-		HELLO,
-		TURN
+		TURN,
+		WOW,
+		LOL,
+		GRR
     }
 	public enum expressions
 	{

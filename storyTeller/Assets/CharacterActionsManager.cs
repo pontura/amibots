@@ -5,13 +5,12 @@ using UnityEngine;
 public class CharacterActionsManager : MonoBehaviour {
 
     public string action;
-    private Animation anim;
+	public Animator anim;
 	Character character;
 
     void Awake()
     {
 		character = GetComponent<Character> ();
-        anim = GetComponent<Animation>();
 		action = "IDLE";
     }
 	void Start()
@@ -33,6 +32,15 @@ public class CharacterActionsManager : MonoBehaviour {
 			case "TURN":
 				Turn();
 				break;
+			case "LOL":
+				Lol();
+				break;
+			case "GRR":
+				Grr();
+				break;
+			case "WOW":
+				Wow();
+				break;
 			default:
 				Debug.Log ("No action for: " + newAction);
 				break;
@@ -40,15 +48,30 @@ public class CharacterActionsManager : MonoBehaviour {
 	}
     public void Idle()
     {
-		anim.Play("idle");
+		anim.Play("idle1");
     }
 	public void Walk()
     {
-		anim.Play("walk");
+		if(Random.Range(0,10)<5)
+			anim.Play("walk1");
+		else
+			anim.Play("walk2");
     }
+	public void Lol()
+	{
+		anim.Play("lol");
+	}
+	public void Grr()
+	{
+		anim.Play("grrr");
+	}
+	public void Wow()
+	{
+		anim.Play("wow");
+	}
 	void Hello()
 	{
-		anim.Play("hello");
+		anim.Play("wow");
 		Invoke ("ResetAnim", 1);
 	}
 	void ResetAnim()

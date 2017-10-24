@@ -13,7 +13,7 @@ public class Tiles : MonoBehaviour {
 	int tilesWHeight = 20;
 	float[,] tilesmap;
 	public List<Point> path;
-	Grid grid;
+	NesScripts.Controls.PathFind.Grid grid;
 
 	void Start () {
 		Events.Blocktile += Blocktile;
@@ -41,7 +41,7 @@ public class Tiles : MonoBehaviour {
 				tiles.Add (newTile);
 			}
 		}		
-		grid= new Grid(tilesWidth, tilesWHeight, tilesmap);
+		grid= new NesScripts.Controls.PathFind.Grid(tilesWidth, tilesWHeight, tilesmap);
 	}
 	void Blocktile(Tile tile, bool isBlock)
 	{
@@ -56,7 +56,7 @@ public class Tiles : MonoBehaviour {
 		}
 		print ((int)tile.transform.localPosition.x + " __ " + (int)tile.transform.localPosition.z + "Blocktile ____" + isBlock + "  :  " + value);
 		tilesmap [(int)tile.transform.localPosition.x, (int)tile.transform.localPosition.z] = value;
-		grid= new Grid(tilesWidth, tilesWHeight, tilesmap);
+		grid= new NesScripts.Controls.PathFind.Grid(tilesWidth, tilesWHeight, tilesmap);
 
 	}
 	public List<Point> GetPathfinder(Vector3 _from , Vector3 _to )
