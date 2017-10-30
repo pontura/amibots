@@ -8,7 +8,7 @@ using System.Collections.Generic;
 public class InputManager : MonoBehaviour
 {
     public states state;
-	public Camera c;
+	ScenesManager scenesManager;
 
     public enum states
     {
@@ -18,6 +18,10 @@ public class InputManager : MonoBehaviour
     }
 
     bool dragStart;
+	void Start()
+	{
+		scenesManager = GetComponent<ScenesManager> ();
+	}
 	bool CanCompute()
 	{
 		if (EventSystem.current.currentSelectedGameObject != null)
@@ -40,7 +44,7 @@ public class InputManager : MonoBehaviour
 #if UNITY_EDITOR
 		if (Input.GetMouseButtonUp(0)) {
 			RaycastHit hit;
-			Ray ray = c.ScreenPointToRay (Input.mousePosition);
+			Ray ray = scenesManager.sceneActive.cam.ScreenPointToRay (Input.mousePosition);
 			if (Physics.Raycast (ray, out hit))
 			if (hit.collider != null && hit.collider.gameObject.tag == "Tile")
 			{

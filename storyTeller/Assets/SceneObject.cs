@@ -7,6 +7,7 @@ public class SceneObject : MonoBehaviour {
 	public types type;
 	public enum types
 	{
+		BACKGROUND,
 		FURNITURES,
 		VEHICLES,
 		SPORT

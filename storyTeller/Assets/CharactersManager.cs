@@ -10,14 +10,14 @@ public class CharactersManager : MonoBehaviour
     public float separationInitial;
 
     public Character character_to_initialize;
-    public Transform container;
     public Character selectedCharacter;
-
+	ScenesManager scenesManager;
 	public UIDragItem uiDragItem;
 	bool isRecording;
 
     void Start()
     {
+		scenesManager = GetComponent<ScenesManager> ();
         Events.AddCharacter += AddCharacter;
         Events.OnSelectCharacterID += OnSelectCharacterID;
         Events.OnCharacterAction += OnCharacterAction;
@@ -28,8 +28,8 @@ public class CharactersManager : MonoBehaviour
     void AddCharacter(int id)
     {
         Character character = Instantiate(character_to_initialize);
-        character.transform.SetParent(container);
-		character.transform.localPosition = World.Instance.tiles.GetFreeTileInCenter ();
+		character.transform.SetParent(scenesManager.sceneActive.sceneObjects);
+		character.transform.localPosition = World.Instance.scenesManager.sceneActive.tiles.GetFreeTileInCenter ();
         character.Init(id);
         character.transform.localScale = new Vector3(characterScale, characterScale, characterScale);
 		character.transform.localEulerAngles = new Vector3 (20, 0, 0);
@@ -84,7 +84,7 @@ public class CharactersManager : MonoBehaviour
 	}
 	public Character GetCharacter(int id)
     {
-        foreach (Character character in container.GetComponentsInChildren<Character>())
+		foreach (Character character in scenesManager.sceneActive.sceneObjects.GetComponentsInChildren<Character>())
         {
             if (character.id == id)
                 return character;
@@ -93,7 +93,7 @@ public class CharactersManager : MonoBehaviour
     }
     public int GetTotalCharacters()
     {
-        return container.GetComponentsInChildren<Character>().Length;
+		return scenesManager.sceneActive.sceneObjects.GetComponentsInChildren<Character>().Length;
     }
 	void OnRecording(bool isRecording)
 	{
@@ -107,7 +107,7 @@ public class CharactersManager : MonoBehaviour
 	{
 		Character character = GetCharacter (id);
 		//selectedCharacter = character;
-		List<Point> points = World.Instance.tiles.GetPathfinder (character.transform.position, moveTo);
+		List<Point> points = World.Instance.scenesManager.sceneActive.tiles.GetPathfinder (character.transform.position, moveTo);
 		if (points.Count > 0) {
 			GetCharacter(id).MoveFromPath (points);
 		}

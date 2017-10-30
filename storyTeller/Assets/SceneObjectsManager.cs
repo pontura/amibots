@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class SceneObjectsManager : MonoBehaviour {
 
-	public Transform container;
 	public SceneObject[] all;
 	public UIDragItem uiDragItem;
 
@@ -12,27 +11,21 @@ public class SceneObjectsManager : MonoBehaviour {
 		Events.AddGenericObject += AddGenericObject;
 	//	Events.ClickedOn += ClickedOn;
 	}
-	void _________________ClickedOn(Tile tile)
-	{
-		if (!uiDragItem.isDragging)
-			return;
-		GenericObject newGenericObject = Instantiate ( GetGenericObject() );
-		newGenericObject.transform.SetParent (container);
-		newGenericObject.Init ( uiDragItem.sceneObjectData, tile.GetVector2() );
-		Events.Blocktile (tile, true);
-	}
 	void AddGenericObject (SceneObjectData data, Vector2 pos) {
-		SceneObject newGenericObject = Instantiate ( GetGenericObject() );
-		newGenericObject.transform.SetParent (container);
+		print (data.sceneObjectName);
+		GenericObject go = GetGenericObjectByName (data.sceneObjectName);
+		SceneObject newGenericObject = Instantiate ( go );
+		newGenericObject.transform.SetParent (World.Instance.scenesManager.sceneActive.sceneObjects);
 		newGenericObject.Init (data, pos);
 		newGenericObject.transform.localEulerAngles = new Vector3 (90+20, 0, 0);
 	}
-	GenericObject GetGenericObject()
+	GenericObject GetGenericObjectByName(string name)
 	{
 		foreach (SceneObject so in all) {
-			GenericObject go = so.GetComponent<GenericObject> ();
-			if (go)
-				return go;
+			foreach (Transform asset in so.GetComponentsInChildren<Transform>()) {
+				if (asset && asset.name == name)
+					return so.GetComponent<GenericObject>();
+			}
 		}
 		return null;
 	}

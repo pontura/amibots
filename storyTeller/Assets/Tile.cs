@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Tile : MonoBehaviour {
-
+	
 	public bool isWalkable;
-	Material material;
+//	Material material;
+	MeshRenderer meshRenderer;
 
 	public void Init(bool isWalkable, Vector3 pos)
 	{
-		material = GetComponent<MeshRenderer> ().material;
+		meshRenderer = GetComponent<MeshRenderer> ();
+		meshRenderer.enabled = false;
+		//material.
 		this.isWalkable = isWalkable;
 		transform.localPosition = pos;
 		if (!isWalkable)
@@ -24,12 +27,14 @@ public class Tile : MonoBehaviour {
 	public void SetAsUnwalkable()
 	{
 		isWalkable = false;
-		material.color = Color.red;
+		//material.color = Color.red;
+		meshRenderer.enabled = true;
 	}
 	public void SetAsWalkable()
 	{
 		isWalkable = true;
 		ResetPath ();
+		meshRenderer.enabled = false;
 	}
 	public void MarkAsPath()
 	{
@@ -37,7 +42,7 @@ public class Tile : MonoBehaviour {
 	}
 	public void ResetPath()
 	{
-		if (isWalkable)
-			material.color = Color.green;
+		//if (isWalkable)
+		//	material.color = Color.green;
 	}
 }

@@ -19,7 +19,7 @@ public class UIButton : MonoBehaviour {
         REAL_ACTION,
         REAL_EXPRESION,
 		CHARACTER_EDITOR,
-		SCENE_EDITOR,
+		SCENEOBJECT_MENU,
 		SCENEOBJECT,
 		REC_TOGGLE,
 		PLAY_TOGGLE,

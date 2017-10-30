@@ -11,6 +11,7 @@ public static class Events {
 	public static System.Action<Character> OnCharacterReachTile = delegate { };
     public static System.Action<int, CharacterCustomizer.parts, string> OnCustomize = delegate { };
     public static System.Action<UIButton> OnUIButtonClicked = delegate { };
+	public static System.Action<int> OnChangeBackground = delegate { };
 
 	public static System.Action<bool> OnRecording = delegate { }; 
 	public static System.Action<bool> OnPlaying = delegate { }; 
@@ -35,5 +36,8 @@ public static class Events {
 	public static System.Action OnTimelineUpdated= delegate { };
 
 	public static System.Action<bool, ClothesSettings.types, string> OnCustomizeButtonClicked = delegate { };
+
+	public static System.Action<int> AddNewScene= delegate { };
+
 
 }

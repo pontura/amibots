@@ -18,8 +18,7 @@ public class UICharactersManager : MonoBehaviour
 	{
 		if (uiButton.type == UIButton.types.CHARACTER_EDITOR) {
 			SetActive (true);
-		} else
-		if (uiButton.type == UIButton.types.SCENE_EDITOR)
+		} else if (uiButton.type == UIButton.types.SCENEOBJECT_MENU)
 		{
 				SetActive (false);
 		} else

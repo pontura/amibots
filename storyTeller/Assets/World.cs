@@ -5,13 +5,11 @@ using UnityEngine;
 public class World : MonoBehaviour {
 
 	public SceneObjectsManager sceneObjectsManager;
-    public CameraInScene camera_in_scene;
-	[HideInInspector]
-	public Tiles tiles;
 	[HideInInspector]
 	public TimeLine timeLine;
 	[HideInInspector]
 	public CharactersManager charactersManager;
+	public ScenesManager scenesManager;
     static World mInstance = null;
 
     public static World Instance
@@ -24,9 +22,9 @@ public class World : MonoBehaviour {
     void Awake()
     {
       	mInstance = this;
-		tiles = GetComponent<Tiles> ();
 		sceneObjectsManager = GetComponent<SceneObjectsManager> ();
 		timeLine = GetComponent<TimeLine> ();
 		charactersManager =  GetComponent<CharactersManager> ();
+		scenesManager = GetComponent<ScenesManager> ();
     }
 }

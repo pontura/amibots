@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class Settings : MonoBehaviour {
 
+	public int totalScenes;
+
     public enum actions
     {
         IDLE,
-		TURN,
 		WOW,
 		LOL,
 		GRR

@@ -5,5 +5,6 @@ using UnityEngine;
 public class SceneObjectData {
 
 	public string sceneObjectName;
+	public SceneObject.types type;
 
 }

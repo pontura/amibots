@@ -8,25 +8,26 @@ public class UISceneEditor : MonoBehaviour {
 	public UIButton uiButton;
 	public GameObject panel;
 	public UIButton sceneEditorButton;
+	SceneObject.types selectedType;
 
 	void Start () {
 		SetActive (false);
 		Events.OnUIButtonClicked += OnUIButtonClicked;
 	}
-	void OnUIButtonClicked(UIButton uiButton)
+	void OnUIButtonClicked(UIButton _uiButton)
 	{
-		switch (uiButton.type)
+		switch (_uiButton.type)
 		{
-		case UIButton.types.SCENE_EDITOR:
-				SetActive (true);
-				Open (SceneObject.types.FURNITURES);
-				break;
+		case UIButton.types.SCENEOBJECT_MENU:
+			SetActive (true);
+			break;
 		case UIButton.types.CHARACTER_EDITOR:
 			SetActive (false);
 				break;
 		case UIButton.types.SCENEOBJECT:
 			SceneObjectData data = new SceneObjectData ();
-			data.sceneObjectName = uiButton.field.text;
+			data.sceneObjectName = _uiButton.field.text;
+			data.type = selectedType;
 			Events.OnDrag (data);
 			break;
 		}
@@ -41,12 +42,25 @@ public class UISceneEditor : MonoBehaviour {
 			panel.SetActive (true);
 		}
 	}
-	public void Open(SceneObject.types type)
+	public void OpenByID(int id)
 	{
-		Utils.RemoveAllChildsIn(container);
+		if (id == 1)
+			GetComponent<UISceneSelector> ().Open (false);
+			//Open (SceneObject.types.BACKGROUND);
+		else if (id == 2)
+			Open (SceneObject.types.FURNITURES);
+		else if (id == 3)
+			Open (SceneObject.types.VEHICLES);
+		else if (id == 4)
+			Open (SceneObject.types.SPORT);
+	}
 
+	void Open(SceneObject.types _type)
+	{
+		this.selectedType = _type;
+		Utils.RemoveAllChildsIn(container);
 		int id = 0;
-		foreach (SceneObject so in World.Instance.sceneObjectsManager.GetObjectsByType(type))
+		foreach (SceneObject so in World.Instance.sceneObjectsManager.GetObjectsByType(_type))
 		{
 			foreach (GameObject go in so.GetComponent<GenericObject>().all)
 			{
@@ -62,6 +76,14 @@ public class UISceneEditor : MonoBehaviour {
 	void Reset()
 	{
 		panel.SetActive(false);
+	}
+	public void Backgrounds()
+	{
+
+	}
+	public void Furtnitures()
+	{
+
 	}
 
 }

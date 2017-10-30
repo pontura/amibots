@@ -8,7 +8,7 @@ public class UISubmenu : MonoBehaviour {
     public UIButton uiButton;
     public GameObject panel;
     public Transform container;
-    public Animation anim;
+	public Animator anim;
 
 	void Start () {
         Reset();
@@ -16,6 +16,7 @@ public class UISubmenu : MonoBehaviour {
     }
     public void Open(UIButton.types type)
     {
+		Time.timeScale = 0;
         Utils.RemoveAllChildsIn(container);
         string[] lists;
         UIButton.types newType;
@@ -45,7 +46,7 @@ public class UISubmenu : MonoBehaviour {
             id++;
         }
         panel.SetActive(true);
-        anim.Play("on");
+        anim.Play("open");
     }
     void OnUIButtonClicked(UIButton uiButton)
     {
@@ -67,7 +68,8 @@ public class UISubmenu : MonoBehaviour {
     }
     public void Close()
     {
-        anim.Play("off");
+		Time.timeScale = 1;
+        anim.Play("close");
     }
     void Reset()
     {

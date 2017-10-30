@@ -7,10 +7,9 @@ public class Tiles : MonoBehaviour {
 
 	public List<Tile> tiles;
 	public Tile tile;
-	public Transform container;
-
+	public SceneIngame sceneInGame;
 	int tilesWidth = 30;
-	int tilesWHeight = 20;
+	int tilesWHeight = 10;
 	float[,] tilesmap;
 	public List<Point> path;
 	NesScripts.Controls.PathFind.Grid grid;
@@ -36,7 +35,7 @@ public class Tiles : MonoBehaviour {
 					Events.AddGenericObject (data, new Vector2(a,b));
 				}
 				Tile newTile = Instantiate (tile);
-				newTile.transform.SetParent (container);
+				newTile.transform.SetParent (sceneInGame.tilesContainer);
 				newTile.Init(isWalkable, new Vector3 (a, 0, b));
 				tiles.Add (newTile);
 			}

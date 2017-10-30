@@ -22,8 +22,12 @@ public class UIDragItem : MonoBehaviour {
 	void ClickedOn(Tile tile)
 	{
 		if (isDragging) {
-			Events.AddGenericObject(sceneObjectData, new Vector2((int)tile.transform.position.x, (int)tile.transform.position.z));
-			Events.Blocktile (tile, true);
+			//if (sceneObjectData.type == SceneObject.types.BACKGROUND) {
+			//	Events.OnChangeBackground (int.Parse(sceneObjectData.sceneObjectName));
+			//} else {
+				Events.AddGenericObject (sceneObjectData, new Vector2 ((int)tile.transform.position.x, (int)tile.transform.position.z));
+				Events.Blocktile (tile, true);
+			//}
 			OnEndDrag ();
 		}
 	}
