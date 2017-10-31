@@ -39,7 +39,7 @@ public class CharacterCustomizer : MonoBehaviour {
 	void OnCustomize(int characterID, parts part, string newImage) {
 
 		string p = "customizer/CLOTHES/amibot_brazo_2x";
-		//brazo.spriteMesh.sprite = Resources.Load(p, typeof(Sprite)) as Sprite;
+		//brazo.spriteMesh = Resources.Load(p, typeof(Sprite)) as Sprite;
 		return;
 
 		if(characterID == character.id)
