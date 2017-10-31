@@ -5,7 +5,11 @@ using Anima2D;
 
 public class CharacterCustomizer : MonoBehaviour {
 
-	public SpriteMeshInstance brazo;
+	public SpriteMeshInstance leg1;
+	public SpriteMeshInstance leg2;
+	public SpriteMeshInstance body_bottom;
+
+	public SpriteRenderer brazo;
 
     public SpriteRenderer visor;
 	public SpriteRenderer pupil;
@@ -38,14 +42,25 @@ public class CharacterCustomizer : MonoBehaviour {
 	}
 	void OnCustomize(int characterID, parts part, string newImage) {
 
-		string p = "customizer/CLOTHES/amibot_brazo_2x";
-		//brazo.spriteMesh = Resources.Load(p, typeof(Sprite)) as Sprite;
-		return;
+	
 
 		if(characterID == character.id)
 		{
+
+			string part_url2 = "customizer/CLOTHES/bottom/amibot_pierna_1_mesh";
+			leg1.spriteMesh = Resources.Load(part_url2, typeof(SpriteMesh)) as SpriteMesh;
+			leg2.spriteMesh = Resources.Load(part_url2, typeof(SpriteMesh)) as SpriteMesh;
+
+			part_url2 = "customizer/CLOTHES/bottom/amibot_bottom_1_hips_mesh";
+			body_bottom.spriteMesh = Resources.Load(part_url2, typeof(SpriteMesh)) as SpriteMesh;
+			//brazo2.spriteMesh = mesh2;
+			return;
+
 			string part_url = "customizer/" + part.ToString() + "/" + newImage;
-			print ("CUSTOMIZADOR: No existe: " + part_url);
+
+			brazo.sprite = Resources.Load(part_url, typeof(Sprite)) as Sprite;
+			return;
+
 
 			SpriteRenderer thisPart = null;
 			switch (part) {
@@ -53,9 +68,12 @@ public class CharacterCustomizer : MonoBehaviour {
 				thisPart = shoesContainer;
 				break;
 			}
-			if(thisPart==null) return;
-
-			thisPart.sprite = Resources.Load(part_url, typeof(Sprite)) as Sprite;
+			if (thisPart == null) {
+				print ("CUSTOMIZADOR: No existe: " + part_url);
+				return;
+			}
+			print ("carga:  " + part_url);
+			brazo.sprite = Resources.Load(part_url, typeof(Sprite)) as Sprite;
 		}
     }
 }
