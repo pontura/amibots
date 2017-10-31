@@ -5,7 +5,6 @@ using NesScripts.Controls.PathFind;
 
 public class CharactersManager : MonoBehaviour
 {
-	public List<Character> characters;
     public float characterScale;
     public float separationInitial;
 
@@ -13,6 +12,7 @@ public class CharactersManager : MonoBehaviour
     public Character selectedCharacter;
 	ScenesManager scenesManager;
 	public UIDragItem uiDragItem;
+
 	bool isRecording;
 
     void Start()
@@ -34,10 +34,10 @@ public class CharactersManager : MonoBehaviour
         character.transform.localScale = new Vector3(characterScale, characterScale, characterScale);
 		character.transform.localEulerAngles = new Vector3 (20, 0, 0);
 
-		if(characters.Count>0)
+		if(scenesManager.sceneActive.characters.Count>0)
 			Events.AddKeyFrameNewCharacter (character);
 
-		characters.Add (character);
+		scenesManager.sceneActive.characters.Add (character);
     }
 	void OnChangeExpression(string value)
 	{
@@ -47,8 +47,8 @@ public class CharactersManager : MonoBehaviour
 	public void RestartScene()
 	{
 		////////a mejorar:!
-		selectedCharacter = characters [0];
-		foreach (Character character in characters) {
+		selectedCharacter = scenesManager.sceneActive.characters [0];
+		foreach (Character character in scenesManager.sceneActive.characters) {
 			character.transform.position = new Vector3 (0, 1000, 0);
 		}
 	}

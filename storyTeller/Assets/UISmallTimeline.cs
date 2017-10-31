@@ -46,7 +46,7 @@ public class UISmallTimeline : MonoBehaviour {
 		TimeLine timeline = World.Instance.timeLine;
 		duration = timeline.GetDuration ();
 		Utils.RemoveAllChildsIn (container);
-		foreach (KeyframeBase k in timeline.keyframes) {
+		foreach (KeyframeBase k in timeline.GetActiveScenesTimeline().keyframes) {
 			AddKeyFrame (k.time / duration);
 		}
 	}
@@ -73,20 +73,20 @@ public class UISmallTimeline : MonoBehaviour {
 		float timer = 0;
 		if (rew) {		
 			timer = 0;	
-			foreach (KeyframeBase k in timeline.keyframes) {
+			foreach (KeyframeBase k in timeline.GetActiveScenesTimeline().keyframes) {
 				if (k.time < currentTime && k.time>timer)
 					timer = k.time;
 			}
 		} else {
 			timer = duration;	
-			foreach (KeyframeBase k in timeline.keyframes) {
+			foreach (KeyframeBase k in timeline.GetActiveScenesTimeline().keyframes) {
 				if (k.time > currentTime && k.time<timer) {
 					timer = k.time;
 					continue;
 				}
 			}
 		}
-		print (currentTime + "          Timer: " + timer);
+	//	print (currentTime + "          Timer: " + timer);
 		JumpTo(timer/duration);
 		uiTimeline.JumptTo (timer);
 

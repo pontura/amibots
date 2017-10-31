@@ -12,7 +12,6 @@ public class SceneObjectsManager : MonoBehaviour {
 	//	Events.ClickedOn += ClickedOn;
 	}
 	void AddGenericObject (SceneObjectData data, Vector2 pos) {
-		print (data.sceneObjectName);
 		GenericObject go = GetGenericObjectByName (data.sceneObjectName);
 		SceneObject newGenericObject = Instantiate ( go );
 		newGenericObject.transform.SetParent (World.Instance.scenesManager.sceneActive.sceneObjects);

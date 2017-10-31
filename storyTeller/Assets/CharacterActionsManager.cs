@@ -48,34 +48,35 @@ public class CharacterActionsManager : MonoBehaviour {
 	}
     public void Idle()
     {
-		anim.Play("idle1");
+		PlayAnim("idle1");
     }
 	public void Walk()
     {
 		if(Random.Range(0,10)<5)
-			anim.Play("walk1");
+			PlayAnim("walk1");
 		else
-			anim.Play("walk2");
+			PlayAnim("walk2");
     }
 	public void Lol()
 	{
-		anim.Play("lol");
+		PlayAnim("lol");
 	}
 	public void Grr()
 	{
-		anim.Play("grrr");
+		PlayAnim("grrr");
 	}
 	public void Wow()
 	{
-		anim.Play("wow");
+		PlayAnim("wow");
 	}
 	void Hello()
 	{
-		anim.Play("wow");
+		PlayAnim("wow");
 		Invoke ("ResetAnim", 1);
 	}
 	void ResetAnim()
 	{
+		PlayAnim("IDLE");
 		action = "IDLE";
 		Idle ();
 	}
@@ -84,5 +85,9 @@ public class CharacterActionsManager : MonoBehaviour {
 		Vector3 scale= character.allBody.transform.localScale;
 		scale.x *= -1;
 		character.allBody.transform.localScale = scale;
+	}
+	void PlayAnim(string animName)
+	{
+		//anim.Play(animName);
 	}
 }
