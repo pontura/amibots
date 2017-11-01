@@ -15,7 +15,8 @@ public class Character : MonoBehaviour {
 	Animation anim;
     public bool falled;
 	List<int> orders;
-   
+	List<GameObject> allParts;
+
     public Vector3 lookAtTarget;
 
     public CharacterActionsManager actions;
@@ -37,13 +38,18 @@ public class Character : MonoBehaviour {
     }
 	void Start()
 	{
+		allParts = new List<GameObject> ();
 		orders = new List<int> ();
+
 		foreach (SpriteRenderer sr in GetComponentsInChildren<SpriteRenderer>()) {
-			orders.Add(sr.sortingOrder);		
+			allParts.Add(sr.gameObject);	
+			orders.Add (sr.sortingOrder);
 		}
 		foreach (SpriteMeshInstance sr in GetComponentsInChildren<SpriteMeshInstance>()) {
-			orders.Add(sr.sortingOrder);	
+			allParts.Add(sr.gameObject);
+			orders.Add (sr.sortingOrder);
 		}
+
 	}
     void Update()
     {
@@ -109,16 +115,19 @@ public class Character : MonoBehaviour {
 	void ReorderInLayers()
 	{
 		int order = (int)transform.position.z;
-		print (" Y__________ " + order);
 		int a = 0;
-		foreach (SpriteRenderer sr in GetComponentsInChildren<SpriteRenderer>()) {
-			sr.sortingOrder = (-100*order) + orders[a];	
-			a++;
-		}
-		foreach (SpriteMeshInstance sr in GetComponentsInChildren<SpriteMeshInstance>()) {
-			sr.sortingOrder =  (-100*order) + orders[a];
+		foreach (GameObject s in allParts) {
+			SpriteRenderer sr = s.GetComponent<SpriteRenderer> ();
+			if (sr) {
+				sr.sortingOrder = (-100 * order) + orders [a];	
+			} else {
+				SpriteMeshInstance smr = s.GetComponent<SpriteMeshInstance> ();
+				if (smr)
+					smr.sortingOrder = (-100 * order) + orders [a];	
+			}
 			a++;
 		}
 	}
+
 
 }
