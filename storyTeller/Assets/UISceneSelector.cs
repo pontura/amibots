@@ -8,7 +8,7 @@ public class UISceneSelector : MonoBehaviour {
 	public SceneButton sceneButton;
 	public Transform container;
 	bool isNewScene;
-
+	public UIAllScenesMenu uIAllScenesMenu;
 	void Start () {		
 		Open (true);
 	}
@@ -27,10 +27,13 @@ public class UISceneSelector : MonoBehaviour {
 	public void SetSelected(int sceneID, int backgroundID)
 	{
 		print ("isNewScene " + isNewScene + " id: " + sceneID);
-		if (isNewScene)
-			Events.AddNewScene (sceneID, backgroundID);
-		else
+		if (isNewScene) {
+			print ("Events.AddNewScene (sceneID, backgroundID);");
+			uIAllScenesMenu.AddNewScene (sceneID, backgroundID);
+		} else {
+			print ("Events.OnChangeBackground (backgroundID);");
 			Events.OnChangeBackground (backgroundID);
+		}
 		panel.SetActive (false);
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 
 public class CustomizerManager : MonoBehaviour {
 
@@ -13,10 +14,20 @@ public class CustomizerManager : MonoBehaviour {
 	}
 	void AddButtons(ClothesSettings.types type)
 	{
-		string[] arr = null;
+		Utils.RemoveAllChildsIn (buttonsContainer);
+		List<string> arr = new List<string> ();
 		switch (type) {
 		case ClothesSettings.types.CLOTHES:
 			arr = Data.Instance.GetComponent<ClothesSettings> ().clothes;
+			break;
+		case ClothesSettings.types.BOOTS:
+			arr = Data.Instance.GetComponent<ClothesSettings> ().boots;
+			break;
+		case ClothesSettings.types.LEGS:
+			arr = Data.Instance.GetComponent<ClothesSettings> ().legs;
+			break;
+		case ClothesSettings.types.SKIN:
+			arr = Data.Instance.GetComponent<ClothesSettings> ().skins;
 			break;
 		}
 		if (arr == null)
@@ -25,11 +36,34 @@ public class CustomizerManager : MonoBehaviour {
 			CustomizerButton cb = Instantiate (button);
 			cb.transform.SetParent (buttonsContainer);
 			cb.transform.localScale = Vector2.one;
+			cb.isMenu = false;
 			cb.Init (type, name);
 		}
 	}
 	void OnCustomizeButtonClicked(bool isMenu, ClothesSettings.types type, string value)
     {
-		Events.OnCustomize (-1, CharacterCustomizer.parts.CLOTHES, value + "_on");
+		if (isMenu)
+			AddButtons (type);
+		else {
+			CharacterCustomizer.parts parts;
+			switch (type) {
+			case ClothesSettings.types.CLOTHES:
+				parts = CharacterCustomizer.parts.CLOTHES;
+				break;
+			case ClothesSettings.types.LEGS:
+				parts = CharacterCustomizer.parts.LEGS;
+				break;
+			case ClothesSettings.types.BOOTS:
+				parts = CharacterCustomizer.parts.FOOTS;
+				break;
+			default:
+				parts = CharacterCustomizer.parts.SKIN;
+				break;
+			}
+			Events.OnCustomize (-1, parts, value);
+
+			if(World.Instance.charactersManager.selectedCharacter != null)
+				Events.OnCustomize (World.Instance.charactersManager.selectedCharacter.id, parts, value);
+		}
     }
 }

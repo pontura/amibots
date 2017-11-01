@@ -11,6 +11,7 @@ public class SceneIngame : MonoBehaviour {
 	public Transform tilesContainer;
 	public Transform sceneObjects;
 	public SpriteRenderer background;
+	public HiResScreenshots screenshot;
 
 	public Camera cam;
 
@@ -19,5 +20,11 @@ public class SceneIngame : MonoBehaviour {
 		this.backgroundID = backgroundID;
 		string url = "scenes/" + backgroundID.ToString ();
 		background.sprite = Resources.Load(url, typeof(Sprite)) as Sprite;
+		Invoke("TakePicture", 0.2f);
+	}
+	void TakePicture()
+	{
+		print ("TakePicture" + id);
+		screenshot.TakeScreenshot (id);
 	}
 }

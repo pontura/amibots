@@ -28,7 +28,7 @@ public class Tile : MonoBehaviour {
 	{
 		isWalkable = false;
 		//material.color = Color.red;
-		meshRenderer.enabled = true;
+		//meshRenderer.enabled = true;
 	}
 	public void SetAsWalkable()
 	{

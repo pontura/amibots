@@ -8,7 +8,6 @@ public class ScenesManager : MonoBehaviour {
 	public Transform container;
 	public List<SceneIngame> scenesIngame;
 	public SceneIngame sceneActive;
-
 	void Start()
 	{
 		Events.AddNewScene += AddNewScene;
@@ -19,6 +18,7 @@ public class ScenesManager : MonoBehaviour {
 		sceneActive = scenesIngame [id];
 		Activate ();
 		Events.OnChangeBackground (sceneActive.backgroundID);
+		Events.NewSceneActive (id);
 	}
 	public void AddNewScene(int sceneID, int backgroundID)
 	{

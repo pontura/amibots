@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using NesScripts.Controls.PathFind;
+using Anima2D;
 
 public class Character : MonoBehaviour {
 
@@ -13,7 +14,7 @@ public class Character : MonoBehaviour {
 
 	Animation anim;
     public bool falled;
-
+	List<int> orders;
    
     public Vector3 lookAtTarget;
 
@@ -34,6 +35,16 @@ public class Character : MonoBehaviour {
 		chatLine = GetComponent<CharacterChatLine> ();
 		customizer = GetComponent<CharacterCustomizer> ();
     }
+	void Start()
+	{
+		orders = new List<int> ();
+		foreach (SpriteRenderer sr in GetComponentsInChildren<SpriteRenderer>()) {
+			orders.Add(sr.sortingOrder);		
+		}
+		foreach (SpriteMeshInstance sr in GetComponentsInChildren<SpriteMeshInstance>()) {
+			orders.Add(sr.sortingOrder);	
+		}
+	}
     void Update()
     {
 		if (newPos == Vector3.zero)
@@ -66,6 +77,7 @@ public class Character : MonoBehaviour {
 	}
 	void CharacterReachTile()
 	{
+		ReorderInLayers ();
 	//	print ("CharacterReachTile  points.Count: " + points.Count + "   pathStep: " + pathStep);
 		if (pathStep >= points.Count) {
 			Events.OnCharacterReachTile (this);
@@ -94,5 +106,19 @@ public class Character : MonoBehaviour {
         falled = false;
 		state = states.IDLE;
     }
+	void ReorderInLayers()
+	{
+		int order = (int)transform.position.z;
+		print (" Y__________ " + order);
+		int a = 0;
+		foreach (SpriteRenderer sr in GetComponentsInChildren<SpriteRenderer>()) {
+			sr.sortingOrder = (-100*order) + orders[a];	
+			a++;
+		}
+		foreach (SpriteMeshInstance sr in GetComponentsInChildren<SpriteMeshInstance>()) {
+			sr.sortingOrder =  (-100*order) + orders[a];
+			a++;
+		}
+	}
 
 }

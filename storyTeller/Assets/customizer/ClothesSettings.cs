@@ -10,25 +10,33 @@ public class ClothesSettings : MonoBehaviour {
 	{
 		CLOTHES,
 		BOOTS,
+		LEGS,
 		SKIN
 	}
-	public string[] clothes;
-	public string[] boots;
-	public string[] skins;
+	public List<string> legs;
+	public  List<string> clothes;
+	public  List<string> boots;
+	public  List<string>skins;
 
 	void Start () {
-		clothes = LoadArray("customizer/CLOTHES/");
+		clothes = LoadArray("customizer/CLOTHES/top/");
 		boots = LoadArray("customizer/BOOTS/");
 		skins = LoadArray("customizer/SKIN/");
+		legs = LoadArray("customizer/CLOTHES/bottom/");
 	}
-
-	string[] LoadArray(string path)
+	string lastClothAdded = "";
+	List<string> LoadArray(string path)
     {
 		Object[] arr = Resources.LoadAll(path, typeof(Texture2D));
-		string[] newArr = new string[arr.Length];
+		List<string> arrayNew= new List<string> ();
 		for(int a=0; a<arr.Length; a++) {
-			newArr[a] = arr[a].name;
+			string[] arrString = arr[a].name.Split("_"[0]);
+			string n = arrString [0] + "_" + arrString [1] + "_" + arrString [2];
+			if (n != lastClothAdded) {
+				lastClothAdded = n;
+				arrayNew.Add( n);
+			}
 		}
-		return newArr;
+		return arrayNew;
     }
 }

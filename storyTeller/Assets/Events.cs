@@ -41,6 +41,7 @@ public static class Events {
 
 	public static System.Action<int, int> AddNewScene= delegate { };
 	public static System.Action<int> OnActivateScene = delegate { };
-
+	public static System.Action<int> NewSceneActive = delegate { };
+	public static System.Action<int> UpdateThumbButton = delegate { };
 
 }

@@ -24,7 +24,13 @@ public class CharactersManager : MonoBehaviour
 		Events.ClickedOn += ClickedOn;
 		Events.OnChangeExpression += OnChangeExpression;
 		Events.OnRecording += OnRecording;
-    }
+		Events.NewSceneActive += NewSceneActive;
+	}
+	void NewSceneActive(int id)
+	{		
+		if(scenesManager.sceneActive.characters.Count>0)
+			selectedCharacter = scenesManager.sceneActive.characters [0];
+	}
     void AddCharacter(int id)
     {
         Character character = Instantiate(character_to_initialize);
@@ -105,11 +111,13 @@ public class CharactersManager : MonoBehaviour
 	}
 	public void MoveCharacter(int id, Vector3 moveTo)
 	{
-		Character character = GetCharacter (id);
-		//selectedCharacter = character;
-		List<Point> points = World.Instance.scenesManager.sceneActive.tiles.GetPathfinder (character.transform.position, moveTo);
-		if (points.Count > 0) {
-			GetCharacter(id).MoveFromPath (points);
+		if(World.Instance.scenesManager.sceneActive.characters.Count>0)
+		{
+			Character character = GetCharacter (id);
+			List<Point> points = World.Instance.scenesManager.sceneActive.tiles.GetPathfinder (character.transform.position, moveTo);
+			if (points.Count > 0) {
+				GetCharacter(id).MoveFromPath (points);
+			}
 		}
 	}
 }

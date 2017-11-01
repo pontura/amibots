@@ -13,7 +13,28 @@ public class UICharactersManager : MonoBehaviour
     {
 		SetActive (true);
         Events.OnUIButtonClicked += OnUIButtonClicked;
+		Events.NewSceneActive += NewSceneActive;
+		Events.AddNewScene += AddNewScene;
     }
+	void ResetButtons()
+	{
+		Utils.RemoveAllChildsIn (container);
+	}
+	void AddNewScene(int sceneID, int backgroundID)
+	{
+		ResetButtons ();
+	}
+	void NewSceneActive(int id)
+	{		
+		
+		ResetButtons ();
+		foreach(Character ch in World.Instance.scenesManager.sceneActive.characters)
+			AddNewButton(ch.id);
+
+		UIButton uiButton = container.GetComponentInChildren<UIButton> ();
+		Select (uiButton);
+	}
+	int id = 1;
     void OnUIButtonClicked(UIButton uiButton)
 	{
 		if (uiButton.type == UIButton.types.CHARACTER_EDITOR) {
@@ -26,7 +47,9 @@ public class UICharactersManager : MonoBehaviour
         {
             if (uiButton.id == 0)
             {
-                AddNewButton();
+				AddNewButton(id);
+				AddCharacter(id);
+				id++;
             }
             else
             {
@@ -44,17 +67,15 @@ public class UICharactersManager : MonoBehaviour
 			panel.SetActive (true);
 		}
 	}
-    int id = 1;
+   
     UIButton uiButton;
-    void AddNewButton()
+	void AddNewButton(int id)
     {
         uiButton = Instantiate(uiButton_to_instantiate);
         uiButton.transform.SetParent(container);
 		uiButton.transform.localScale = Vector2.one;
 		uiButton.GetComponent<RectTransform> ().sizeDelta = new Vector2 (uiButton.GetComponent<RectTransform> ().sizeDelta.x, 37.7f);
-        uiButton.Init(id, "Char" + id);
-        AddCharacter(id);
-        id++;
+        uiButton.Init(id, "Char" + id);        
     }
     void AddCharacter(int id)
     {

@@ -11,8 +11,8 @@ public class UIAllScenesMenu : MonoBehaviour {
 	public int activeSceneID;
 
 	void Start () {
-		Events.OnChangeBackground += OnChangeBackground;
-		Add ();
+		//Events.OnChangeBackground += OnChangeBackground;
+		//Events.AddNewScene += AddNewScene;
 	}	
 	public void SetActive(int id)
 	{
@@ -20,17 +20,20 @@ public class UIAllScenesMenu : MonoBehaviour {
 	}
 	void OnChangeBackground(int id)
 	{
-		activeSceneButton.InitInMenu (this, activeSceneID-1, id);
+		//activeSceneButton.UpdateThumbButton(activeSceneID);
 	}
-	public void Add()
+	public void AddNewScene(int sceneID, int backgroundID)
 	{
+		print ("_________add new Scene"  + sceneID);
 		GetComponent<UISceneSelector> ().Open (true);
 		activeSceneID++;
 		SceneButton newSceneButton = Instantiate (sceneButton);
 		newSceneButton.transform.SetParent (container);
 		newSceneButton.transform.localScale = Vector2.one;
 		print (activeSceneID);
-		newSceneButton.InitInMenu (this, activeSceneID, activeSceneID);
+		newSceneButton.InitInMenu (this, sceneID);
 		activeSceneButton = newSceneButton;
+
+		Events.AddNewScene (sceneID, backgroundID);
 	}
 }

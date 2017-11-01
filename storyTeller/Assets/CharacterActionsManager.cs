@@ -48,14 +48,14 @@ public class CharacterActionsManager : MonoBehaviour {
 	}
     public void Idle()
     {
-		PlayAnim("idle1");
+		PlayAnim("idle");
     }
 	public void Walk()
     {
 		if(Random.Range(0,10)<5)
-			PlayAnim("walk1");
+			PlayAnim("walk");
 		else
-			PlayAnim("walk2");
+			PlayAnim("walk");
     }
 	public void Lol()
 	{
@@ -88,6 +88,6 @@ public class CharacterActionsManager : MonoBehaviour {
 	}
 	void PlayAnim(string animName)
 	{
-		//anim.Play(animName);
+		anim.Play(animName);
 	}
 }
