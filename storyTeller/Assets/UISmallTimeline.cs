@@ -18,9 +18,25 @@ public class UISmallTimeline : MonoBehaviour {
 		panel.SetActive (false);
 		Events.OnTimelineUpdated += OnTimelineUpdated;
 		Events.OnUIButtonClicked += OnUIButtonClicked;
-		uiTimeline = GetComponent<UITimeline> ();
+        Events.AddNewScene += AddNewScene;
+        Events.NewSceneActive += NewSceneActive;
+        uiTimeline = GetComponent<UITimeline> ();
 	}
-	void OnUIButtonClicked(UIButton uiButton)
+    void AddNewScene(int id, int bgID)
+    {
+        ResetTimeline();
+    }
+    void NewSceneActive(int id)
+    {
+        ResetTimeline();
+        OnTimelineUpdated();
+    }
+    void ResetTimeline()
+    {
+        Utils.RemoveAllChildsIn(container);
+        slider.value = 0;
+    }
+    void OnUIButtonClicked(UIButton uiButton)
 	{
 		if (uiButton.type == UIButton.types.REW_TO_CHECKPOINT)
 			JumpToCheckpoint (true);

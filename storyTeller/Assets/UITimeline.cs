@@ -41,13 +41,33 @@ public class UITimeline : MonoBehaviour {
 		SetTimerField ();
 		Events.OnUIButtonClicked += OnUIButtonClicked;
 		Events.AddCharacter += AddCharacter;
-	}
+        Events.AddNewScene += AddNewScene;
+        Events.OnActivateScene += OnActivateScene;
+    }
 	void OnDestroy () {
 		SetTimerField ();
 		Events.OnUIButtonClicked -= OnUIButtonClicked;
 		Events.AddCharacter -= AddCharacter;
-	}
-	void AddCharacter(int id)
+        Events.AddNewScene -= AddNewScene;
+        Events.OnActivateScene -= OnActivateScene;
+    }
+    void AddNewScene(int sceneID, int bg)
+    {
+        ResetAll();
+    }
+    void OnActivateScene(int sceneID)
+    {
+        ResetAll();
+    }
+    void ResetAll()
+    {
+        timer = 0;
+        SetTimerField();
+        World.Instance.timeLine.RewindAll();
+        uiSmallTimeline.JumpTo(0);
+    }
+
+    void AddCharacter(int id)
 	{
 		panel.SetActive (true);
 	}
@@ -69,7 +89,7 @@ public class UITimeline : MonoBehaviour {
 		}
 	}
 	public void JumptTo(float value)
-	{		
+	{
 		timer = value;
 		World.Instance.timeLine.JumpTo(timer);
 		SetTimerField ();

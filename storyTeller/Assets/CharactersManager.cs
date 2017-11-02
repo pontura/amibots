@@ -52,6 +52,7 @@ public class CharactersManager : MonoBehaviour
 	}
 	public void RestartScene()
 	{
+        if (scenesManager.sceneActive.characters.Count == 0) return;
 		////////a mejorar:!
 		selectedCharacter = scenesManager.sceneActive.characters [0];
 		foreach (Character character in scenesManager.sceneActive.characters) {

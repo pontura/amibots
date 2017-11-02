@@ -17,6 +17,7 @@ public class TimeLine : MonoBehaviour {
 	ScenesManager scenesManager;
 	CharactersManager charactersManager;
 	public UITimeline uiTimeline;
+    public int activeSceneID;
 
 	void Start () {
 		scenesManager = GetComponent<ScenesManager> ();
@@ -31,14 +32,17 @@ public class TimeLine : MonoBehaviour {
 		Events.AddKeyFrameExpression += AddKeyFrameExpression;
 		Events.OnCharacterSay += OnCharacterSay;
 		Events.AddNewScene += AddNewScene;
-	}
+        Events.OnActivateScene += OnActivateScene;
+
+    }
 	public ScenesTimeline GetActiveScenesTimeline()
 	{
 		return scenesTimeline [scenesManager.sceneActive.id];
 	}
 	void AddNewScene(int id, int backgroundID)
 	{
-		ScenesTimeline st = new ScenesTimeline ();
+        timer = 0;
+        ScenesTimeline st = new ScenesTimeline ();
 		st.keyframes = new List<KeyframeBase> ();
 		st.id = id;
 		scenesTimeline.Add (st);
@@ -129,7 +133,15 @@ public class TimeLine : MonoBehaviour {
 	{
 		if (uiTimeline.state == UITimeline.states.PLAYING || uiTimeline.state == UITimeline.states.RECORDING) {
 			timer += Time.deltaTime;
-			foreach (KeyframeBase keyFrame in GetActiveScenesTimeline().keyframes) {
+            ScenesTimeline scenesTimeline = GetActiveScenesTimeline();
+            if (activeSceneID != scenesTimeline.id)
+            {
+                print("CAMBIA de " + activeSceneID + " a " + scenesTimeline.id);
+                Events.OnActivateScene(scenesTimeline.id);
+                activeSceneID = scenesTimeline.id;
+            }
+
+            foreach (KeyframeBase keyFrame in scenesTimeline.keyframes) {
 				if (keyFrame.time <= timer && keyFrame.played == false) {
 					SetActiveKeyFrame (keyFrame);
 					keyFrame.played = true;
@@ -137,7 +149,13 @@ public class TimeLine : MonoBehaviour {
 			}
 		}
 	}
-	void SetActiveKeyFrame(KeyframeBase keyFrame)
+    void OnActivateScene(int id)
+    {
+        timer = 0;
+        activeSceneID = id;
+    }
+
+    void SetActiveKeyFrame(KeyframeBase keyFrame)
 	{		
 		if (keyFrame.avatar != null) {
 			KeyframeAvatar keyframeAvatar = keyFrame.avatar;
@@ -203,8 +221,25 @@ public class TimeLine : MonoBehaviour {
 	}
 	public void JumpTo(float _timer)
 	{
-		//World.Instance.charactersManager.RestartScene ();
-		foreach (Character character in World.Instance.scenesManager.sceneActive.characters) {
+        int newSceneActiveID = 0;
+        foreach (ScenesTimeline s in scenesTimeline)
+        {
+            foreach (KeyframeBase keyFrame in s.keyframes)
+            {
+                if (keyFrame.time <= _timer)
+                    newSceneActiveID = s.id;
+            }
+        }
+       
+        if (activeSceneID != newSceneActiveID)
+        {
+            print("CAMBIA de " + activeSceneID + " a " + newSceneActiveID);
+            activeSceneID = newSceneActiveID;
+            Events.OnActivateScene(activeSceneID);
+           
+        }
+
+        foreach (Character character in World.Instance.scenesManager.sceneActive.characters) {
 			charactersManager.PositionateCharacter (character.id, GetLastPositionInTime (character.id, _timer));
 		}
 	}

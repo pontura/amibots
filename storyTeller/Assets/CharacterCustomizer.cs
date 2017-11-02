@@ -49,11 +49,11 @@ public class CharacterCustomizer : MonoBehaviour {
 	}
 	void OnCustomize(int characterID, parts part, string newImage) {
 
-		print ("___________: part: " + part + " new image: " + newImage);
+	//	print ("___________: part: " + part + " new image: " + newImage);
 
 		if(characterID == character.id)
 		{
-			print (characterID + " : " + part);
+			//print (characterID + " : " + part);
 
 			if (part == parts.LEGS) {
 				string part_url2 = "customizer/CLOTHES/bottom/" + newImage + "_leg_mesh";

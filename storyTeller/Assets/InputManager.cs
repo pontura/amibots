@@ -9,6 +9,7 @@ public class InputManager : MonoBehaviour
 {
     public states state;
 	ScenesManager scenesManager;
+    Camera c;
 
     public enum states
     {
@@ -21,8 +22,15 @@ public class InputManager : MonoBehaviour
 	void Start()
 	{
 		scenesManager = GetComponent<ScenesManager> ();
-	}
-	bool CanCompute()
+        Events.OnChangeBackground += OnChangeBackground;
+
+    }
+    void OnChangeBackground(int id)
+    {
+        c = World.Instance.scenesManager.sceneActive.cam;
+    }
+
+    bool CanCompute()
 	{
 		if (EventSystem.current.currentSelectedGameObject != null)
 			return false;
