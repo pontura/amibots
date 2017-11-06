@@ -52,10 +52,8 @@ public class UISmallTimeline : MonoBehaviour {
 		panel.SetActive (true);
 	}
 
-	void Update () {
-		if (uiTimeline.state == UITimeline.states.PLAYING || uiTimeline.state == UITimeline.states.RECORDING) {
-			slider.value = uiTimeline.timer / duration;
-		}
+	public void UpdatedByUITimeline () {
+		slider.value = uiTimeline.timer / duration;
 	}
 	void OnTimelineUpdated()
 	{

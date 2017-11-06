@@ -10,7 +10,8 @@ public class UITimeline : MonoBehaviour {
 	{
 		STOPPED,
 		RECORDING,
-		PLAYING
+		PLAYING,
+		PLAY_ALL
 	}
 
 	public Button RecButton;
@@ -28,7 +29,6 @@ public class UITimeline : MonoBehaviour {
 	public Text buttonField;
 	public Text buttonPlayField;
 	public float timer = 0;
-	float timelineDuration;
 	public UISmallTimeline uiSmallTimeline;
 
 	void Start () {
@@ -43,6 +43,7 @@ public class UITimeline : MonoBehaviour {
 		Events.AddCharacter += AddCharacter;
         Events.AddNewScene += AddNewScene;
         Events.OnActivateScene += OnActivateScene;
+		Events.OnPlaying += OnPlaying;
     }
 	void OnDestroy () {
 		SetTimerField ();
@@ -50,7 +51,24 @@ public class UITimeline : MonoBehaviour {
 		Events.AddCharacter -= AddCharacter;
         Events.AddNewScene -= AddNewScene;
         Events.OnActivateScene -= OnActivateScene;
+		Events.OnPlaying -= OnPlaying;
     }
+	void OnPlaying(bool isPlaying)
+	{
+		if (!isPlaying) {
+			bgImage.color = colorStopped;
+			RecButton.interactable = true;
+			buttonPlayField.text = "PLAY";
+			state = states.STOPPED;
+		} else {
+			bgImage.color = colorPlaying;
+			//timelineDuration = World.Instance.timeLine.GetDuration();
+			RecButton.interactable = false;
+			buttonPlayField.text = "STOP";
+			state = states.PLAYING;
+		}
+		SetTimerField ();
+	}
     void AddNewScene(int sceneID, int bg)
     {
         ResetAll();
@@ -129,25 +147,15 @@ public class UITimeline : MonoBehaviour {
 			state = states.STOPPED;
 		
 		if (state == states.PLAYING) {
-			bgImage.color = colorPlaying;
-			timelineDuration = World.Instance.timeLine.GetDuration();
-			RecButton.interactable = false;
-			buttonPlayField.text = "STOP";
 			Events.OnPlaying (true);
 		} else {
-			bgImage.color = colorStopped;
-			RecButton.interactable = true;
-			buttonPlayField.text = "PLAY";
 			Events.OnPlaying (false);
 		} 
-		SetTimerField ();
 	}
 	void Update () {
-		if (state == states.PLAYING && timer>timelineDuration) {
-			PlayToggle ();
-		}
 		if (state == states.STOPPED)
 			return;
+		uiSmallTimeline.UpdatedByUITimeline ();
 		timer += Time.deltaTime;
 		SetTimerField ();
 	}
@@ -157,6 +165,17 @@ public class UITimeline : MonoBehaviour {
 		int seconds = Mathf.FloorToInt(timer-minutes*60)%60;
 		int milliseconds = Mathf.FloorToInt( (timer-(minutes)*60) *60)%100;
 		timeField.text = string.Format ("{0:00}:{1:00}:{2:00}", minutes, seconds, milliseconds);
+	}
+	public void PlayAllClicked()
+	{
+		ResetAll ();
+		World.Instance.timeLine.PlayAll ();
+		state = states.PLAY_ALL;
+		Events.OnPlaying (true);
+	}
+	public void StopPlaying()
+	{
+		state = states.STOPPED;
 	}
 
 }

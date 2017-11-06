@@ -18,12 +18,14 @@ public class TimeLine : MonoBehaviour {
 	CharactersManager charactersManager;
 	public UITimeline uiTimeline;
     public int activeSceneID;
+	float fullDuration;
 
 	void Start () {
 		scenesManager = GetComponent<ScenesManager> ();
 		scenesTimeline = new List<ScenesTimeline> ();
 		charactersManager = World.Instance.charactersManager;
 		Events.OnCharacterReachTile += OnCharacterReachTile;
+		Events.AddCharacter += AddCharacter;
 		Events.AddKeyFrameNewCharacter += AddKeyFrameNewCharacter;
 		Events.OnRecording += OnRecording;
 		Events.OnPlaying += OnPlaying;
@@ -35,6 +37,10 @@ public class TimeLine : MonoBehaviour {
         Events.OnActivateScene += OnActivateScene;
 
     }
+	void AddCharacter(int id)
+	{
+		print ("AddCharacter");
+	}
 	public ScenesTimeline GetActiveScenesTimeline()
 	{
 		return scenesTimeline [scenesManager.sceneActive.id];
@@ -64,8 +70,10 @@ public class TimeLine : MonoBehaviour {
 		GetActiveScenesTimeline().keyframes.Add (keyframe);
 	}
 	void OnRecording(bool isRecording)
-	{		
+	{			
+		print ("OnRecording " + isRecording);	
 		if (isRecording) {
+			
 			int selectedAvatarID = charactersManager.selectedCharacter.id;
 			RemoveLaterKeyFramesFor (selectedAvatarID);
 
@@ -73,7 +81,7 @@ public class TimeLine : MonoBehaviour {
 				KeyframeBase keyframe = GetNewKeyframeAvatar (character);
 				if (keyframe == null)
 					return;
-				GetActiveScenesTimeline().keyframes.Add (keyframe);
+				GetActiveScenesTimeline ().keyframes.Add (keyframe);
 			}
 		}
 		Events.OnTimelineUpdated ();
@@ -124,19 +132,23 @@ public class TimeLine : MonoBehaviour {
 
 	void OnPlaying(bool isPlaying) 
 	{
-		timer = uiTimeline.timer;
-		foreach (KeyframeBase keyFrame in GetActiveScenesTimeline().keyframes)
-			keyFrame.played = false;
+		if (isPlaying) {
+			fullDuration = GetDuration ();		
+			timer = uiTimeline.timer;	
+			foreach (KeyframeBase keyFrame in GetActiveScenesTimeline().keyframes)
+				keyFrame.played = false;
+		}
 	}
 
 	void Update()
 	{
-		if (uiTimeline.state == UITimeline.states.PLAYING || uiTimeline.state == UITimeline.states.RECORDING) {
+		if (uiTimeline.state == UITimeline.states.PLAY_ALL || 
+			uiTimeline.state == UITimeline.states.PLAYING  || 
+			uiTimeline.state == UITimeline.states.RECORDING) {
 			timer += Time.deltaTime;
             ScenesTimeline scenesTimeline = GetActiveScenesTimeline();
             if (activeSceneID != scenesTimeline.id)
             {
-                print("CAMBIA de " + activeSceneID + " a " + scenesTimeline.id);
                 Events.OnActivateScene(scenesTimeline.id);
                 activeSceneID = scenesTimeline.id;
             }
@@ -146,6 +158,9 @@ public class TimeLine : MonoBehaviour {
 					SetActiveKeyFrame (keyFrame);
 					keyFrame.played = true;
 				}
+			}
+			if (uiTimeline.state == UITimeline.states.PLAYING && timer >= fullDuration) {
+				Events.OnPlaying (false);
 			}
 		}
 	}
@@ -215,8 +230,8 @@ public class TimeLine : MonoBehaviour {
 	public void FastForward()
 	{
 		foreach (Character character in World.Instance.scenesManager.sceneActive.characters) {
-			float duration = GetDuration ();
-			charactersManager.PositionateCharacter (character.id, GetLastPositionInTime (character.id, duration));
+			float _duration = GetDuration ();
+			charactersManager.PositionateCharacter (character.id, GetLastPositionInTime (character.id, _duration));
 		}
 	}
 	public void JumpTo(float _timer)
@@ -245,12 +260,12 @@ public class TimeLine : MonoBehaviour {
 	}
 	public float GetDuration()
 	{
-		float duration = 0;
+		float _duration = 0;
 		foreach (KeyframeBase keyFrame in GetActiveScenesTimeline().keyframes) {
-			if (keyFrame.time > duration)
-				duration = keyFrame.time;
+			if (keyFrame.time > _duration)
+				_duration = keyFrame.time;
 		}
-		return duration;
+		return _duration;
 	}
 	Vector3 GetLastPositionInTime(int characterID, float time)
 	{
@@ -260,5 +275,10 @@ public class TimeLine : MonoBehaviour {
 				pos = keyFrame.pos;
 		}
 		return pos;
+	}
+	public void PlayAll()
+	{
+		timer = 0;
+		activeSceneID = 0;
 	}
 }
