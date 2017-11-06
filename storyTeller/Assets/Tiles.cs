@@ -8,8 +8,8 @@ public class Tiles : MonoBehaviour {
 	public List<Tile> tiles;
 	public Tile tile;
 	public SceneIngame sceneInGame;
-	int tilesWidth = 30;
-	int tilesWHeight = 10;
+	int tilesWidth = 14;
+	int tilesWHeight = 8;
 	float[,] tilesmap;
 	public List<Point> path;
 	NesScripts.Controls.PathFind.Grid grid;

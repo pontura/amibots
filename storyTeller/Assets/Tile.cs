@@ -11,7 +11,7 @@ public class Tile : MonoBehaviour {
 	public void Init(bool isWalkable, Vector3 pos)
 	{
 		meshRenderer = GetComponent<MeshRenderer> ();
-		meshRenderer.enabled = false;
+		//meshRenderer.enabled = false;
 		//material.
 		this.isWalkable = isWalkable;
 		transform.localPosition = pos;
