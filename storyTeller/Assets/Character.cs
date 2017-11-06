@@ -49,7 +49,7 @@ public class Character : MonoBehaviour {
 			allParts.Add(sr.gameObject);
 			orders.Add (sr.sortingOrder);
 		}
-
+		Invoke("ReorderInLayers",0.05f);
 	}
     void Update()
     {

@@ -17,6 +17,7 @@ public class SceneObject : MonoBehaviour {
 	void Start()
 	{
 		OnStart ();
+		ReorderInLayers ();
 	}
 	public void Init(SceneObjectData data, Vector2 pos)
 	{
