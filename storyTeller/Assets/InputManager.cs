@@ -27,7 +27,7 @@ public class InputManager : MonoBehaviour
     }
     void OnChangeBackground(int id)
     {
-        c = World.Instance.scenesManager.sceneActive.cam;
+        c = World.Instance.scenesManager.cam;
     }
 
     bool CanCompute()
@@ -52,7 +52,7 @@ public class InputManager : MonoBehaviour
 #if UNITY_EDITOR
 		if (Input.GetMouseButtonUp(0)) {
 			RaycastHit hit;
-			Ray ray = scenesManager.sceneActive.cam.ScreenPointToRay (Input.mousePosition);
+			Ray ray = scenesManager.cam.ScreenPointToRay (Input.mousePosition);
 			if (Physics.Raycast (ray, out hit))
 			if (hit.collider != null && hit.collider.gameObject.tag == "Tile")
 			{

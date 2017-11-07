@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CameraInScene : MonoBehaviour {
 
+    public RenderTexture renderTexture;
     public float smooth;
     public Vector3 offsetPos;
     private Camera camera_in_scene;
@@ -13,6 +14,14 @@ public class CameraInScene : MonoBehaviour {
 
 	void Start () {
         camera_in_scene = GetComponent<Camera>();
+    }
+    public void SetFilming(bool isFilming)
+    {
+        print("SetFilming " + isFilming);
+        if (isFilming)
+            camera_in_scene.targetTexture = renderTexture;
+        else
+            camera_in_scene.targetTexture = null;
     }
 	
 	// Update is called once per frame

@@ -71,7 +71,7 @@ public class Character : MonoBehaviour {
     public void Init(int id)
     {
         this.id = id;
-		lookAtTarget = World.Instance.scenesManager.sceneActive.cam.transform.localPosition;
+		lookAtTarget = World.Instance.scenesManager.cam.transform.localPosition;
     }
 	int pathStep;
 	List<Point> points;

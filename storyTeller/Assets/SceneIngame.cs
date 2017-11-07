@@ -12,8 +12,7 @@ public class SceneIngame : MonoBehaviour {
 	public Transform sceneObjects;
 	public SpriteRenderer background;
 	public HiResScreenshots screenshot;
-
-	public Camera cam;
+    
 
 	public void ChangeBackground(int backgroundID)
 	{
@@ -24,7 +23,6 @@ public class SceneIngame : MonoBehaviour {
 	}
 	void TakePicture()
 	{
-		print ("TakePicture" + id);
 		screenshot.TakeScreenshot (id);
 	}
 }

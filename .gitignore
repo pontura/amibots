@@ -1,1 +1,5 @@
 *.apk
+storyTeller/.vs/storyTeller/v15/Server/sqlite3/storage.ide-wal
+storyTeller/.vs/storyTeller/v15/Server/sqlite3/storage.ide-shm
+storyTeller/.vs/storyTeller/v15/Server/sqlite3/storage.ide
+storyTeller/.vs/storyTeller/v15/Server/sqlite3/db.lock

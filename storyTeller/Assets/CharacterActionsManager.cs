@@ -18,6 +18,7 @@ public class CharacterActionsManager : MonoBehaviour {
 		ResetAnim ();
 	}
 	public void Set(string newAction) {
+
 		character.Reset ();
 
         action = newAction;

@@ -8,12 +8,13 @@ public class ScenesManager : MonoBehaviour {
 	public Transform container;
 	public List<SceneIngame> scenesIngame;
 	public SceneIngame sceneActive;
+    public Camera cam;
 	void Start()
 	{
 		Events.AddNewScene += AddNewScene;
 		Events.OnActivateScene += OnActivateScene;
 	}
-	void OnActivateScene(int id)
+	public void OnActivateScene(int id)
 	{
 		sceneActive = scenesIngame [id];
 		Activate ();

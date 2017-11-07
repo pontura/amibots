@@ -168,11 +168,17 @@ public class UITimeline : MonoBehaviour {
 	}
 	public void PlayAllClicked()
 	{
-		ResetAll ();
-		World.Instance.timeLine.PlayAll ();
-		state = states.PLAY_ALL;
-		Events.OnPlaying (true);
+        Events.OnPlaying(true);
+        Events.OnActivateScene(0);
+        Invoke("AAA", 0.5f);
 	}
+    void AAA()
+    {
+        state = states.PLAY_ALL;
+        print("AAA");
+        World.Instance.timeLine.PlayAll();
+        GetComponent<UIPreview>().Init();       
+    }
 	public void StopPlaying()
 	{
 		state = states.STOPPED;
