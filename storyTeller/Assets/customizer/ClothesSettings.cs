@@ -34,7 +34,7 @@ public class ClothesSettings : MonoBehaviour {
 			string n = arrString [0] + "_" + arrString [1] + "_" + arrString [2];
 			if (n != lastClothAdded) {
 				lastClothAdded = n;
-				arrayNew.Add( n);
+				arrayNew.Add(n);
 			}
 		}
 		return arrayNew;
