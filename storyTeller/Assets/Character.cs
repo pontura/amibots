@@ -6,8 +6,9 @@ using Anima2D;
 
 public class Character : MonoBehaviour {
 
-    public GameObject avatar_to_instantiate;
-    public GameObject avatar;
+    public Avatar avatar_to_instantiate;
+    [HideInInspector]
+    public Avatar avatar;
 	public float speed;
     public int id;
     public bool isEditorCharacter;
@@ -57,7 +58,8 @@ public class Character : MonoBehaviour {
 			orders.Add (sr.sortingOrder);
 		}
 		Invoke("ReorderInLayers",0.05f);
-	}
+
+    }
     void Update()
     {
 		if (newPos == Vector3.zero)

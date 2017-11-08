@@ -4,24 +4,7 @@ using UnityEngine;
 using Anima2D;
 
 public class CharacterCustomizer : MonoBehaviour {
-
-	public SpriteMeshInstance arm1;
-	public SpriteMeshInstance arm2;
-
-	public SpriteMeshInstance body_up;
-	public SpriteMeshInstance body_bottom;
-
-	public SpriteMeshInstance leg1;
-	public SpriteMeshInstance leg2;
-
-	public SpriteRenderer brazo;
-
-    public SpriteRenderer visor;
-	public SpriteRenderer pupil;
-	public SpriteRenderer eyeball;
-
-	public SpriteRenderer shoesContainer;
-
+    
     public parts part;
 	public string value;
 	Character character;
@@ -39,7 +22,7 @@ public class CharacterCustomizer : MonoBehaviour {
 		character = GetComponent<Character> ();
 		Events.OnCustomize += OnCustomize;
     }
-	void OnDestroy () {
+    void OnDestroy () {
 		Events.OnCustomize -= OnCustomize;
 	}
 	public void OnChangeExpression(string value)
@@ -57,34 +40,36 @@ public class CharacterCustomizer : MonoBehaviour {
 
 			if (part == parts.LEGS) {
 				string part_url2 = "customizer/CLOTHES/bottom/" + newImage + "_leg_mesh";
-				leg1.spriteMesh = Resources.Load (part_url2, typeof(SpriteMesh)) as SpriteMesh;
-				leg2.spriteMesh = Resources.Load (part_url2, typeof(SpriteMesh)) as SpriteMesh;
+				character.avatar.leg1.spriteMesh = Resources.Load (part_url2, typeof(SpriteMesh)) as SpriteMesh;
+                character.avatar.leg2.spriteMesh = Resources.Load (part_url2, typeof(SpriteMesh)) as SpriteMesh;
 
 				part_url2 = "customizer/CLOTHES/bottom/" + newImage + "_hips_mesh";
-				body_bottom.spriteMesh = Resources.Load (part_url2, typeof(SpriteMesh)) as SpriteMesh;
+                character.avatar.body_bottom.spriteMesh = Resources.Load (part_url2, typeof(SpriteMesh)) as SpriteMesh;
 				//brazo2.spriteMesh = mesh2;
 				return;
 			} else if (part == parts.CLOTHES) {
 				string part_url2 = "customizer/CLOTHES/top/" + newImage + "_arm_mesh";
-				arm1.spriteMesh = Resources.Load (part_url2, typeof(SpriteMesh)) as SpriteMesh;
-				arm2.spriteMesh = Resources.Load (part_url2, typeof(SpriteMesh)) as SpriteMesh;
+                character.avatar.arm1.spriteMesh = Resources.Load (part_url2, typeof(SpriteMesh)) as SpriteMesh;
+                character.avatar.arm2.spriteMesh = Resources.Load (part_url2, typeof(SpriteMesh)) as SpriteMesh;
 
-				part_url2 = "customizer/CLOTHES/top/" + newImage + "_torax_mesh";
-				body_up.spriteMesh = Resources.Load (part_url2, typeof(SpriteMesh)) as SpriteMesh;
-				//brazo2.spriteMesh = mesh2;
-				return;
+                string part_url_a = "customizer/CLOTHES/top/" + newImage + "_torax_a";
+                string part_url_b = "customizer/CLOTHES/top/" + newImage + "_torax_b";
+                character.avatar.body_up_a.spriteMesh = Resources.Load (part_url_a, typeof(SpriteMesh)) as SpriteMesh;
+                character.avatar.body_up_b.spriteMesh = Resources.Load(part_url_b, typeof(SpriteMesh)) as SpriteMesh;
+                //brazo2.spriteMesh = mesh2;
+                return;
 			}
 
 			string part_url = "customizer/" + part.ToString() + "/" + newImage;
 
-			brazo.sprite = Resources.Load(part_url, typeof(Sprite)) as Sprite;
+			//brazo.sprite = Resources.Load(part_url, typeof(Sprite)) as Sprite;
 			return;
 
 
 			SpriteRenderer thisPart = null;
 			switch (part) {
 			case parts.FOOTS:
-				thisPart = shoesContainer;
+				//thisPart = shoesContainer;
 				break;
 			}
 			if (thisPart == null) {
@@ -92,7 +77,7 @@ public class CharacterCustomizer : MonoBehaviour {
 				return;
 			}
 			print ("carga:  " + part_url);
-			brazo.sprite = Resources.Load(part_url, typeof(Sprite)) as Sprite;
+			//brazo.sprite = Resources.Load(part_url, typeof(Sprite)) as Sprite;
 		}
     }
 }
