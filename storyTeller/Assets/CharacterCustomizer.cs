@@ -39,11 +39,11 @@ public class CharacterCustomizer : MonoBehaviour {
 			//print (characterID + " : " + part);
 
 			if (part == parts.LEGS) {
-				string part_url2 = "customizer/CLOTHES/bottom/" + newImage + "_leg_mesh";
+				string part_url2 = "customizer/CLOTHES/bottom/" + newImage + "_leg";
 				character.avatar.leg1.spriteMesh = Resources.Load (part_url2, typeof(SpriteMesh)) as SpriteMesh;
                 character.avatar.leg2.spriteMesh = Resources.Load (part_url2, typeof(SpriteMesh)) as SpriteMesh;
 
-				part_url2 = "customizer/CLOTHES/bottom/" + newImage + "_hips_mesh";
+				part_url2 = "customizer/CLOTHES/bottom/" + newImage + "_hips";
                 character.avatar.body_bottom.spriteMesh = Resources.Load (part_url2, typeof(SpriteMesh)) as SpriteMesh;
 				//brazo2.spriteMesh = mesh2;
 				return;
