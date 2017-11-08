@@ -39,18 +39,20 @@ public class CharacterCustomizer : MonoBehaviour {
 			//print (characterID + " : " + part);
 
 			if (part == parts.LEGS) {
-				string part_url2 = "customizer/CLOTHES/bottom/" + newImage + "_leg";
-				character.avatar.leg1.spriteMesh = Resources.Load (part_url2, typeof(SpriteMesh)) as SpriteMesh;
-                character.avatar.leg2.spriteMesh = Resources.Load (part_url2, typeof(SpriteMesh)) as SpriteMesh;
+				string part_url2_a = "customizer/CLOTHES/bottom/" + newImage + "_leg_a";
+                string part_url2_b = "customizer/CLOTHES/bottom/" + newImage + "_leg_b";
+                character.avatar.leg1.spriteMesh = Resources.Load (part_url2_a, typeof(SpriteMesh)) as SpriteMesh;
+                character.avatar.leg2.spriteMesh = Resources.Load (part_url2_b, typeof(SpriteMesh)) as SpriteMesh;
 
-				part_url2 = "customizer/CLOTHES/bottom/" + newImage + "_hips";
-                character.avatar.body_bottom.spriteMesh = Resources.Load (part_url2, typeof(SpriteMesh)) as SpriteMesh;
+				string part2_url = "customizer/CLOTHES/bottom/" + newImage + "_hips";
+                character.avatar.body_bottom.spriteMesh = Resources.Load (part2_url, typeof(SpriteMesh)) as SpriteMesh;
 				//brazo2.spriteMesh = mesh2;
 				return;
 			} else if (part == parts.CLOTHES) {
-				string part_url2 = "customizer/CLOTHES/top/" + newImage + "_arm_mesh";
-                character.avatar.arm1.spriteMesh = Resources.Load (part_url2, typeof(SpriteMesh)) as SpriteMesh;
-                character.avatar.arm2.spriteMesh = Resources.Load (part_url2, typeof(SpriteMesh)) as SpriteMesh;
+				string part3_url_a = "customizer/CLOTHES/top/" + newImage + "_arm_a";
+                string part3_url_b= "customizer/CLOTHES/top/" + newImage + "_arm_b";
+                character.avatar.arm1.spriteMesh = Resources.Load (part3_url_a, typeof(SpriteMesh)) as SpriteMesh;
+                character.avatar.arm2.spriteMesh = Resources.Load (part3_url_b, typeof(SpriteMesh)) as SpriteMesh;
 
                 string part_url_a = "customizer/CLOTHES/top/" + newImage + "_torax_a";
                 string part_url_b = "customizer/CLOTHES/top/" + newImage + "_torax_b";
