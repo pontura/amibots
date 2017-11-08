@@ -6,12 +6,12 @@ using Anima2D;
 
 public class Character : MonoBehaviour {
 
+    public GameObject avatar_to_instantiate;
+    public GameObject avatar;
 	public float speed;
     public int id;
     public bool isEditorCharacter;
-
-    public GameObject allBody;
-
+    
 	Animation anim;
     public bool falled;
 	List<int> orders;
@@ -35,13 +35,20 @@ public class Character : MonoBehaviour {
         actions = GetComponent<CharacterActionsManager>();
 		chatLine = GetComponent<CharacterChatLine> ();
 		customizer = GetComponent<CharacterCustomizer> ();
+        
     }
 	void Start()
 	{
-		allParts = new List<GameObject> ();
+        avatar = Instantiate(avatar_to_instantiate);
+        avatar.transform.SetParent(transform);
+        avatar.transform.localScale = Vector3.one;
+        avatar.transform.localPosition = Vector3.zero;
+        avatar.transform.localEulerAngles = Vector3.zero;
+        allParts = new List<GameObject> ();
 		orders = new List<int> ();
+        actions.Init();
 
-		foreach (SpriteRenderer sr in GetComponentsInChildren<SpriteRenderer>()) {
+        foreach (SpriteRenderer sr in GetComponentsInChildren<SpriteRenderer>()) {
 			allParts.Add(sr.gameObject);	
 			orders.Add (sr.sortingOrder);
 		}
@@ -98,11 +105,11 @@ public class Character : MonoBehaviour {
 	Vector3 newPos;
 	public void Move(Vector3 _newPos)
 	{
-		Vector3 newScale = allBody.transform.localScale;
-		if ((_newPos.x > transform.position.x && allBody.transform.localScale.x>0) || (_newPos.x < transform.position.x && allBody.transform.localScale.x<0)) {
+		Vector3 newScale = avatar.transform.localScale;
+		if ((_newPos.x > transform.position.x && avatar.transform.localScale.x>0) || (_newPos.x < transform.position.x && avatar.transform.localScale.x<0)) {
 			newScale.x *= -1;
 		}
-		allBody.transform.localScale = newScale;
+        avatar.transform.localScale = newScale;
 		newPos = _newPos;
 	}
 	public void Reset()

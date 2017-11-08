@@ -5,17 +5,19 @@ using UnityEngine;
 public class CharacterActionsManager : MonoBehaviour {
 
     public string action;
-	public Animator anim;
+	Animator anim;
 	Character character;
 
     void Awake()
     {
 		character = GetComponent<Character> ();
-		action = "IDLE";
+        
+        action = "IDLE";
     }
-	void Start()
+	public void Init()
 	{
-		ResetAnim ();
+        anim = character.avatar.GetComponentInChildren<Animator>();
+        ResetAnim ();
 	}
 	public void Set(string newAction) {
 
@@ -83,9 +85,9 @@ public class CharacterActionsManager : MonoBehaviour {
 	}
 	void Turn()
 	{
-		Vector3 scale= character.allBody.transform.localScale;
+		Vector3 scale= character.avatar.transform.localScale;
 		scale.x *= -1;
-		character.allBody.transform.localScale = scale;
+		character.avatar.transform.localScale = scale;
 	}
 	void PlayAnim(string animName)
 	{
