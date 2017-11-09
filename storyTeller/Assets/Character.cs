@@ -7,6 +7,7 @@ using Anima2D;
 public class Character : MonoBehaviour {
 
     public Avatar avatar_to_instantiate;
+    CharacterSelector characterSelector;
     [HideInInspector]
     public Avatar avatar;
 	public float speed;
@@ -36,7 +37,11 @@ public class Character : MonoBehaviour {
         actions = GetComponent<CharacterActionsManager>();
 		chatLine = GetComponent<CharacterChatLine> ();
 		customizer = GetComponent<CharacterCustomizer> ();
-        
+        characterSelector = GetComponent<CharacterSelector>();
+    }
+    public void SetSelected(bool isSelected)
+    {
+        characterSelector.SetState(isSelected);
     }
 	void Start()
 	{

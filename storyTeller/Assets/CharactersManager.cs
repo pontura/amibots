@@ -78,6 +78,14 @@ public class CharactersManager : MonoBehaviour
         selectedCharacter = GetCharacter(id);
         if (selectedCharacter)
             Events.OnSelectCharacter(selectedCharacter);
+
+        foreach (Character character in scenesManager.sceneActive.characters)
+        {
+            if(character == selectedCharacter)
+                character.SetSelected(true);
+            else
+                character.SetSelected(false);
+        }
     }
 	void OnCharacterAction(string value)
     {
