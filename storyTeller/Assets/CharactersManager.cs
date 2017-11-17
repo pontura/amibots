@@ -66,8 +66,19 @@ public class CharactersManager : MonoBehaviour
 	void ClickedOn(Tile tile)
 	{		
 		if (selectedCharacter && tile != null && !uiDragItem.isDragging) {
-			
-			if (isRecording && selectedCharacter != null)
+
+            foreach (Character character in scenesManager.sceneActive.characters)
+            {
+                if (Mathf.Round(character.transform.position.x) == Mathf.Round(tile.transform.position.x)
+                    &&
+                   Mathf.Round(character.transform.position.z) == Mathf.Round(tile.transform.position.z))
+                    {
+                    OnSelectCharacterID(character.id);
+                    return;
+                }
+            }
+
+            if (isRecording && selectedCharacter != null)
 				Events.AddKeyFrameMove (selectedCharacter, tile.transform.position);
 
 			MoveCharacter (selectedCharacter.id,  tile.transform.position);

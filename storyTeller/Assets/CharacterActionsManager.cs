@@ -5,8 +5,9 @@ using UnityEngine;
 public class CharacterActionsManager : MonoBehaviour {
 
     public string action;
-	Animator anim;
-	Character character;
+    public Animator anim;
+    public Animator expressionsAnim;
+    Character character;
 
     void Awake()
     {
@@ -16,7 +17,8 @@ public class CharacterActionsManager : MonoBehaviour {
     }
 	public void Init()
 	{
-        anim = character.avatar.GetComponentInChildren<Animator>();
+        anim = character.avatar.actionsAnim;
+        expressionsAnim = character.avatar.expressionsAnim;
         ResetAnim ();
 	}
 	public void Set(string newAction) {
@@ -83,7 +85,14 @@ public class CharacterActionsManager : MonoBehaviour {
 		action = "IDLE";
 		Idle ();
 	}
-	void Turn()
+    public void SetExpression( string value)
+    {
+        print("SetExpression " + value);
+        expressionsAnim.Play(value);
+        //action = "IDLE";
+       // Idle();
+    }
+    void Turn()
 	{
 		Vector3 scale= character.avatar.transform.localScale;
 		scale.x *= -1;

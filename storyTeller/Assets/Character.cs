@@ -63,7 +63,7 @@ public class Character : MonoBehaviour {
 			orders.Add (sr.sortingOrder);
 		}
 		Invoke("ReorderInLayers",0.05f);
-
+        customizer.Init();
     }
     void Update()
     {
@@ -86,6 +86,7 @@ public class Character : MonoBehaviour {
     {
         this.id = id;
 		lookAtTarget = World.Instance.scenesManager.cam.transform.localPosition;
+        
     }
 	int pathStep;
 	List<Point> points;

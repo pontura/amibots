@@ -5,6 +5,8 @@ using Anima2D;
 
 public class Avatar : MonoBehaviour {
 
+    public Animator actionsAnim;
+    public Animator expressionsAnim;
 
     public SpriteMeshInstance arm1;
     public SpriteMeshInstance arm2;
