@@ -65,7 +65,8 @@ public class CharacterActionsManager : MonoBehaviour {
 	public void Lol()
 	{
 		PlayAnim("lol");
-	}
+        expressionsAnim.Play("happy");
+    }
 	public void Grr()
 	{
 		PlayAnim("grrr");
@@ -73,7 +74,8 @@ public class CharacterActionsManager : MonoBehaviour {
 	public void Wow()
 	{
 		PlayAnim("wow");
-	}
+        expressionsAnim.Play("what");
+    }
 	void Hello()
 	{
 		PlayAnim("wow");

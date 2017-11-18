@@ -4,17 +4,27 @@ using UnityEngine;
 
 public class SceneObjectsManager : MonoBehaviour {
 
-	public SceneObject[] all;
+	public List<SceneObject> all;
 	public UIDragItem uiDragItem;
 
 	void Start () {
 		Events.AddGenericObject += AddGenericObject;
-	//	Events.ClickedOn += ClickedOn;
-	}
-	void AddGenericObject (SceneObjectData data, Vector2 pos) {
+        Events.ClickedOnSceneObject += ClickedOnSceneObject;
+    //	Events.ClickedOn += ClickedOn;
+    }
+    void ClickedOnSceneObject(SceneObject so)
+    {
+        print("so " + so);
+        Events.OnDrag(so.data);
+        all.Remove(so);
+        Destroy(so.gameObject);
+    }
+
+    void AddGenericObject (SceneObjectData data, Vector2 pos) {
 		GenericObject go = GetGenericObjectByName (data.sceneObjectName);
 		SceneObject newGenericObject = Instantiate ( go );
-		newGenericObject.transform.SetParent (World.Instance.scenesManager.sceneActive.sceneObjects);
+        newGenericObject.data = data;
+        newGenericObject.transform.SetParent (World.Instance.scenesManager.sceneActive.sceneObjects);
 		newGenericObject.Init (data, pos);
 		newGenericObject.transform.localEulerAngles = new Vector3 (90+20, 0, 0);
 	}

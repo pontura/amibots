@@ -53,11 +53,13 @@ public class InputManager : MonoBehaviour
 		if (Input.GetMouseButtonUp(0)) {
 			RaycastHit hit;
 			Ray ray = scenesManager.cam.ScreenPointToRay (Input.mousePosition);
-			if (Physics.Raycast (ray, out hit))
-			if (hit.collider != null && hit.collider.gameObject.tag == "Tile")
-			{
-				Events.ClickedOn (hit.collider.gameObject.GetComponent<Tile>());
-			}
+            if (Physics.Raycast(ray, out hit))
+                print("tag: " + hit.collider.gameObject.tag);
+                if (hit.collider != null && hit.collider.gameObject.tag == "SceneObject")
+                    Events.ClickedOnSceneObject(hit.collider.gameObject.GetComponentInParent<SceneObject>());
+                else
+                if (hit.collider != null && hit.collider.gameObject.tag == "Tile")
+				    Events.ClickedOn (hit.collider.gameObject.GetComponent<Tile>());
 		}
 #else
         if (Input.touchCount > 0)
