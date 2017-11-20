@@ -11,6 +11,7 @@ public class World : MonoBehaviour {
 	public CharactersManager charactersManager;
 	public ScenesManager scenesManager;
     static World mInstance = null;
+    public WorldStates worldStates;
 
     public static World Instance
     {
@@ -26,5 +27,6 @@ public class World : MonoBehaviour {
 		timeLine = GetComponent<TimeLine> ();
 		charactersManager =  GetComponent<CharactersManager> ();
 		scenesManager = GetComponent<ScenesManager> ();
+        worldStates = GetComponent<WorldStates>();
     }
 }

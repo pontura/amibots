@@ -16,8 +16,14 @@ public class UIDragItem : MonoBehaviour {
 	}
 	void Update()
 	{
-		if (isDragging)
-			dragItem.transform.position = Input.mousePosition;
+        if (isDragging)
+        {
+            dragItem.transform.position = Input.mousePosition;
+            if(dragItem.transform.position.x < 100 || dragItem.transform.position.y < 20)
+            {
+                OnEndDrag();
+            }
+        }
 	}
 	void ClickedOn(Tile tile)
 	{

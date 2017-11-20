@@ -14,10 +14,13 @@ public class SceneObjectsManager : MonoBehaviour {
     }
     void ClickedOnSceneObject(SceneObject so)
     {
-        print("so " + so);
-        Events.OnDrag(so.data);
-        all.Remove(so);
-        Destroy(so.gameObject);
+        if (uiDragItem.isDragging) return;
+        if (World.Instance.worldStates.state == WorldStates.states.SCENE_EDITOR)
+        {
+            Events.OnDrag(so.data);
+            all.Remove(so);
+            Destroy(so.gameObject);
+        }
     }
 
     void AddGenericObject (SceneObjectData data, Vector2 pos) {

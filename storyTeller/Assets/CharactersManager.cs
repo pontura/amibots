@@ -25,7 +25,9 @@ public class CharactersManager : MonoBehaviour
 		Events.OnChangeExpression += OnChangeExpression;
 		Events.OnRecording += OnRecording;
 		Events.NewSceneActive += NewSceneActive;
-	}
+        Events.ClickedOnCharacter += ClickedOnCharacter;
+
+    }
 	void NewSceneActive(int id)
 	{		
 		if(scenesManager.sceneActive.characters.Count>0)
@@ -64,7 +66,10 @@ public class CharactersManager : MonoBehaviour
 		GetCharacter(id).customizer.OnChangeExpression(value);
 	}
 	void ClickedOn(Tile tile)
-	{		
+	{
+        if (World.Instance.worldStates.state == WorldStates.states.SCENE_EDITOR)
+            return;
+
 		if (selectedCharacter && tile != null && !uiDragItem.isDragging) {
 
             foreach (Character character in scenesManager.sceneActive.characters)
@@ -73,8 +78,8 @@ public class CharactersManager : MonoBehaviour
                     &&
                    Mathf.Round(character.transform.position.z) == Mathf.Round(tile.transform.position.z))
                     {
-                    OnSelectCharacterID(character.id);
-                    return;
+                   // OnSelectCharacterID(character.id);
+                   // return;
                 }
             }
 
@@ -84,6 +89,11 @@ public class CharactersManager : MonoBehaviour
 			MoveCharacter (selectedCharacter.id,  tile.transform.position);
 		}
 	}
+    void ClickedOnCharacter(Character character)
+    {
+        print("clicked " + character.id);
+        OnSelectCharacterID(character.id);
+    }
     void OnSelectCharacterID(int id)
     {
         selectedCharacter = GetCharacter(id);

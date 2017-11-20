@@ -54,13 +54,8 @@ public class InputManager : MonoBehaviour
 			RaycastHit hit;
 			Ray ray = scenesManager.cam.ScreenPointToRay (Input.mousePosition);
             if (Physics.Raycast(ray, out hit))
-                print("tag: " + hit.collider.gameObject.tag);
-                if (hit.collider != null && hit.collider.gameObject.tag == "SceneObject")
-                    Events.ClickedOnSceneObject(hit.collider.gameObject.GetComponentInParent<SceneObject>());
-                else
-                if (hit.collider != null && hit.collider.gameObject.tag == "Tile")
-				    Events.ClickedOn (hit.collider.gameObject.GetComponent<Tile>());
-		}
+                HitOnSceneObject(hit);
+        }
 #else
         if (Input.touchCount > 0)
         {
@@ -71,14 +66,20 @@ public class InputManager : MonoBehaviour
                 RaycastHit hit;
                 Ray ray = c.ScreenPointToRay(touch.position);
 				if (Physics.Raycast (ray, out hit))
-				if (hit.collider != null && hit.collider.gameObject.tag == "Tile")
-				{
-					Events.ClickedOn (hit.collider.gameObject.GetComponent<Tile>());
-				}
+				    HitOnSceneObject(hit);
             }
 		}
 #endif
-       
+
+    }
+    void HitOnSceneObject(RaycastHit hit)
+    {
+        if (hit.collider != null && hit.collider.gameObject.tag == "SceneObject")
+            Events.ClickedOnSceneObject(hit.collider.gameObject.GetComponentInParent<SceneObject>());
+        else if (hit.collider != null && hit.collider.gameObject.tag == "Player")
+            Events.ClickedOnCharacter(hit.collider.gameObject.GetComponentInParent<Character>());
+        else if (hit.collider != null && hit.collider.gameObject.tag == "Tile")
+            Events.ClickedOn(hit.collider.gameObject.GetComponent<Tile>());
     }
     private bool IsPointerOverUIObject()
     {

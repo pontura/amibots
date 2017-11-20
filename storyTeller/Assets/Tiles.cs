@@ -53,7 +53,7 @@ public class Tiles : MonoBehaviour {
 			tile.SetAsUnwalkable ();
 			value = 0;
 		}
-		print ((int)tile.transform.localPosition.x + " __ " + (int)tile.transform.localPosition.z + "Blocktile ____" + isBlock + "  :  " + value);
+		//print ((int)tile.transform.localPosition.x + " __ " + (int)tile.transform.localPosition.z + "Blocktile ____" + isBlock + "  :  " + value);
 		tilesmap [(int)tile.transform.localPosition.x, (int)tile.transform.localPosition.z] = value;
 		grid= new NesScripts.Controls.PathFind.Grid(tilesWidth, tilesWHeight, tilesmap);
 

@@ -20,6 +20,7 @@ public static class Events {
     public static System.Action<string, Vector3> OnTooltip = delegate { };
     public static System.Action<Tile> ClickedOn = delegate { };
     public static System.Action<SceneObject> ClickedOnSceneObject = delegate { };
+    public static System.Action<Character> ClickedOnCharacter = delegate { };
 
     public static System.Action<Character> AddKeyFrameNewCharacter = delegate { };
 	public static System.Action<Character, string> AddKeyFrameAction = delegate { };
