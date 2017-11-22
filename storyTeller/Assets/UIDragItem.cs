@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIDragItem : MonoBehaviour {
 
+    public Image image;
 	public SceneObjectData sceneObjectData;
 	public GameObject dragItem;
 	public bool isDragging;
@@ -19,7 +21,20 @@ public class UIDragItem : MonoBehaviour {
         if (isDragging)
         {
             dragItem.transform.position = Input.mousePosition;
-            if(dragItem.transform.position.x < 100 || dragItem.transform.position.y < 20)
+
+            RaycastHit hit;
+            Ray ray = World.Instance.scenesManager.cam.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out hit))
+            {
+                if (hit.collider != null && hit.collider.gameObject.tag == "Tile")
+                {
+                    World.Instance.sceneObjectsManager.UpdatePosition(hit.transform.position);
+                }
+            }
+                
+            
+           
+            if (dragItem.transform.position.x < 100 || dragItem.transform.position.y < 20)
             {
                 OnEndDrag();
             }
@@ -33,13 +48,15 @@ public class UIDragItem : MonoBehaviour {
 			//} else {
 				Events.AddGenericObject (sceneObjectData, new Vector2 ((int)tile.transform.position.x, (int)tile.transform.position.z));
 				Events.Blocktile (tile, true);
-			//}
-			OnEndDrag ();
+           
+            //}
+            OnEndDrag ();
 		}
 	}
 	void OnDrag(SceneObjectData sceneObjectData)
 	{
-		this.sceneObjectData = sceneObjectData;
+        World.Instance.sceneObjectsManager.AddGenericObjectToDrag(sceneObjectData);
+        this.sceneObjectData = sceneObjectData;
 		isDragging = true;
 		SetActive (true);
 	}

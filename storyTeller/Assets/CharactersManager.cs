@@ -91,7 +91,6 @@ public class CharactersManager : MonoBehaviour
 	}
     void ClickedOnCharacter(Character character)
     {
-        print("clicked " + character.id);
         OnSelectCharacterID(character.id);
     }
     void OnSelectCharacterID(int id)

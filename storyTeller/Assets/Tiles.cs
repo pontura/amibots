@@ -90,5 +90,14 @@ public class Tiles : MonoBehaviour {
 		}
 		return Vector3.one;
 	}
+    public Tile GetTileByPosition(Vector3 pos)
+    {
+        foreach (Tile tile in tiles)
+        {
+            if (tile.transform.localPosition.x == pos.x && tile.transform.localPosition.z == pos.z)
+                return tile;
+        }
+        return null;
+    }
 
 }

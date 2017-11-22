@@ -32,8 +32,8 @@ public class InputManager : MonoBehaviour
 
     bool CanCompute()
 	{
-		if (EventSystem.current.currentSelectedGameObject != null)
-			return false;
+		//if (EventSystem.current.currentSelectedGameObject != null)
+			//return false;
 		if (EventSystem.current.IsPointerOverGameObject())
 			return false;
 		if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject ())
@@ -50,25 +50,39 @@ public class InputManager : MonoBehaviour
 		}
 
 #if UNITY_EDITOR
-		if (Input.GetMouseButtonUp(0)) {
+        if (Input.GetMouseButtonUp(0))
+        {
+            RaycastHit hit;
+            Ray ray = scenesManager.cam.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out hit))
+                ReleaseOnSceneObject(hit);
+        }
+        if (Input.GetMouseButtonDown(0)) {
 			RaycastHit hit;
 			Ray ray = scenesManager.cam.ScreenPointToRay (Input.mousePosition);
             if (Physics.Raycast(ray, out hit))
                 HitOnSceneObject(hit);
         }
+
 #else
         if (Input.touchCount > 0)
         {
 			isDragging = true;
 			Touch touch = Input.touches [0];
-			if (touch.phase == TouchPhase.Ended)
+			if (touch.phase == TouchPhase.Began)
             {
                 RaycastHit hit;
                 Ray ray = c.ScreenPointToRay(touch.position);
 				if (Physics.Raycast (ray, out hit))
 				    HitOnSceneObject(hit);
+            } else if (touch.phase == TouchPhase.Ended)
+            {
+                RaycastHit hit;
+                Ray ray = c.ScreenPointToRay(touch.position);
+                if (Physics.Raycast(ray, out hit))
+                    ReleaseOnSceneObject(hit);
             }
-		}
+        }
 #endif
 
     }
@@ -78,7 +92,11 @@ public class InputManager : MonoBehaviour
             Events.ClickedOnSceneObject(hit.collider.gameObject.GetComponentInParent<SceneObject>());
         else if (hit.collider != null && hit.collider.gameObject.tag == "Player")
             Events.ClickedOnCharacter(hit.collider.gameObject.GetComponentInParent<Character>());
-        else if (hit.collider != null && hit.collider.gameObject.tag == "Tile")
+      
+    }
+    void ReleaseOnSceneObject(RaycastHit hit)
+    {
+        if (hit.collider != null && hit.collider.gameObject.tag == "Tile")
             Events.ClickedOn(hit.collider.gameObject.GetComponent<Tile>());
     }
     private bool IsPointerOverUIObject()

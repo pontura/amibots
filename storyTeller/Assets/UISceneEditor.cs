@@ -72,7 +72,8 @@ public class UISceneEditor : MonoBehaviour {
 				newUiButton.transform.SetParent(container);
 				newUiButton.Init(id, go.name);
 				newUiButton.type = UIButton.types.SCENEOBJECT;
-				id++;
+                newUiButton.transform.localScale = Vector3.one;
+                id++;
 			}
 		}
 		panel.SetActive(true);

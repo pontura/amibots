@@ -14,15 +14,39 @@ public class SceneObjectsManager : MonoBehaviour {
     }
     void ClickedOnSceneObject(SceneObject so)
     {
+        print("ClickedOnSceneObject " + uiDragItem.isDragging);
         if (uiDragItem.isDragging) return;
         if (World.Instance.worldStates.state == WorldStates.states.SCENE_EDITOR)
         {
+            Vector3 pos = so.transform.localPosition;
+            
+            Tile tile = World.Instance.scenesManager.sceneActive.tiles.GetTileByPosition(pos);
+
+            if (tile != null)
+                Events.Blocktile(tile, false);
+
             Events.OnDrag(so.data);
             all.Remove(so);
             Destroy(so.gameObject);
+           
         }
     }
-
+    SceneObject draggableSceneObject;
+    public void AddGenericObjectToDrag(SceneObjectData data)
+    {
+        GenericObject go = GetGenericObjectByName(data.sceneObjectName);
+        draggableSceneObject = Instantiate(go);
+        draggableSceneObject.data = data;
+        draggableSceneObject.transform.SetParent(World.Instance.scenesManager.sceneActive.sceneObjects);
+        draggableSceneObject.Init(data, Vector3.zero);
+        draggableSceneObject.transform.localEulerAngles = new Vector3(90 + 20, 0, 0);
+    }
+    public void UpdatePosition(Vector3 pos)
+    {
+        if (draggableSceneObject == null) return;
+        draggableSceneObject.transform.localPosition = pos;
+        print(pos);
+    }
     void AddGenericObject (SceneObjectData data, Vector2 pos) {
 		GenericObject go = GetGenericObjectByName (data.sceneObjectName);
 		SceneObject newGenericObject = Instantiate ( go );

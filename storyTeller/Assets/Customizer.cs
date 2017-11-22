@@ -11,10 +11,15 @@ public class Customizer : MonoBehaviour {
 	}
 
 	public void Init() {
-        character.customizer.OnDupliacteCustomization(World.Instance.charactersManager.selectedCharacter.customizer);
-        gameObject.SetActive (true);
+        gameObject.SetActive(true);
+        Invoke("Delayed", 0.1f);
 	}
-	public void SetOff()
+    void Delayed()
+    {
+        character.customizer.OnDupliacteCustomization(World.Instance.charactersManager.selectedCharacter.customizer);
+
+    }
+    public void SetOff()
 	{
 		gameObject.SetActive (false);
 	}

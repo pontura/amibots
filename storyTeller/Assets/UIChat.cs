@@ -24,9 +24,11 @@ public class UIChat : MonoBehaviour {
 	}
 	public void Init(int characterID, string text) {
 		field.text = text;
-		StartCoroutine (Live());
+		
 		character = World.Instance.charactersManager.GetCharacter (characterID);
-	}
+        print("y: " + character.transform.position.y);
+        StartCoroutine(Live());
+    }
 	IEnumerator Live(){
 		yield return new WaitForEndOfFrame ();
 		dinamicHeight = field.GetComponent<RectTransform> ().sizeDelta.y;
@@ -37,7 +39,7 @@ public class UIChat : MonoBehaviour {
 
 		Vector3 pos = character.transform.position;
 		Vector2 viewportPoint = Camera.main.WorldToScreenPoint(pos);  
-		viewportPoint.y += dinamicHeight / 4;
+		viewportPoint.y += Time.deltaTime * ((dinamicHeight*100) / 4);
 		rt.position = viewportPoint+offset;
 
 		yield return new WaitForSeconds (4);
