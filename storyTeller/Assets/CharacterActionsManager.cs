@@ -67,10 +67,12 @@ public class CharacterActionsManager : MonoBehaviour {
 	public void Grr()
 	{
 		PlayAnim("grr");
-	}
+        expressionsAnim.Play("angry");
+    }
     public void Sob()
     {
         PlayAnim("sob");
+        expressionsAnim.Play("sad");
     }
     public void Wow()
 	{

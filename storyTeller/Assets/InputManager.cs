@@ -95,7 +95,11 @@ public class InputManager : MonoBehaviour
     }
     void ReleaseOnSceneObject(RaycastHit hit)
     {
-        print("DONE " + hit.collider + " tag: " + hit.collider.gameObject.tag);
+        if (World.Instance.worldStates.state == WorldStates.states.CHARACTERS_EDITOR
+            && !CanCompute())
+            return;
+
+            print("DONE " + hit.collider + " tag: " + hit.collider.gameObject.tag);
 
         if (hit.collider != null && hit.collider.gameObject.tag == "Tile")
             Events.ClickedOn(hit.collider.gameObject.GetComponent<Tile>());
