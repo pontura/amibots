@@ -12,9 +12,14 @@ public class SceneIngame : MonoBehaviour {
 	public Transform sceneObjects;
 	public SpriteRenderer background;
 	public HiResScreenshots screenshot;
-    
 
-	public void ChangeBackground(int backgroundID)
+    public void Init(int id, int backgroundID)
+    {
+        this.id = id;
+        tiles.Init(backgroundID);
+    }
+
+    public void ChangeBackground(int backgroundID)
 	{
 		this.backgroundID = backgroundID;
 		string url = "scenes/" + backgroundID.ToString ();

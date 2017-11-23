@@ -32,7 +32,6 @@ public class CharacterCustomizer : MonoBehaviour {
 	public void OnChangeExpression(string value)
 	{
 		this.value = value;
-        print("expresion: " + value);
         character.actions.SetExpression(value);
 		//HeadAsset.sprite = Resources.Load("character/expressions/" + value, typeof(Sprite)) as Sprite;
 	}
@@ -53,12 +52,8 @@ public class CharacterCustomizer : MonoBehaviour {
     }
 	void OnCustomize(int characterID, parts part, string newImage) {
 
-	//	print ("___________: part: " + part + " new image: " + newImage);
-
 		if(characterID == character.id)
 		{
-			print (characterID + " : " + part + " newImage: " + newImage);
-
 
             if (part == parts.LEGS) {
                 legs = newImage;

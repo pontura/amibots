@@ -18,8 +18,19 @@ public class SceneObject : MonoBehaviour {
 	{
 		OnStart ();
 		ReorderInLayers ();
-	}
-	public void Init(SceneObjectData data, Vector2 pos)
+        Events.OnSetColliders += OnSetColliders;
+    }
+    private void OnDestroy()
+    {
+        Events.OnSetColliders -= OnSetColliders;
+    }
+    public void OnSetColliders(bool isOn)
+    {
+        //print("Colliders: " + isOn);
+        foreach (Collider c in GetComponentsInChildren<Collider>())
+            c.enabled = isOn;
+    }
+    public void Init(SceneObjectData data, Vector2 pos)
 	{
 		this.data = data;
 		transform.position = new Vector3 (pos.x, 0, pos.y);

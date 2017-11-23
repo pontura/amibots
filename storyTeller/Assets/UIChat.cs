@@ -26,7 +26,6 @@ public class UIChat : MonoBehaviour {
 		field.text = text;
 		
 		character = World.Instance.charactersManager.GetCharacter (characterID);
-        print("y: " + character.transform.position.y);
         StartCoroutine(Live());
     }
 	IEnumerator Live(){
@@ -39,8 +38,8 @@ public class UIChat : MonoBehaviour {
 
 		Vector3 pos = character.transform.position;
 		Vector2 viewportPoint = Camera.main.WorldToScreenPoint(pos);  
-		viewportPoint.y += Time.deltaTime * ((dinamicHeight*100) / 4);
-		rt.position = viewportPoint+offset;
+		//viewportPoint.y = (dinamicHeight / 4);
+		//rt.position = viewportPoint+offset;
 
 		yield return new WaitForSeconds (4);
 		Destroy (this.gameObject);
@@ -49,7 +48,7 @@ public class UIChat : MonoBehaviour {
 	{
 		Vector3 pos = character.transform.position;
 		Vector2 viewportPoint = Camera.main.WorldToScreenPoint(pos);  
-		viewportPoint.y += dinamicHeight;
-		rt.position = Vector2.Lerp(rt.position, viewportPoint+offset, 0.3f);
+		viewportPoint.y += (dinamicHeight);
+		rt.position = viewportPoint+offset;
 	}
 }

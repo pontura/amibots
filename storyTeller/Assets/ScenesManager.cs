@@ -26,9 +26,9 @@ public class ScenesManager : MonoBehaviour {
 		print ("sceneID " + sceneID);
 		sceneActive = Instantiate (sceneIngame);
 		sceneActive.transform.SetParent (container);
-		sceneActive.id = sceneID;
+        sceneActive.Init(sceneID, backgroundID);
 
-		scenesIngame.Add (sceneActive);
+        scenesIngame.Add (sceneActive);
 		Activate();
 		Events.OnChangeBackground (backgroundID);
 	}

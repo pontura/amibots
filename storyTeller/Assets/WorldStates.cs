@@ -11,7 +11,12 @@ public class WorldStates : MonoBehaviour {
         CHARACTERS_EDITOR,
         SCENE_EDITOR
     }
-	void Start () {
-		
+	public void Change(states state) {
+        this.state = state;
+        if (state == states.CHARACTERS_EDITOR)
+            Events.OnSetColliders(false);
+        else
+            Events.OnSetColliders(true);
+       
 	}
 }

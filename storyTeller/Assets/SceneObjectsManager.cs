@@ -40,12 +40,23 @@ public class SceneObjectsManager : MonoBehaviour {
         draggableSceneObject.transform.SetParent(World.Instance.scenesManager.sceneActive.sceneObjects);
         draggableSceneObject.Init(data, Vector3.zero);
         draggableSceneObject.transform.localEulerAngles = new Vector3(90 + 20, 0, 0);
+        draggableSceneObject.transform.localPosition = new Vector3(1000, 0, 0);
+        go.OnSetColliders(false);
     }
     public void UpdatePosition(Vector3 pos)
     {
         if (draggableSceneObject == null) return;
         draggableSceneObject.transform.localPosition = pos;
-        print(pos);
+    }
+    public void SetActiveDraggableItem(bool isActive)
+    {
+        draggableSceneObject.gameObject.SetActive(isActive);
+    }
+    public void DestroyDraggableItem()
+    {
+        if (draggableSceneObject == null) return;
+        Destroy(draggableSceneObject.gameObject);
+        draggableSceneObject = null;
     }
     void AddGenericObject (SceneObjectData data, Vector2 pos) {
 		GenericObject go = GetGenericObjectByName (data.sceneObjectName);

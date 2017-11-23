@@ -9,11 +9,13 @@ public class UIDragItem : MonoBehaviour {
 	public SceneObjectData sceneObjectData;
 	public GameObject dragItem;
 	public bool isDragging;
+    SceneObjectsManager sceneObjectsManager;
 
-	void Start () {
-		SetActive (false);
+    void Start () {
+        sceneObjectsManager = World.Instance.sceneObjectsManager;
+        SetActive (false);
 		Events.OnDrag += OnDrag;
-		//Events.OnEndDrag += OnEndDrag;
+		Events.OnEndDrag += OnEndDrag;
 		Events.ClickedOn += ClickedOn;
 	}
 	void Update()
@@ -24,19 +26,30 @@ public class UIDragItem : MonoBehaviour {
 
             RaycastHit hit;
             Ray ray = World.Instance.scenesManager.cam.ScreenPointToRay(Input.mousePosition);
+            bool isOverTile = false;
             if (Physics.Raycast(ray, out hit))
             {
                 if (hit.collider != null && hit.collider.gameObject.tag == "Tile")
-                {
-                    World.Instance.sceneObjectsManager.UpdatePosition(hit.transform.position);
-                }
+                    isOverTile = true;
+            }
+            if (isOverTile)
+            {
+                sceneObjectsManager.SetActiveDraggableItem(true);
+                sceneObjectsManager.UpdatePosition(hit.transform.position);
+                image.enabled = false;
+            }
+            else
+            {
+                image.enabled = true;
+                sceneObjectsManager.SetActiveDraggableItem(false);
             }
                 
-            
-           
-            if (dragItem.transform.position.x < 100 || dragItem.transform.position.y < 20)
+
+
+
+        if (dragItem.transform.position.x < 100 || dragItem.transform.position.y < 20)
             {
-                OnEndDrag();
+                Events.OnEndDrag();
             }
         }
 	}
@@ -48,20 +61,28 @@ public class UIDragItem : MonoBehaviour {
 			//} else {
 				Events.AddGenericObject (sceneObjectData, new Vector2 ((int)tile.transform.position.x, (int)tile.transform.position.z));
 				Events.Blocktile (tile, true);
-           
             //}
-            OnEndDrag ();
 		}
-	}
+    }
 	void OnDrag(SceneObjectData sceneObjectData)
 	{
-        World.Instance.sceneObjectsManager.AddGenericObjectToDrag(sceneObjectData);
+        if (isDragging) return;
+        image.enabled = true;
+        string url = "sceneObjects/" + sceneObjectData.sceneObjectName;
+        print("drag: " + url);
+        image.sprite = Resources.Load(url,  typeof(Sprite)) as Sprite;        
+        Events.OnSetColliders(false);
+        sceneObjectsManager.AddGenericObjectToDrag(sceneObjectData);
         this.sceneObjectData = sceneObjectData;
 		isDragging = true;
 		SetActive (true);
 	}
 	void OnEndDrag()
 	{
+        print("OnEndDrag " + isDragging);
+        image.enabled = false;
+        Events.OnSetColliders(true);
+        sceneObjectsManager.DestroyDraggableItem();
 		isDragging = false;
 		SetActive (false);
 	}

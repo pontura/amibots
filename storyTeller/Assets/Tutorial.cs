@@ -11,9 +11,17 @@ public class Tutorial : MonoBehaviour {
 		panel.SetActive (true);
 		addCharacter.SetActive (true);
 		Events.AddCharacter += AddCharacter;
-	}
+        Events.OnUIButtonClicked += OnUIButtonClicked;
 
-	void AddCharacter (int id) {
-		addCharacter.SetActive (false);
+    }
+    void OnUIButtonClicked(UIButton u)
+    {
+        AddCharacter(0);
+    }
+
+    void AddCharacter (int id) {
+        Events.AddCharacter -= AddCharacter;
+        Events.OnUIButtonClicked -= OnUIButtonClicked;
+        addCharacter.SetActive (false);
 	}
 }

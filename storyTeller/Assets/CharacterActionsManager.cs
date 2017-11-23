@@ -31,19 +31,16 @@ public class CharacterActionsManager : MonoBehaviour {
             case "IDLE":
                 Idle();
                 break;
-			case "HELLO":
-				Hello();
-				break;
-			case "TURN":
-				Turn();
-				break;
 			case "LOL":
 				Lol();
 				break;
 			case "GRR":
 				Grr();
 				break;
-			case "WOW":
+            case "SOB":
+                Grr();
+                break;
+            case "WOW":
 				Wow();
 				break;
 			default:
@@ -65,22 +62,21 @@ public class CharacterActionsManager : MonoBehaviour {
 	public void Lol()
 	{
 		PlayAnim("lol");
-        expressionsAnim.Play("happy");
+        expressionsAnim.Play("haha");
     }
 	public void Grr()
 	{
-		PlayAnim("grrr");
+		PlayAnim("grr");
 	}
-	public void Wow()
-	{
-		PlayAnim("wow");
-        expressionsAnim.Play("what");
+    public void Sob()
+    {
+        PlayAnim("sob");
     }
-	void Hello()
+    public void Wow()
 	{
 		PlayAnim("wow");
-		Invoke ("ResetAnim", 1);
-	}
+        expressionsAnim.Play("oh");
+    }
 	void ResetAnim()
 	{
 		PlayAnim("IDLE");

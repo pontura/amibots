@@ -19,11 +19,11 @@ public class UISceneEditor : MonoBehaviour {
 		switch (_uiButton.type)
 		{
 		case UIButton.types.SCENEOBJECT_MENU:
-                World.Instance.worldStates.state = WorldStates.states.SCENE_EDITOR;
+                World.Instance.worldStates.Change(WorldStates.states.SCENE_EDITOR);
 			SetActive (true);
 			break;
 		case UIButton.types.CHARACTER_EDITOR:
-                World.Instance.worldStates.state = WorldStates.states.CHARACTERS_EDITOR;
+                World.Instance.worldStates.Change(WorldStates.states.CHARACTERS_EDITOR);
                 SetActive (false);
 				break;
 		case UIButton.types.SCENEOBJECT:

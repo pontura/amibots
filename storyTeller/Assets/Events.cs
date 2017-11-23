@@ -14,8 +14,8 @@ public static class Events {
 	public static System.Action<int> OnChangeBackground = delegate { };
 
 
-
-	public static System.Action<bool> OnRecording = delegate { }; 
+    public static System.Action<bool> OnSetColliders = delegate { };
+    public static System.Action<bool> OnRecording = delegate { }; 
 	public static System.Action<bool> OnPlaying = delegate { }; 
     public static System.Action<string, Vector3> OnTooltip = delegate { };
     public static System.Action<Tile> ClickedOn = delegate { };

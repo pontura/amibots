@@ -14,24 +14,34 @@ public class Tiles : MonoBehaviour {
 	public List<Point> path;
 	NesScripts.Controls.PathFind.Grid grid;
 
-	void Start () {
+	public void Init(int backgorundID) {
 		Events.Blocktile += Blocktile;
 		tilesmap = new float[tilesWidth, tilesWHeight];
-		string[] randomObjects = new string[3];
-		randomObjects [0] = "florero";
-		randomObjects [1] = "arbol";
-		randomObjects [2] = "sillon";
+		string[] randomObjects;
+        if (backgorundID == 2)
+        {
+            randomObjects = new string[3];
+            randomObjects[0] = "park_tree";
+            randomObjects[1] = "park_popcorn";
+            randomObjects[2] = "park_chair";
+        }
+        else
+        {
+            randomObjects = new string[2];
+            randomObjects[0] = "space_chair";
+            randomObjects[1] = "space_plant";
+        }
 		int id = 0;
 		for (int a = 0; a < tilesWidth; a++) {
 			for (int b = 0; b < tilesWHeight; b++) {
 
 				bool isWalkable = false;
-				if (Random.Range (0, 10) < 9) {
+				if (Random.Range (0, 20) < 19) {
 					tilesmap [a, b] = 1;
 					isWalkable = true;
 				} else {
 					SceneObjectData data = new SceneObjectData ();
-					data.sceneObjectName = randomObjects [Random.Range (0, randomObjects.Length-1)];
+					data.sceneObjectName = randomObjects [Random.Range (0, randomObjects.Length)];
 					Events.AddGenericObject (data, new Vector2(a,b));
 				}
 				Tile newTile = Instantiate (tile);

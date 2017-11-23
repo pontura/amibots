@@ -10,14 +10,19 @@ public class Settings : MonoBehaviour {
     {
         IDLE,
 		WOW,
-		LOL
+		LOL,
+        GRR,
+        SOB
     }
 	public enum expressions
 	{
+        norm,
         angry,
         confused,
         funny,
-        happy,
+        haha,
+        happy,        
+        oh,
         sad,
 		what,
 		zzz
