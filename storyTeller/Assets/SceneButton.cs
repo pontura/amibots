@@ -8,7 +8,6 @@ public class SceneButton : MonoBehaviour {
 	public Texture thumbTexture;
 	public Shader matShader;
 	public Material mat;
-	public RawImage rawImage;
 	public Image image;
 	UISceneSelector sceneSelector;
 	UIAllScenesMenu allSceneMenu;
@@ -44,6 +43,7 @@ public class SceneButton : MonoBehaviour {
 		this.backgroundID = backgroundID;
 		this.sceneSelector = sceneSelector;
 		image.sprite = Resources.Load("scenes/" + backgroundID, typeof(Sprite)) as Sprite;
+        image.maskable = true;
 	}
 	public void Clicked()
 	{

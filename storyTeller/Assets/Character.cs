@@ -89,24 +89,29 @@ public class Character : MonoBehaviour {
         
     }
 	int pathStep;
-	List<Point> points;
-	public void MoveFromPath(List<Point> points)
+	//List<Point> points;
+    List<Vector3> positions;
+    public void MoveFromPath(List<Vector3> positions)
 	{
-		this.points = points;
+        foreach (Vector3 pos in positions)
+            print(pos);
+
+		this.positions = positions;
 		pathStep = 0;
 		CharacterReachTile ();
 	}
 	void CharacterReachTile()
 	{
 		ReorderInLayers ();
-	//	print ("CharacterReachTile  points.Count: " + points.Count + "   pathStep: " + pathStep);
-		if (pathStep >= points.Count) {
+		
+		if (pathStep >= positions.Count) {
 			Events.OnCharacterReachTile (this);
 			Reset ();
 			return;
 		}
 		pathStep++;
-		Vector3 newPos = new Vector3 (points [pathStep-1].x, 0, points [pathStep-1].y);
+        print("CharacterReachTile  positions.Count: " + positions.Count + "   pathStep: " + pathStep + "  positions[pathStep-1]: " + positions[pathStep - 1]);
+        Vector3 newPos = positions[pathStep-1];
 		Move (newPos);
 
 	}

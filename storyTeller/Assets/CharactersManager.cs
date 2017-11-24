@@ -143,10 +143,15 @@ public class CharactersManager : MonoBehaviour
 		if(World.Instance.scenesManager.sceneActive.characters.Count>0)
 		{
 			Character character = GetCharacter (id);
-			List<Point> points = World.Instance.scenesManager.sceneActive.tiles.GetPathfinder (character.transform.position, moveTo);
-			if (points.Count > 0) {
-				GetCharacter(id).MoveFromPath (points);
-			}
-		}
+            List<Point> coords = World.Instance.scenesManager.sceneActive.tiles.GetPathfinder (character.transform.position, moveTo);
+            List<Vector3> pos = new List<Vector3>();
+            foreach (Point p in coords)
+                pos.Add(World.Instance.scenesManager.sceneActive.tiles.GetPositionsByPoints(p));
+           // return;
+            // List<Vector3> coords = World.Instance.scenesManager.sceneActive.tiles.PathfinderToPosition(points);
+            if (coords.Count > 0) {
+                GetCharacter(id).MoveFromPath (pos);
+            }
+        }
 	}
 }

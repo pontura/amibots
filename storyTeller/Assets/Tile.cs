@@ -7,23 +7,24 @@ public class Tile : MonoBehaviour {
 	public bool isWalkable;
 //	Material material;
 	MeshRenderer meshRenderer;
+    public Vector2 pos;
 
-	public void Init(bool isWalkable, Vector3 pos)
+	public void Init(bool isWalkable, Vector3 _pos)
 	{
-		meshRenderer = GetComponent<MeshRenderer> ();
-		//meshRenderer.enabled = false;
-		//material.
+        pos = new Vector2(_pos.x, _pos.z);
+        meshRenderer = GetComponent<MeshRenderer> ();
 		this.isWalkable = isWalkable;
-		transform.localPosition = pos;
+        _pos.x = (float)_pos.x + ((float)_pos.z * 0.32f);
+		transform.localPosition = _pos;
 		if (!isWalkable)
 			SetAsUnwalkable ();
 		else
 			ResetPath ();
 	}
-	public Vector2 GetVector2()
-	{
-		return new Vector2(transform.position.x, transform.position.z);
-	}
+    public Vector2 GetPos()
+    {
+        return new Vector2(transform.position.x, transform.position.z);
+    }
 	public void SetAsUnwalkable()
 	{
 		isWalkable = false;

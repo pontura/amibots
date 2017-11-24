@@ -9,6 +9,7 @@ public class UIButton : MonoBehaviour {
     public int id;
     public types type;
     public string value;
+    public Image thumb;
 
     public enum types
     {
@@ -32,6 +33,13 @@ public class UIButton : MonoBehaviour {
         field.text = text;
         this.id = id;
         this.value = text;
+    }
+    public void SetThumb(string url)
+    {
+        //field.text = "";
+        field.enabled = false;
+        thumb.enabled = true;
+        thumb.sprite = Resources.Load(url, typeof(Sprite)) as Sprite;
     }
 	public void OnSelected()
     {

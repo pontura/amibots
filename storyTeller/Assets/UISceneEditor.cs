@@ -73,6 +73,8 @@ public class UISceneEditor : MonoBehaviour {
 				newUiButton.Init(id, go.name);
 				newUiButton.type = UIButton.types.SCENEOBJECT;
                 newUiButton.transform.localScale = Vector3.one;
+                string url = "sceneObjects/" + go.name;
+                newUiButton.SetThumb(url);
                 id++;
 			}
 		}
