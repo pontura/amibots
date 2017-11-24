@@ -18,6 +18,9 @@ public class Avatar : MonoBehaviour {
     public SpriteMeshInstance leg1;
     public SpriteMeshInstance leg2;
 
+    public SpriteRenderer hair_up;
+    public SpriteRenderer hair_down;
+
     void Start () {
 		
 	}

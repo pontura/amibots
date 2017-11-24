@@ -26,10 +26,14 @@ public class CustomizerManager : MonoBehaviour {
 		case ClothesSettings.types.LEGS:
 			arr = Data.Instance.GetComponent<ClothesSettings> ().legs;
 			break;
-		case ClothesSettings.types.SKIN:
-			arr = Data.Instance.GetComponent<ClothesSettings> ().skins;
+		case ClothesSettings.types.HAIR:
+			arr = Data.Instance.GetComponent<ClothesSettings> ().hairs;
 			break;
-		}
+        case ClothesSettings.types.COLOR:
+            for (int a = 0; a < Data.Instance.GetComponent<ClothesSettings>().colors.Count; a++)
+                arr.Add( a.ToString());
+            break;
+        }
 		if (arr == null)
 			return;
 		foreach (string name in arr) {
@@ -53,11 +57,11 @@ public class CustomizerManager : MonoBehaviour {
 			case ClothesSettings.types.LEGS:
 				parts = CharacterCustomizer.parts.LEGS;
 				break;
-			case ClothesSettings.types.BOOTS:
-				parts = CharacterCustomizer.parts.FOOTS;
+			case ClothesSettings.types.HAIR:
+				parts = CharacterCustomizer.parts.HAIRS;
 				break;
 			default:
-				parts = CharacterCustomizer.parts.SKIN;
+				parts = CharacterCustomizer.parts.COLORS;
 				break;
 			}
 			Events.OnCustomize (-1, parts, value);

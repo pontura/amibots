@@ -9,6 +9,7 @@ public class Data : MonoBehaviour
     const string PREFAB_PATH = "Data";    
     static Data mInstance = null;
     public Settings settings;
+    public ClothesSettings clothesSettings;
 
     public static Data Instance
     {
@@ -47,7 +48,7 @@ public class Data : MonoBehaviour
        
         DontDestroyOnLoad(this.gameObject);
         settings = GetComponent<Settings>();
-
+        clothesSettings = GetComponent<ClothesSettings>();
 
     }
 }

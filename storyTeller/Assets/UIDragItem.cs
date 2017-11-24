@@ -69,7 +69,7 @@ public class UIDragItem : MonoBehaviour {
         if (isDragging) return;
         image.enabled = true;
         string url = "sceneObjects/" + sceneObjectData.sceneObjectName;
-        print("drag: " + url);
+       // print("drag: " + url);
         image.sprite = Resources.Load(url,  typeof(Sprite)) as Sprite;        
         Events.OnSetColliders(false);
         sceneObjectsManager.AddGenericObjectToDrag(sceneObjectData);
@@ -79,7 +79,7 @@ public class UIDragItem : MonoBehaviour {
 	}
 	void OnEndDrag()
 	{
-        print("OnEndDrag " + isDragging);
+       // print("OnEndDrag " + isDragging);
         image.enabled = false;
         Events.OnSetColliders(true);
         sceneObjectsManager.DestroyDraggableItem();

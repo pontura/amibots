@@ -10,6 +10,8 @@ public class CharacterCustomizer : MonoBehaviour {
 
     public string legs = "";
     public string clothes = "";
+    public string hairs = "";
+    public string colors = "";
 
     Character character;
 
@@ -19,7 +21,8 @@ public class CharacterCustomizer : MonoBehaviour {
 		CLOTHES,
 		LEGS,
 		FOOTS,
-		SKIN
+		HAIRS,
+        COLORS
     }
 	void Awake () {
 		value = Settings.expressions.angry.ToString ();
@@ -41,6 +44,8 @@ public class CharacterCustomizer : MonoBehaviour {
 
         OnCustomize(character.id, parts.LEGS, "ropa_bottom_1");
         OnCustomize(character.id, parts.CLOTHES, "ropa_top_1");
+        OnCustomize(character.id, parts.HAIRS, "hair_1");
+        OnCustomize(character.id, parts.COLORS, "4");
     }
     public void OnDupliacteCustomization(CharacterCustomizer newCustomizer)
     {
@@ -48,6 +53,10 @@ public class CharacterCustomizer : MonoBehaviour {
             OnCustomize(-1, parts.LEGS, newCustomizer.legs);
         if (newCustomizer.clothes != "")
             OnCustomize(-1, parts.CLOTHES, newCustomizer.clothes);
+        if (newCustomizer.hairs != "")
+            OnCustomize(-1, parts.HAIRS, newCustomizer.hairs);
+        if (newCustomizer.colors != "")
+            OnCustomize(-1, parts.COLORS, newCustomizer.colors);
 
     }
 	void OnCustomize(int characterID, parts part, string newImage) {
@@ -78,8 +87,26 @@ public class CharacterCustomizer : MonoBehaviour {
                 character.avatar.body_up_b.spriteMesh = Resources.Load(body_up_b_image, typeof(SpriteMesh)) as SpriteMesh;
                 return;
 			}
+            else if (part == parts.HAIRS)
+            {
+                hairs = newImage;
+                //return;
+                string hair_a_image = "customizer/HAIR/" + newImage + "_a";
+                string hair_b_image = "customizer/HAIR/" + newImage + "_b";
+                character.avatar.hair_up.sprite = Resources.Load(hair_a_image, typeof(Sprite)) as Sprite;
+                character.avatar.hair_down.sprite = Resources.Load(hair_b_image, typeof(Sprite)) as Sprite;
+                return;
+            }
+            else if (part == parts.COLORS)
+            {
+                colors = newImage;
+                Color color = Data.Instance.clothesSettings.colors[int.Parse(colors)];
+                character.avatar.hair_up.color = color;
+                character.avatar.hair_down.color = color;
+                return;
+            }
 
-			string part_url = "customizer/" + part.ToString() + "/" + newImage;
+            string part_url = "customizer/" + part.ToString() + "/" + newImage;
 
 			//brazo.sprite = Resources.Load(part_url, typeof(Sprite)) as Sprite;
 			return;
