@@ -39,6 +39,8 @@ public class UIChatManager : MonoBehaviour {
 		UIChat chat = Instantiate (uiChat_to_instantiate);
 		chat.transform.SetParent (container);
 		chat.transform.localScale = Vector3.one;
-		chat.Init (avatarID, text);
+        chat.transform.localEulerAngles = Vector3.zero;
+
+        chat.Init (avatarID, text);
 	}
 }

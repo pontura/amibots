@@ -9,7 +9,7 @@ public class UIChat : MonoBehaviour {
 	public Image image;
 	public Text field;
 	public Character character;
-	public Vector2 offset;
+	public Vector3 offset;
 	public int offsetHeight;
 	public int flechaOffset;
 	float dinamicHeight;
@@ -23,21 +23,21 @@ public class UIChat : MonoBehaviour {
 		rt = GetComponent<RectTransform> ();
 	}
 	public void Init(int characterID, string text) {
-		field.text = text;
-		
+		field.text = text;		
 		character = World.Instance.charactersManager.GetCharacter (characterID);
         StartCoroutine(Live());
     }
 	IEnumerator Live(){
 		yield return new WaitForEndOfFrame ();
+
 		dinamicHeight = field.GetComponent<RectTransform> ().sizeDelta.y;
 		flecha.gameObject.SetActive (true);
 		image.gameObject.SetActive (true);
 		flecha.GetComponent<RectTransform> ().anchoredPosition = new Vector2 (0, (-1*dinamicHeight/2) - flechaOffset);
 		image.GetComponent<RectTransform> ().sizeDelta = new Vector2(image.GetComponent<RectTransform> ().sizeDelta.x, dinamicHeight + offsetHeight);
 
-		Vector3 pos = character.transform.position;
-		Vector2 viewportPoint = Camera.main.WorldToScreenPoint(pos);  
+		//Vector3 pos = character.transform.position;
+		//Vector2 viewportPoint = Camera.main.WorldToScreenPoint(pos);  
 		//viewportPoint.y = (dinamicHeight / 4);
 		//rt.position = viewportPoint+offset;
 
@@ -47,8 +47,8 @@ public class UIChat : MonoBehaviour {
 	void Update()
 	{
 		Vector3 pos = character.transform.position;
-		Vector2 viewportPoint = Camera.main.WorldToScreenPoint(pos);  
-		viewportPoint.y += (dinamicHeight);
-		rt.position = viewportPoint+offset;
+        //Vector2 viewportPoint = Camera.main.WorldToScreenPoint(pos);  
+        //viewportPoint.y += (dinamicHeight);
+        rt.position = pos + offset;
 	}
 }
