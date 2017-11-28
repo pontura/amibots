@@ -102,7 +102,7 @@ public class UITimeline : MonoBehaviour {
 			uiSmallTimeline.JumpTo (0);
 		} else if (uiButton.type == UIButton.types.FAST_FORWARD) {
 			World.Instance.timeLine.FastForward();
-			timer = World.Instance.timeLine.GetLastRecordedKeyFrame(World.Instance.charactersManager.selectedCharacter.id);
+			timer = World.Instance.timeLine.GetLastRecordedKeyFrame(World.Instance.charactersManager.selectedCharacter.data.id);
 			uiSmallTimeline.JumpTo (1);
 		}
 	}

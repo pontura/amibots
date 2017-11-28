@@ -29,7 +29,7 @@ public class UICharactersManager : MonoBehaviour
 		
 		ResetButtons ();
 		foreach(Character ch in World.Instance.scenesManager.sceneActive.characters)
-			AddNewButton(ch.id);
+			AddNewButton(ch.data.id);
 
 		UIButton uiButton = container.GetComponentInChildren<UIButton> ();
 		Select (uiButton);

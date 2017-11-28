@@ -10,13 +10,14 @@ public class CharactersManager : MonoBehaviour
 
     public Character character_to_initialize;
     public Character selectedCharacter;
-	ScenesManager scenesManager;
+    public ScenesManager scenesManager;
 	public UIDragItem uiDragItem;
 
 	bool isRecording;
 
     void Start()
     {
+        print("ASD");
 		scenesManager = GetComponent<ScenesManager> ();
         Events.AddCharacter += AddCharacter;
         Events.OnSelectCharacterID += OnSelectCharacterID;
@@ -49,7 +50,7 @@ public class CharactersManager : MonoBehaviour
     }
 	void OnChangeExpression(string value)
 	{
-		ChangeExpression(selectedCharacter.id, value);
+		ChangeExpression(selectedCharacter.data.id, value);
 		Events.AddKeyFrameExpression (selectedCharacter, value);
 	}
 	public void RestartScene()
@@ -86,12 +87,12 @@ public class CharactersManager : MonoBehaviour
             if (isRecording && selectedCharacter != null)
 				Events.AddKeyFrameMove (selectedCharacter, tile.transform.position);
 
-			MoveCharacter (selectedCharacter.id,  tile.transform.position);
+			MoveCharacter (selectedCharacter.data.id,  tile.transform.position);
 		}
 	}
     void ClickedOnCharacter(Character character)
     {
-        OnSelectCharacterID(character.id);
+        OnSelectCharacterID(character.data.id);
     }
     void OnSelectCharacterID(int id)
     {
@@ -121,7 +122,7 @@ public class CharactersManager : MonoBehaviour
     {
 		foreach (Character character in scenesManager.sceneActive.sceneObjects.GetComponentsInChildren<Character>())
         {
-            if (character.id == id)
+            if (character.data.id == id)
                 return character;
         }
         return null;

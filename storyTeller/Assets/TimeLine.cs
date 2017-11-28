@@ -74,7 +74,7 @@ public class TimeLine : MonoBehaviour {
 	{			
 		if (isRecording) {
             activeScenesTimeline = GetActiveScenesTimeline();
-            int selectedAvatarID = charactersManager.selectedCharacter.id;
+            int selectedAvatarID = charactersManager.selectedCharacter.data.id;
 			RemoveLaterKeyFramesFor (selectedAvatarID);
 
 			foreach (Character character in World.Instance.scenesManager.sceneActive.characters) {
@@ -121,7 +121,7 @@ public class TimeLine : MonoBehaviour {
 		keyframe.time = uiTimeline.timer;
 
 		KeyframeAvatar keyframeAvatar = new KeyframeAvatar ();
-		keyframeAvatar.avatarID = character.id;
+		keyframeAvatar.avatarID = character.data.id;
 		keyframeAvatar.action = character.actions.action.ToString();
 		keyframeAvatar.expression = character.customizer.value;
 		keyframe.avatar = keyframeAvatar;
@@ -247,7 +247,7 @@ public class TimeLine : MonoBehaviour {
 	{
 		foreach (Character character in World.Instance.scenesManager.sceneActive.characters) {
 			float _duration = GetDuration ();
-			charactersManager.PositionateCharacter (character.id, GetLastPositionInTime (character.id, _duration));
+			charactersManager.PositionateCharacter (character.data.id, GetLastPositionInTime (character.data.id, _duration));
 		}
 	}
 	public void JumpTo(float _timer)
@@ -271,7 +271,7 @@ public class TimeLine : MonoBehaviour {
         }
 
         foreach (Character character in World.Instance.scenesManager.sceneActive.characters) {
-			charactersManager.PositionateCharacter (character.id, GetLastPositionInTime (character.id, _timer));
+			charactersManager.PositionateCharacter (character.data.id, GetLastPositionInTime (character.data.id, _timer));
 		}
         activeScenesTimeline = GetActiveScenesTimeline();
     }

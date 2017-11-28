@@ -29,7 +29,7 @@ public class UIChatManager : MonoBehaviour {
 		switch (uiButton.type)
 		{
 		case UIButton.types.CHAT:
-			Events.OnCharacterSay (World.Instance.charactersManager.selectedCharacter.id, input.text);
+			Events.OnCharacterSay (World.Instance.charactersManager.selectedCharacter.data.id, input.text);
 			input.text = "";
 			break;
 		}

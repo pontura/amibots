@@ -8,11 +8,6 @@ public class CharacterCustomizer : MonoBehaviour {
     public parts part;
 	public string value;
 
-    public string legs = "";
-    public string clothes = "";
-    public string hairs = "";
-    public string colors = "";
-
     Character character;
 
     public enum parts
@@ -25,7 +20,7 @@ public class CharacterCustomizer : MonoBehaviour {
         COLORS
     }
 	void Awake () {
-		value = Settings.expressions.angry.ToString ();
+        value = Settings.expressions.angry.ToString ();
 		character = GetComponent<Character> ();
 		Events.OnCustomize += OnCustomize;
     }
@@ -40,32 +35,34 @@ public class CharacterCustomizer : MonoBehaviour {
 	}
     public void Init()
     {
-        if (character.id == -1) return;
+        //if (character.id == -1) return;
 
-        OnCustomize(character.id, parts.LEGS, "ropa_bottom_1");
-        OnCustomize(character.id, parts.CLOTHES, "ropa_top_1");
-        OnCustomize(character.id, parts.HAIRS, "hair_1");
-        OnCustomize(character.id, parts.COLORS, "4");
+        OnCustomize(character.data.id, parts.LEGS, character.data.legs);
+        OnCustomize(character.data.id, parts.CLOTHES, character.data.clothes);
+        OnCustomize(character.data.id, parts.HAIRS, character.data.hairs);
+        OnCustomize(character.data.id, parts.COLORS, character.data.colors);
     }
-    public void OnDupliacteCustomization(CharacterCustomizer newCustomizer)
+    public void OnDupliacteCustomization(CharacterData data)
     {
-        if (newCustomizer.legs != "")
-            OnCustomize(-1, parts.LEGS, newCustomizer.legs);
-        if (newCustomizer.clothes != "")
-            OnCustomize(-1, parts.CLOTHES, newCustomizer.clothes);
-        if (newCustomizer.hairs != "")
-            OnCustomize(-1, parts.HAIRS, newCustomizer.hairs);
-        if (newCustomizer.colors != "")
-            OnCustomize(-1, parts.COLORS, newCustomizer.colors);
+        print("____ id : " + data.id);
+
+        if (data.legs != "")
+            OnCustomize(character.data.id, parts.LEGS, data.legs);
+        if (data.clothes != "")
+            OnCustomize(character.data.id, parts.CLOTHES, data.clothes);
+        if (data.hairs != "")
+            OnCustomize(character.data.id, parts.HAIRS, data.hairs);
+        if (data.colors != "")
+            OnCustomize(character.data.id, parts.COLORS, data.colors);
 
     }
 	void OnCustomize(int characterID, parts part, string newImage) {
-
-		if(characterID == character.id)
+        if (newImage == "") return;
+		if(characterID == character.data.id)
 		{
 
             if (part == parts.LEGS) {
-                legs = newImage;
+                character.data.legs = newImage;
                 string leg1_image = "customizer/CLOTHES/bottom/" + newImage + "_leg_a";
                 string leg2_image = "customizer/CLOTHES/bottom/" + newImage + "_leg_b";
                 character.avatar.leg1.spriteMesh = Resources.Load (leg1_image, typeof(SpriteMesh)) as SpriteMesh;
@@ -75,7 +72,7 @@ public class CharacterCustomizer : MonoBehaviour {
                 character.avatar.body_bottom.spriteMesh = Resources.Load (body_bottom_image, typeof(SpriteMesh)) as SpriteMesh;
 				return;
 			} else if (part == parts.CLOTHES) {
-                clothes = newImage;
+                character.data.clothes = newImage;
                 string arm_a_image = "customizer/CLOTHES/top/" + newImage + "_arm_a";
                 string arm_b_image = "customizer/CLOTHES/top/" + newImage + "_arm_b";
                 character.avatar.arm1.spriteMesh = Resources.Load (arm_a_image, typeof(SpriteMesh)) as SpriteMesh;
@@ -89,7 +86,7 @@ public class CharacterCustomizer : MonoBehaviour {
 			}
             else if (part == parts.HAIRS)
             {
-                hairs = newImage;
+                character.data.hairs = newImage;
                 //return;
                 string hair_a_image = "customizer/HAIR/" + newImage + "_a";
                 string hair_b_image = "customizer/HAIR/" + newImage + "_b";
@@ -99,8 +96,8 @@ public class CharacterCustomizer : MonoBehaviour {
             }
             else if (part == parts.COLORS)
             {
-                colors = newImage;
-                Color color = Data.Instance.clothesSettings.colors[int.Parse(colors)];
+                character.data.colors = newImage;
+                Color color = Data.Instance.clothesSettings.colors[int.Parse(character.data.colors)];
                 character.avatar.hair_up.color = color;
                 character.avatar.hair_down.color = color;
                 return;

@@ -9,9 +9,7 @@ public class UISceneSelector : MonoBehaviour {
 	public Transform container;
 	bool isNewScene;
 	public UIAllScenesMenu uIAllScenesMenu;
-	void Start () {		
-		Open (true);
-	}
+
 	public void Open (bool isNewScene) {
 		this.isNewScene = isNewScene;
 		panel.SetActive (true);

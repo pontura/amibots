@@ -5,19 +5,20 @@ using UnityEngine;
 public class Customizer : MonoBehaviour {
 
     public Character character;
+    CharacterData characterDataToDuplicate;
 
-	void Start () {
+    void Start () {
 		gameObject.SetActive (false);
 	}
 
-	public void Init() {
+	public void Init(CharacterData data) {
+        character.data = data;
         gameObject.SetActive(true);
         Invoke("Delayed", 0.1f);
 	}
     void Delayed()
     {
-        character.customizer.OnDupliacteCustomization(World.Instance.charactersManager.selectedCharacter.customizer);
-
+        character.customizer.OnDupliacteCustomization(character.data);
     }
     public void SetOff()
 	{

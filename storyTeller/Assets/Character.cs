@@ -6,12 +6,12 @@ using Anima2D;
 
 public class Character : MonoBehaviour {
 
+    public CharacterData data;
     public Avatar avatar_to_instantiate;
     CharacterSelector characterSelector;
     [HideInInspector]
     public Avatar avatar;
 	public float speed;
-    public int id;
     public bool isEditorCharacter;
     
 	Animation anim;
@@ -67,6 +67,7 @@ public class Character : MonoBehaviour {
     }
     void Update()
     {
+        if (data.id <= 0) return;
 		if (newPos == Vector3.zero)
 			return;
 		if (state != states.MOVEING) {
@@ -84,9 +85,8 @@ public class Character : MonoBehaviour {
     }
     public void Init(int id)
     {
-        this.id = id;
-		lookAtTarget = World.Instance.scenesManager.cam.transform.localPosition;
-        
+        data.id = id;
+		lookAtTarget = World.Instance.scenesManager.cam.transform.localPosition;        
     }
 	int pathStep;
 	//List<Point> points;

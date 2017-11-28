@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 public class CustomizerManager : MonoBehaviour {
 
+    public UiCustomizer uiCustomizer;
 	public CustomizerButton button;
 	public Transform buttonsContainer;
 
@@ -64,10 +65,10 @@ public class CustomizerManager : MonoBehaviour {
 				parts = CharacterCustomizer.parts.COLORS;
 				break;
 			}
-			Events.OnCustomize (-1, parts, value);
+			Events.OnCustomize (uiCustomizer.GetActiveCharacterData().id, parts, value);
 
 			if(World.Instance.charactersManager.selectedCharacter != null)
-				Events.OnCustomize (World.Instance.charactersManager.selectedCharacter.id, parts, value);
+				Events.OnCustomize (World.Instance.charactersManager.selectedCharacter.data.id, parts, value);
 		}
     }
 }
