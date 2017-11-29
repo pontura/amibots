@@ -16,6 +16,7 @@ public class UIButton : MonoBehaviour {
         CHARACTER,
         EXPRESION,
         ACTION,
+        CHAT_OPEN,
         CHAT,
         REAL_ACTION,
         REAL_EXPRESION,

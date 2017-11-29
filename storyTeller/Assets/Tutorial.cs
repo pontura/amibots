@@ -16,10 +16,10 @@ public class Tutorial : MonoBehaviour {
     }
     void OnUIButtonClicked(UIButton u)
     {
-        AddCharacter(0);
+        AddCharacter(null);
     }
 
-    void AddCharacter (int id) {
+    void AddCharacter (CharacterData data) {
         Events.AddCharacter -= AddCharacter;
         Events.OnUIButtonClicked -= OnUIButtonClicked;
         addCharacter.SetActive (false);

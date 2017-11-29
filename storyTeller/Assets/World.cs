@@ -12,6 +12,7 @@ public class World : MonoBehaviour {
 	public ScenesManager scenesManager;
     static World mInstance = null;
     public WorldStates worldStates;
+    public CreatedCharactersManager createdCharactersManager;
 
     public static World Instance
     {

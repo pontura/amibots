@@ -15,7 +15,7 @@ public class UiCustomizer : MonoBehaviour {
 		panel.SetActive (false);
 		Events.AddCharacter += AddCharacter;
 	}
-	void AddCharacter (int id) {
+	void AddCharacter (CharacterData data) {
 		button.SetActive (true);
 	}
     bool isNewCharacter;

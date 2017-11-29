@@ -9,6 +9,7 @@ public class UISubmenu : MonoBehaviour {
     public GameObject panel;
     public Transform container;
 	public Animator anim;
+    public GameObject chatPanel;
 
 	void Start () {
         Reset();
@@ -16,11 +17,15 @@ public class UISubmenu : MonoBehaviour {
     }
     public void Open(UIButton.types type)
     {
+        print("type " + type);
 		Time.timeScale = 0;
         Utils.RemoveAllChildsIn(container);
         string[] lists;
         UIButton.types newType;
-        switch(type)
+        chatPanel.SetActive(false);
+        newType = UIButton.types.REAL_ACTION;
+        lists = new string[0];
+        switch (type)
         {
             case UIButton.types.ACTION:
                 lists = System.Enum.GetNames(typeof(Settings.actions));
@@ -30,9 +35,8 @@ public class UISubmenu : MonoBehaviour {
 				lists = System.Enum.GetNames(typeof(Settings.expressions));
 				newType = UIButton.types.REAL_EXPRESION;
 				break;
-            default:
-                lists = System.Enum.GetNames(typeof(Settings.actions));
-                newType = UIButton.types.REAL_EXPRESION;
+            case UIButton.types.CHAT_OPEN:
+                chatPanel.SetActive(true);
                 break;
         }
         int id = 0;
@@ -54,6 +58,7 @@ public class UISubmenu : MonoBehaviour {
         {
             case UIButton.types.ACTION:
             case UIButton.types.EXPRESION:
+            case UIButton.types.CHAT_OPEN:
                 Open(uiButton.type);
                 break;
             case UIButton.types.REAL_ACTION:
@@ -62,6 +67,9 @@ public class UISubmenu : MonoBehaviour {
                 break;
             case UIButton.types.REAL_EXPRESION:
 				Events.OnChangeExpression( uiButton.value );
+                Close();
+                break;
+            case UIButton.types.CHAT:
                 Close();
                 break;
         }

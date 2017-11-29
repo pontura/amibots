@@ -24,8 +24,7 @@ public class UIAllScenesMenu : MonoBehaviour {
 	}
 	public void AddNewScene(int sceneID, int backgroundID)
 	{
-		print ("_________add new Scene"  + sceneID);
-		GetComponent<UISceneSelector> ().Open (true);
+        GetComponent<UISceneSelector> ().Open (true);
 		activeSceneID++;
 		SceneButton newSceneButton = Instantiate (sceneButton);
 		newSceneButton.transform.SetParent (container);

@@ -17,6 +17,7 @@ public class SceneIngame : MonoBehaviour {
     {
         this.id = id;
         tiles.Init(backgroundID);
+
     }
 
     public void ChangeBackground(int backgroundID)

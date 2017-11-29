@@ -12,7 +12,7 @@ public class SceneButton : MonoBehaviour {
 	UISceneSelector sceneSelector;
 	UIAllScenesMenu allSceneMenu;
 	public int id;
-	int backgroundID;
+    public int backgroundID;
 	HiResScreenshots hiResScreenshots;
 	void Start()
 	{

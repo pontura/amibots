@@ -20,6 +20,7 @@ public class CharactersManager : MonoBehaviour
         print("ASD");
 		scenesManager = GetComponent<ScenesManager> ();
         Events.AddCharacter += AddCharacter;
+        Events.RefreshCharacters += RefreshCharacters;
         Events.OnSelectCharacterID += OnSelectCharacterID;
         Events.OnCharacterAction += OnCharacterAction;
 		Events.ClickedOn += ClickedOn;
@@ -34,17 +35,31 @@ public class CharactersManager : MonoBehaviour
 		if(scenesManager.sceneActive.characters.Count>0)
 			selectedCharacter = scenesManager.sceneActive.characters [0];
 	}
-    void AddCharacter(int id)
+    void RefreshCharacters()
+    {
+        Invoke("RefreshCharactersDelayed", 0.5f);
+    }
+    public CharacterData data;
+    void RefreshCharactersDelayed()
+    {
+        foreach (CharacterData data in World.Instance.createdCharactersManager.GetActiveCharacters())
+        {
+            this.data = data;
+           // AddCharacter(data);
+            Events.AddCharacter(data);
+        }
+    }
+    void AddCharacter(CharacterData data)
     {
         Character character = Instantiate(character_to_initialize);
 		character.transform.SetParent(scenesManager.sceneActive.sceneObjects);
 		character.transform.localPosition = World.Instance.scenesManager.sceneActive.tiles.GetFreeTileInCenter ();
-        character.Init(id);
+        character.data = data;
+        character.Init(data.id);
         character.transform.localScale = new Vector3(characterScale, characterScale, characterScale);
 		character.transform.localEulerAngles = new Vector3 (35, 0, 0);
 
-		//if(scenesManager.sceneActive.characters.Count>0)
-			Events.AddKeyFrameNewCharacter (character);
+		Events.AddKeyFrameNewCharacter (character);
 
 		scenesManager.sceneActive.characters.Add (character);
     }

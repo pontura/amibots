@@ -26,8 +26,9 @@ public static class Events {
 	public static System.Action<Character, string> AddKeyFrameAction = delegate { };
 	public static System.Action<Character, string> AddKeyFrameExpression = delegate { };
 	public static System.Action<Character, Vector3> AddKeyFrameMove = delegate { };
-    public static System.Action<int> AddCharacter = delegate { };
-	public static System.Action<SceneObjectData, Vector2> AddGenericObject = delegate { };
+    public static System.Action<CharacterData> AddCharacter = delegate { };
+    public static System.Action RefreshCharacters = delegate { };
+    public static System.Action<SceneObjectData, Vector2> AddGenericObject = delegate { };
 
 
     public static System.Action<int> OnSelectCharacterID = delegate { };

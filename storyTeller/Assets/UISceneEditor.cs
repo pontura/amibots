@@ -54,8 +54,8 @@ public class UISceneEditor : MonoBehaviour {
 		else if (id == 2)
 			Open (SceneObject.types.FURNITURES);
 		else if (id == 3)
-			Open (SceneObject.types.VEHICLES);
-		else if (id == 4)
+            GetComponent<UICharacterSelector>().Open();
+        else if (id == 4)
 			Open (SceneObject.types.SPORT);
 	}
 

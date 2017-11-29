@@ -24,7 +24,7 @@ public class UISceneSelector : MonoBehaviour {
 	}
 	public void SetSelected(int sceneID, int backgroundID)
 	{
-		print ("isNewScene " + isNewScene + " id: " + sceneID);
+		print ("isNewScene " + isNewScene + " id: " + sceneID + "   backgroundID " + backgroundID);
 		if (isNewScene) {
 			print ("Events.AddNewScene (sceneID, backgroundID);");
 			uIAllScenesMenu.AddNewScene (sceneID, backgroundID);

@@ -7,6 +7,7 @@ public class CreatedCharactersManager : MonoBehaviour {
     public Transform container;
     public CharacterCreated characterCreated_to_instantiate;
     public List<CharacterCreated> all;
+    public List<int> selectedIds;
 
     void Start () {
 
@@ -22,5 +23,36 @@ public class CreatedCharactersManager : MonoBehaviour {
         characterCreated.Init(data);        
         all.Add(characterCreated);
         return characterCreated;
+    }
+    public void SetSelectedIds(List<int> arr)
+    {
+        selectedIds = arr;
+    }
+    public List<CharacterData> GetActiveCharacters()
+    {
+        List<CharacterData> arr = new List<CharacterData>();
+        foreach (CharacterCreated cd in all)
+        {
+            foreach (int id in selectedIds)
+            {
+                print(id + "      id: " + cd.character.data.id + " a:: " + all.Count);
+                if (id == cd.character.data.id)
+                {
+                    arr.Add(cd.character.data);
+                }
+            }
+        }
+        return arr;
+    }
+    public CharacterCreated GetCharacterCreatedByID(int id)
+    {
+        foreach (CharacterCreated cd in all)
+        {
+            if (id == cd.character.data.id)
+            {
+               return cd;
+            }
+        }
+        return null;
     }
 }

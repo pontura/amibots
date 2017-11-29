@@ -67,7 +67,7 @@ public class Character : MonoBehaviour {
     }
     void Update()
     {
-        if (data.id <= 0) return;
+       // if (data.id <= 0) return;
 		if (newPos == Vector3.zero)
 			return;
 		if (state != states.MOVEING) {

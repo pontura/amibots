@@ -31,6 +31,7 @@ public class ScenesManager : MonoBehaviour {
         scenesIngame.Add (sceneActive);
 		Activate();
 		Events.OnChangeBackground (backgroundID);
+        Events.RefreshCharacters();
 	}
 	void Activate()
 	{

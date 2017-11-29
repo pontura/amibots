@@ -26,7 +26,6 @@ public class TimeLine : MonoBehaviour {
 		scenesTimeline = new List<ScenesTimeline> ();
 		charactersManager = World.Instance.charactersManager;
 		Events.OnCharacterReachTile += OnCharacterReachTile;
-		Events.AddCharacter += AddCharacter;
 		Events.AddKeyFrameNewCharacter += AddKeyFrameNewCharacter;
 		Events.OnRecording += OnRecording;
 		Events.OnPlaying += OnPlaying;
@@ -38,10 +37,6 @@ public class TimeLine : MonoBehaviour {
         Events.OnActivateScene += OnActivateScene;
 
     }
-	void AddCharacter(int id)
-	{
-		print ("AddCharacter");
-	}
 	public ScenesTimeline GetActiveScenesTimeline()
 	{
 		return scenesTimeline [scenesManager.sceneActive.id];

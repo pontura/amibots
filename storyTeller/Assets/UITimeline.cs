@@ -85,7 +85,7 @@ public class UITimeline : MonoBehaviour {
         uiSmallTimeline.JumpTo(0);
     }
 
-    void AddCharacter(int id)
+    void AddCharacter(CharacterData data)
 	{
 		panel.SetActive (true);
 	}

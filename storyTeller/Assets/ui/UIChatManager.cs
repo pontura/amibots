@@ -20,7 +20,7 @@ public class UIChatManager : MonoBehaviour {
 		Events.OnUIButtonClicked -= OnUIButtonClicked;
 		Events.AddCharacter -= AddCharacter;
 	}
-	void AddCharacter(int id)
+	void AddCharacter(CharacterData data)
 	{
 		panel.SetActive (true);
 	}

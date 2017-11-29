@@ -13,7 +13,7 @@ public class UIExpresionsManager : MonoBehaviour {
 	void OnDestroy () {
 		Events.AddCharacter -= AddCharacter;
 	}
-	void AddCharacter(int id)
+	void AddCharacter(CharacterData data)
 	{
 		panel.SetActive (true);
 	}
