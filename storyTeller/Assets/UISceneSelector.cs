@@ -28,7 +28,8 @@ public class UISceneSelector : MonoBehaviour {
 		if (isNewScene) {
 			print ("Events.AddNewScene (sceneID, backgroundID);");
 			uIAllScenesMenu.AddNewScene (sceneID, backgroundID);
-		} else {
+            GetComponent<UiCustomizer>().CreateNew(false);
+        } else {
 			print ("Events.OnChangeBackground (backgroundID);");
 			Events.OnChangeBackground (backgroundID);
 		}

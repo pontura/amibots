@@ -22,6 +22,7 @@ public static class Events {
     public static System.Action<SceneObject> ClickedOnSceneObject = delegate { };
     public static System.Action<Character> ClickedOnCharacter = delegate { };
 
+    public static System.Action RefreshKeyframe = delegate { };
     public static System.Action<Character> AddKeyFrameNewCharacter = delegate { };
 	public static System.Action<Character, string> AddKeyFrameAction = delegate { };
 	public static System.Action<Character, string> AddKeyFrameExpression = delegate { };

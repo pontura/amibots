@@ -23,7 +23,6 @@ public class ScenesManager : MonoBehaviour {
 	}
 	public void AddNewScene(int sceneID, int backgroundID)
 	{
-		print ("sceneID " + sceneID);
 		sceneActive = Instantiate (sceneIngame);
 		sceneActive.transform.SetParent (container);
         sceneActive.Init(sceneID, backgroundID);

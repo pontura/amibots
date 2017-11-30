@@ -37,17 +37,27 @@ public class CharactersManager : MonoBehaviour
 	}
     void RefreshCharacters()
     {
-        Invoke("RefreshCharactersDelayed", 0.5f);
+        Invoke("RefreshCharactersDelayed", 0.25f);
     }
     public CharacterData data;
+    int lastcharacterAddedID;
     void RefreshCharactersDelayed()
     {
+        
         foreach (CharacterData data in World.Instance.createdCharactersManager.GetActiveCharacters())
         {
             this.data = data;
-           // AddCharacter(data);
-            Events.AddCharacter(data);
+            if (!GetCharacter(data.id))
+            {
+                Events.AddCharacter(data);
+                lastcharacterAddedID = data.id;
+                Invoke("SelectLastAddedCharacter", 0.5f);
+            }
         }
+    }
+    void SelectLastAddedCharacter()
+    {
+        OnSelectCharacterID(lastcharacterAddedID);
     }
     void AddCharacter(CharacterData data)
     {
@@ -62,6 +72,7 @@ public class CharactersManager : MonoBehaviour
 		Events.AddKeyFrameNewCharacter (character);
 
 		scenesManager.sceneActive.characters.Add (character);
+        
     }
 	void OnChangeExpression(string value)
 	{

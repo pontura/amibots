@@ -27,7 +27,8 @@ public class TimeLine : MonoBehaviour {
 		charactersManager = World.Instance.charactersManager;
 		Events.OnCharacterReachTile += OnCharacterReachTile;
 		Events.AddKeyFrameNewCharacter += AddKeyFrameNewCharacter;
-		Events.OnRecording += OnRecording;
+        Events.RefreshKeyframe += RefreshKeyframe;
+        Events.OnRecording += OnRecording;
 		Events.OnPlaying += OnPlaying;
 		Events.AddKeyFrameMove += AddKeyFrameMove;
 		Events.AddKeyFrameAction += AddKeyFrameAction;
@@ -41,7 +42,12 @@ public class TimeLine : MonoBehaviour {
 	{
 		return scenesTimeline [scenesManager.sceneActive.id];
 	}
-	void AddNewScene(int id, int backgroundID)
+    void RefreshKeyframe()
+    {
+
+    }
+
+    void AddNewScene(int id, int backgroundID)
 	{
         timer = 0;
         ScenesTimeline st = new ScenesTimeline ();
@@ -51,10 +57,19 @@ public class TimeLine : MonoBehaviour {
 	}
 	void OnCharacterReachTile(Character character)
 	{
+        KeyframeBase keyframe = GetNewKeyframeAvatar(character);
+        if (timer == 0 && uiTimeline.state == UITimeline.states.STOPPED)
+        {
+            if (keyframe != null)
+            {
+                keyframe.pos = character.transform.position;
+                RemoveLaterKeyFramesFor(character.data.id);
+                GetActiveScenesTimeline().keyframes.Add(keyframe);
+            }
+        }      
 		if (uiTimeline.state != UITimeline.states.RECORDING)
 			return;
-		KeyframeBase keyframe = GetNewKeyframeAvatar (character);
-		if (keyframe == null)
+        if (keyframe == null)
 			return;
 		GetActiveScenesTimeline().keyframes.Add (keyframe);
 	}
@@ -66,19 +81,20 @@ public class TimeLine : MonoBehaviour {
 		GetActiveScenesTimeline().keyframes.Add (keyframe);
 	}
 	void OnRecording(bool isRecording)
-	{			
-		if (isRecording) {
-            activeScenesTimeline = GetActiveScenesTimeline();
-            int selectedAvatarID = charactersManager.selectedCharacter.data.id;
-			RemoveLaterKeyFramesFor (selectedAvatarID);
+	{
+        activeScenesTimeline = GetActiveScenesTimeline();
+        int selectedAvatarID = charactersManager.selectedCharacter.data.id;
 
-			foreach (Character character in World.Instance.scenesManager.sceneActive.characters) {
-				KeyframeBase keyframe = GetNewKeyframeAvatar (character);
-				if (keyframe == null)
-					return;
-                activeScenesTimeline.keyframes.Add (keyframe);
-			}
-		}        
+        if (isRecording) {            
+			RemoveLaterKeyFramesFor (selectedAvatarID);			
+		}
+        foreach (Character character in World.Instance.scenesManager.sceneActive.characters)
+        {
+            KeyframeBase keyframe = GetNewKeyframeAvatar(character);
+            if (keyframe == null)
+                return;
+            activeScenesTimeline.keyframes.Add(keyframe);
+        }
         Events.OnTimelineUpdated ();
 	}
 	void AddKeyFrameMove(Character character, Vector3 moveTo)

@@ -93,8 +93,8 @@ public class Character : MonoBehaviour {
     List<Vector3> positions;
     public void MoveFromPath(List<Vector3> positions)
 	{
-        foreach (Vector3 pos in positions)
-            print(pos);
+       // foreach (Vector3 pos in positions)
+       //     print(pos);
 
 		this.positions = positions;
 		pathStep = 0;
@@ -110,7 +110,7 @@ public class Character : MonoBehaviour {
 			return;
 		}
 		pathStep++;
-        print("CharacterReachTile  positions.Count: " + positions.Count + "   pathStep: " + pathStep + "  positions[pathStep-1]: " + positions[pathStep - 1]);
+       // print("CharacterReachTile  positions.Count: " + positions.Count + "   pathStep: " + pathStep + "  positions[pathStep-1]: " + positions[pathStep - 1]);
         Vector3 newPos = positions[pathStep-1];
 		Move (newPos);
 

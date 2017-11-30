@@ -20,7 +20,7 @@ public class CharacterCustomizer : MonoBehaviour {
         COLORS
     }
 	void Awake () {
-        value = Settings.expressions.angry.ToString ();
+        value = Settings.expressions.norm.ToString ();
 		character = GetComponent<Character> ();
 		Events.OnCustomize += OnCustomize;
     }

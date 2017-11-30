@@ -37,10 +37,10 @@ public class UICharactersManager : MonoBehaviour
 			SetActive (true);
 		} else if (uiButton.type == UIButton.types.SCENEOBJECT_MENU)
 		{
-				SetActive (false);
+			SetActive (false);
 		}
     }
-	void SetActive(bool isActive)
+	public void SetActive(bool isActive)
 	{
 		if (!isActive) {
 			characterButton.gameObject.SetActive (true);

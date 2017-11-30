@@ -4,10 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class SceneButton : MonoBehaviour {
-
-	public Texture thumbTexture;
-	public Shader matShader;
-	public Material mat;
+    
 	public Image image;
 	UISceneSelector sceneSelector;
 	UIAllScenesMenu allSceneMenu;
@@ -32,10 +29,9 @@ public class SceneButton : MonoBehaviour {
 	}
 	public void UpdateThumbButton2()
 	{
-		mat = new Material (matShader);
-		mat.mainTexture = hiResScreenshots.screenShot;
-		image.material = mat;
-		hiResScreenshots.ResetImage ();
+        Texture2D texture = hiResScreenshots.screenShot;
+        image.sprite = Sprite.Create(texture, new Rect(0.0f, 0.0f, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100.0f);
+        hiResScreenshots.ResetImage ();
 	}
 	public void Init(UISceneSelector sceneSelector,  int _id, int backgroundID)
 	{

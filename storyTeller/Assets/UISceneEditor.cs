@@ -48,15 +48,21 @@ public class UISceneEditor : MonoBehaviour {
 	}
 	public void OpenByID(int id)
 	{
-		if (id == 1)
-			GetComponent<UISceneSelector> ().Open (false);
-			//Open (SceneObject.types.BACKGROUND);
-		else if (id == 2)
-			Open (SceneObject.types.FURNITURES);
-		else if (id == 3)
+        if (id == 1)
+            GetComponent<UISceneSelector>().Open(false);
+        //Open (SceneObject.types.BACKGROUND);
+        else if (id == 2)
+            Open(SceneObject.types.FURNITURES);
+        else if (id == 3)
+        {
+            GetComponent<UICharactersManager>().SetActive(true);
+            World.Instance.charactersManager.selectedCharacter = null;
             GetComponent<UICharacterSelector>().Open();
+            World.Instance.worldStates.Change(WorldStates.states.CHARACTERS_EDITOR);
+            SetActive(false);
+        }
         else if (id == 4)
-			Open (SceneObject.types.SPORT);
+            Open(SceneObject.types.SPORT);
 	}
 
 	void Open(SceneObject.types _type)

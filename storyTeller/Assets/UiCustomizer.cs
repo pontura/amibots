@@ -19,12 +19,23 @@ public class UiCustomizer : MonoBehaviour {
 		button.SetActive (true);
 	}
     bool isNewCharacter;
-    public void CreateNew()
+    public void CreateNew(bool createAndOpen)
     {
         isNewCharacter = true;
         CharacterData data = new CharacterData();
         data.id = Data.Instance.charactersCreated.all.Count;
-        Open(data);
+
+        int character_id = data.id;
+
+        data.hairs = "hair_" + Random.Range(1,4);
+        data.clothes = "ropa_top_" + Random.Range(1, 3);
+        data.legs = "ropa_bottom_" + Random.Range(1, 3);       
+        data.colors = "" + Random.Range(1, 5);
+
+        if(createAndOpen)
+            Open(data);
+        else
+            customizer.Init(data);
     }
     public void Selected()
     {        

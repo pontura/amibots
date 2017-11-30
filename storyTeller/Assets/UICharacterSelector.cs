@@ -15,7 +15,7 @@ public class UICharacterSelector : MonoBehaviour
 
     void Start()
     {
-        Invoke("Init", 0.5f);
+        Invoke("Init", 0.01f);
     }
     int id = 0;
     public void Init()
@@ -44,7 +44,7 @@ public class UICharacterSelector : MonoBehaviour
     }
     public void Add()
     {
-        GetComponent<UiCustomizer>().CreateNew();
+        GetComponent<UiCustomizer>().CreateNew(true);
     }
     public void Done()
     {
@@ -60,8 +60,11 @@ public class UICharacterSelector : MonoBehaviour
 
         panel.SetActive(false);
 
-        if(!isEditing)
+        // se fija si recién empezas y no hay escenea elegida:
+        if (!isEditing)
             GetComponent<UISceneSelector>().Open(true);
+        else
+            Events.RefreshCharacters();
     }
     public void Edit(CharacterData data)
     {
