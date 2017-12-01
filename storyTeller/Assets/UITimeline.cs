@@ -127,7 +127,8 @@ public class UITimeline : MonoBehaviour {
 			buttonField.text = "STOP";
 			bgImage.color = colorRec;
 			Events.OnRecording (true);
-		} else {
+            GetComponent<UIRecScreen>().SetState(true);
+        } else {
 			uiSmallTimeline.Init ();
 			PlayButton.interactable = true;
 			RewButton.interactable = true;
@@ -136,8 +137,10 @@ public class UITimeline : MonoBehaviour {
 			buttonField.text = "REC";
 			bgImage.color = colorStopped;
 			Events.OnRecording (false);
-		}
+            GetComponent<UIRecScreen>().SetState(false);
+        }
 		SetTimerField ();
+       
 	}
 	public void PlayToggle()
 	{		
