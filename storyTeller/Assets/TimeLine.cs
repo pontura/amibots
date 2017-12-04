@@ -234,6 +234,15 @@ public class TimeLine : MonoBehaviour {
 		foreach (KeyframeBase k in keyframesToDelete)
 			GetActiveScenesTimeline().keyframes.Remove (k);
 	}
+	public List<KeyframeBase> GetkeyframesOfAvatar(int avatarID)
+	{
+		List<KeyframeBase> keyframes = new List<KeyframeBase>();
+		foreach (KeyframeBase keyFrame in GetActiveScenesTimeline().keyframes) {
+			if (keyFrame.avatar.avatarID == avatarID)
+				keyframes.Add (keyFrame);
+		}
+		return keyframes;
+	}
 	public float GetLastRecordedKeyFrame(int avatarID)
 	{
 		float keyframeTime = 0;
