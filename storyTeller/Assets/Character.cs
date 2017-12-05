@@ -6,6 +6,7 @@ using Anima2D;
 
 public class Character : MonoBehaviour {
 
+	public Tile tile;
     public CharacterData data;
     public Avatar avatar_to_instantiate;
     CharacterSelector characterSelector;

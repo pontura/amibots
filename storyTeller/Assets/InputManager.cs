@@ -99,8 +99,6 @@ public class InputManager : MonoBehaviour
             && !CanCompute())
             return;
 
-            print("DONE " + hit.collider + " tag: " + hit.collider.gameObject.tag);
-
         if (hit.collider != null && hit.collider.gameObject.tag == "Tile")
             Events.ClickedOn(hit.collider.gameObject.GetComponent<Tile>());
 

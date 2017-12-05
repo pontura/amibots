@@ -63,7 +63,8 @@ public class CharactersManager : MonoBehaviour
     {
         Character character = Instantiate(character_to_initialize);
 		character.transform.SetParent(scenesManager.sceneActive.sceneObjects);
-		character.transform.localPosition = World.Instance.scenesManager.sceneActive.tiles.GetFreeTileInCenter ();
+		Vector3 pos = World.Instance.scenesManager.sceneActive.tiles.GetFreeTileInCenter ();
+		character.transform.localPosition = pos;
         character.data = data;
         character.Init(data.id);
         character.transform.localScale = new Vector3(characterScale, characterScale, characterScale);
@@ -72,6 +73,9 @@ public class CharactersManager : MonoBehaviour
 		Events.AddKeyFrameNewCharacter (character);
 
 		scenesManager.sceneActive.characters.Add (character);
+		Tile tile = World.Instance.scenesManager.sceneActive.tiles.GetTileByPos (new Vector2 (character.transform.localPosition.x, character.transform.localPosition.z));
+		World.Instance.scenesManager.sceneActive.tiles.Blocktile (tile, true);
+		character.tile = tile;
         
     }
 	void OnChangeExpression(string value)
@@ -170,12 +174,24 @@ public class CharactersManager : MonoBehaviour
 		if(World.Instance.scenesManager.sceneActive.characters.Count>0)
 		{
 			Character character = GetCharacter (id);
+
+
+
             List<Point> coords = World.Instance.scenesManager.sceneActive.tiles.GetPathfinder (character.transform.position, moveTo);
             List<Vector3> pos = new List<Vector3>();
             foreach (Point p in coords)
                 pos.Add(World.Instance.scenesManager.sceneActive.tiles.GetPositionsByPoints(p));
-           // return;
-            // List<Vector3> coords = World.Instance.scenesManager.sceneActive.tiles.PathfinderToPosition(points);
+           
+			if(character.tile != null)
+				World.Instance.scenesManager.sceneActive.tiles.Blocktile (character.tile, false);
+
+			if (coords.Count == 0)
+				return;
+
+			Tile tile = World.Instance.scenesManager.sceneActive.tiles.GetTileByPos (new Vector2(coords[coords.Count-1].x, coords[coords.Count-1].y));
+			World.Instance.scenesManager.sceneActive.tiles.Blocktile (tile, true);
+			character.tile = tile;
+
             if (coords.Count > 0) {
                 GetCharacter(id).MoveFromPath (pos);
             }

@@ -35,7 +35,7 @@ public class Tile : MonoBehaviour {
 	{
 		isWalkable = true;
 		ResetPath ();
-		meshRenderer.enabled = false;
+		//meshRenderer.enabled = false;
 	}
 	public void MarkAsPath()
 	{

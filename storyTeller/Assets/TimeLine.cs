@@ -294,6 +294,7 @@ public class TimeLine : MonoBehaviour {
 			charactersManager.PositionateCharacter (character.data.id, GetLastPositionInTime (character.data.id, _timer));
 		}
         activeScenesTimeline = GetActiveScenesTimeline();
+		timer = _timer;
     }
 	public float GetDuration()
 	{
@@ -322,5 +323,15 @@ public class TimeLine : MonoBehaviour {
         activeScenesTimeline = GetActiveScenesTimeline();
         timer = 0;
 		activeSceneID = 0;
+	}
+	public void DeleteKeyframe(int characterID, float _timer)
+	{
+		KeyframeBase theKeyframe = null;
+		foreach (KeyframeBase keyFrame in GetActiveScenesTimeline().keyframes) {
+			if (keyFrame.avatar.avatarID == characterID && keyFrame.time==_timer)
+				theKeyframe = keyFrame;
+		}
+		if (theKeyframe != null)
+			GetActiveScenesTimeline ().keyframes.Remove (theKeyframe);
 	}
 }

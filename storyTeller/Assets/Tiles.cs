@@ -61,7 +61,7 @@ public class Tiles : MonoBehaviour {
             Blocktile(GetTileByPos(pos), true);
         }
     }
-	void Blocktile(Tile tile, bool isBlock)
+	public void Blocktile(Tile tile, bool isBlock)
 	{
 		int value = 0;
 
@@ -72,8 +72,7 @@ public class Tiles : MonoBehaviour {
 			tile.SetAsUnwalkable ();
 			value = 0;
 		}
-		//print ((int)tile.transform.localPosition.x + " __ " + (int)tile.transform.localPosition.z + "Blocktile ____" + isBlock + "  :  " + value);
-		tilesmap [(int)tile.pos.x, (int)tile.pos.y] = value;
+		tilesmap [(int)(tile.pos.x), (int)(tile.pos.y)] = value;
 		grid= new NesScripts.Controls.PathFind.Grid(tilesWidth, tilesWHeight, tilesmap);
 
 	}
@@ -87,7 +86,7 @@ public class Tiles : MonoBehaviour {
 			bool isOn = false;
 			foreach (Point p in list) {
 				//print ((int)tile.transform.localPosition.x + " - " + (int)tile.transform.localPosition.y);
-				if (p.x == tile.pos.x && p.y == tile.pos.y) {
+				if (Mathf.Round(p.x) == Mathf.Round(tile.pos.x) && Mathf.Round(p.y) == Mathf.Round(tile.pos.y)) {
 					isOn = true;
 					tile.MarkAsPath();
 				}
@@ -97,10 +96,16 @@ public class Tiles : MonoBehaviour {
 		}		
 		return list;
 	}
+	public void BlocktileByPos(Vector2 pos, bool isBlocked)
+	{
+		Tile tile = GetTileByPos (pos);
+		if(tile != null)
+			Blocktile (tile, isBlocked);
+	}
     public Tile GetTileByPos(Vector2 pos)
     {
         foreach (Tile tile in tiles)
-            if (tile.pos.x == pos.x && tile.pos.y == pos.y)
+			if (Mathf.Round( tile.pos.x) == Mathf.Round(pos.x) && Mathf.Round(tile.pos.y) == Mathf.Round(pos.y))
                 return tile;
 
         return null;
@@ -108,7 +113,7 @@ public class Tiles : MonoBehaviour {
     public Vector3 GetPositionsByPoints(Point p)
     {
         foreach (Tile tile in tiles)
-            if (tile.pos.x == p.x && tile.pos.y == p.y)
+			if ( Mathf.Round(tile.pos.x) ==  Mathf.Round(p.x) &&  Mathf.Round(tile.pos.y) == Mathf.Round(p.y))
                 return tile.transform.position;
 
         return Vector3.zero;
@@ -129,7 +134,7 @@ public class Tiles : MonoBehaviour {
     {
         foreach (Tile tile in tiles)
         {
-            if (tile.transform.localPosition.x == pos.x && tile.transform.localPosition.z == pos.z)
+			if ( Mathf.Round(tile.transform.localPosition.x) ==  Mathf.Round(pos.x) &&  Mathf.Round(tile.transform.localPosition.z) ==  Mathf.Round(pos.z))
                 return tile;
         }
         return null;
