@@ -31,6 +31,7 @@ public class TimeLine : MonoBehaviour {
         Events.OnRecording += OnRecording;
 		Events.OnPlaying += OnPlaying;
 		Events.AddKeyFrameMove += AddKeyFrameMove;
+		Events.AddKeyFrameScreenTitle += AddKeyFrameScreenTitle;
 		Events.AddKeyFrameAction += AddKeyFrameAction;
 		Events.AddKeyFrameExpression += AddKeyFrameExpression;
 		Events.OnCharacterSay += OnCharacterSay;
@@ -97,6 +98,14 @@ public class TimeLine : MonoBehaviour {
         }
         Events.OnTimelineUpdated ();
 	}
+	void AddKeyFrameScreenTitle(string title, float time)
+	{
+		KeyframeBase keyframe = new KeyframeBase();
+		keyframe.time = time;
+		keyframe.screenTitle = new KeyframeScreenTitle ();
+		keyframe.screenTitle.title = title;
+		//scenesTimeline.add.keyframes.Add (keyframe);
+	}
 	void AddKeyFrameMove(Character character, Vector3 moveTo)
 	{
 		KeyframeBase keyframe = GetNewKeyframeAvatar (character);
@@ -143,10 +152,12 @@ public class TimeLine : MonoBehaviour {
 
 	void OnPlaying(bool isPlaying) 
 	{
-        print("OnPlaying   " + isPlaying);
+		print("OnPlaying   " + isPlaying);
 		if (isPlaying) {
-			fullDuration = GetDuration ();		
+			fullDuration = GetDuration ();	
+
 			timer = uiTimeline.timer;	
+			print("fullDuration   " + fullDuration +  " timer: " + timer);
 			foreach (KeyframeBase keyFrame in activeScenesTimeline.keyframes)
 				keyFrame.played = false;
 		}
@@ -216,7 +227,6 @@ public class TimeLine : MonoBehaviour {
 			if (chat != null && chat.Length >0) {
 				uiTimeline.GetComponent<UIChatManager>().OnCharacterSay(avatarID, chat);
 			}
-			
 			if(moveTo != Vector3.zero)
 				charactersManager.MoveCharacter (avatarID, moveTo);
 		}

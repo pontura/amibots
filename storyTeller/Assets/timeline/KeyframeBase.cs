@@ -10,4 +10,5 @@ public class KeyframeBase {
 	public Vector3 pos;
 	public Vector3 moveTo;
 	public KeyframeAvatar avatar;
+	public KeyframeScreenTitle screenTitle;
 }

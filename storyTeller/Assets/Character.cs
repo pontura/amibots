@@ -71,6 +71,7 @@ public class Character : MonoBehaviour {
        // if (data.id <= 0) return;
 		if (newPos == Vector3.zero)
 			return;
+		
 		if (state != states.MOVEING) {
 			actions.Walk ();
 			state = states.MOVEING;
@@ -94,8 +95,8 @@ public class Character : MonoBehaviour {
     List<Vector3> positions;
     public void MoveFromPath(List<Vector3> positions)
 	{
-       // foreach (Vector3 pos in positions)
-       //     print(pos);
+        foreach (Vector3 pos in positions)
+            print(pos);
 
 		this.positions = positions;
 		pathStep = 0;
@@ -111,7 +112,7 @@ public class Character : MonoBehaviour {
 			return;
 		}
 		pathStep++;
-       // print("CharacterReachTile  positions.Count: " + positions.Count + "   pathStep: " + pathStep + "  positions[pathStep-1]: " + positions[pathStep - 1]);
+        print("CharacterReachTile  positions.Count: " + positions.Count + "   pathStep: " + pathStep + "  positions[pathStep-1]: " + positions[pathStep - 1]);
         Vector3 newPos = positions[pathStep-1];
 		Move (newPos);
 
@@ -128,6 +129,7 @@ public class Character : MonoBehaviour {
 	}
 	public void Reset()
 	{      
+		print ("RESET");
 		newPos = Vector3.zero;
 		actions.Idle ();
         falled = false;

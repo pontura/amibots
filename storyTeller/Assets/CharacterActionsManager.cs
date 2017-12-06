@@ -23,7 +23,7 @@ public class CharacterActionsManager : MonoBehaviour {
 	}
 	public void Set(string newAction) {
 
-		character.Reset ();
+		//character.Reset ();
 
         action = newAction;
         switch (newAction)
@@ -87,7 +87,12 @@ public class CharacterActionsManager : MonoBehaviour {
 	}
     public void SetExpression( string value)
     {
-        print("SetExpression " + value);
+       
+		if (value.Length < 2)
+			return;
+
+		print("SetExpression " + value);
+
         expressionsAnim.Play(value);
         //action = "IDLE";
        // Idle();

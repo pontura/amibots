@@ -14,10 +14,10 @@ public class CharactersManager : MonoBehaviour
 	public UIDragItem uiDragItem;
 
 	bool isRecording;
-
+	TimeLine timeline;
     void Start()
     {
-        print("ASD");
+		timeline = GetComponent<TimeLine> ();
 		scenesManager = GetComponent<ScenesManager> ();
         Events.AddCharacter += AddCharacter;
         Events.RefreshCharacters += RefreshCharacters;
@@ -175,12 +175,13 @@ public class CharactersManager : MonoBehaviour
 		{
 			Character character = GetCharacter (id);
 
-
-
             List<Point> coords = World.Instance.scenesManager.sceneActive.tiles.GetPathfinder (character.transform.position, moveTo);
             List<Vector3> pos = new List<Vector3>();
-            foreach (Point p in coords)
-                pos.Add(World.Instance.scenesManager.sceneActive.tiles.GetPositionsByPoints(p));
+
+			foreach (Point p in coords) {
+				print (p);
+				pos.Add (World.Instance.scenesManager.sceneActive.tiles.GetPositionsByPoints (p));
+			}
            
 			if(character.tile != null)
 				World.Instance.scenesManager.sceneActive.tiles.Blocktile (character.tile, false);
@@ -188,9 +189,14 @@ public class CharactersManager : MonoBehaviour
 			if (coords.Count == 0)
 				return;
 
-			Tile tile = World.Instance.scenesManager.sceneActive.tiles.GetTileByPos (new Vector2(coords[coords.Count-1].x, coords[coords.Count-1].y));
-			World.Instance.scenesManager.sceneActive.tiles.Blocktile (tile, true);
-			character.tile = tile;
+			if (timeline.uiTimeline.state == UITimeline.states.PLAYING || timeline.uiTimeline.state == UITimeline.states.PLAY_ALL) {
+				//no bloquees nada:
+			} else {
+				Tile tile = World.Instance.scenesManager.sceneActive.tiles.GetTileByPos (new Vector2 (coords [coords.Count - 1].x, coords [coords.Count - 1].y));
+				World.Instance.scenesManager.sceneActive.tiles.Blocktile (tile, true);
+				character.tile = tile;
+			}
+		
 
             if (coords.Count > 0) {
                 GetCharacter(id).MoveFromPath (pos);

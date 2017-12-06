@@ -55,7 +55,9 @@ public class Tiles : MonoBehaviour {
         {
             SceneObjectData data = new SceneObjectData();
             data.sceneObjectName = randomObjects[a];
-            Vector2 pos = new Vector2(Random.Range(3, tilesWidth-3), a*2);
+			int _x = Random.Range (0, 3);
+			_x += 1;
+			Vector2 pos = new Vector2(_x, (a*2));
 
             Events.AddGenericObject(data, GetTileByPos(pos).GetPos());
             Blocktile(GetTileByPos(pos), true);

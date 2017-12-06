@@ -29,13 +29,13 @@ public class Tile : MonoBehaviour {
 	{
 		isWalkable = false;
 		//material.color = Color.red;
-		//meshRenderer.enabled = true;
+		meshRenderer.enabled = true;
 	}
 	public void SetAsWalkable()
 	{
 		isWalkable = true;
 		ResetPath ();
-		//meshRenderer.enabled = false;
+		meshRenderer.enabled = false;
 	}
 	public void MarkAsPath()
 	{

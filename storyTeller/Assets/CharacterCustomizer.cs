@@ -20,7 +20,7 @@ public class CharacterCustomizer : MonoBehaviour {
         COLORS
     }
 	void Awake () {
-        value = Settings.expressions.norm.ToString ();
+        value = "";
 		character = GetComponent<Character> ();
 		Events.OnCustomize += OnCustomize;
     }
@@ -35,8 +35,6 @@ public class CharacterCustomizer : MonoBehaviour {
 	}
     public void Init()
     {
-        //if (character.id == -1) return;
-
         OnCustomize(character.data.id, parts.LEGS, character.data.legs);
         OnCustomize(character.data.id, parts.CLOTHES, character.data.clothes);
         OnCustomize(character.data.id, parts.HAIRS, character.data.hairs);
@@ -44,8 +42,6 @@ public class CharacterCustomizer : MonoBehaviour {
     }
     public void OnDupliacteCustomization(CharacterData data)
     {
-        print("____ id : " + data.id);
-
         if (data.legs != "")
             OnCustomize(character.data.id, parts.LEGS, data.legs);
         if (data.clothes != "")
@@ -104,23 +100,6 @@ public class CharacterCustomizer : MonoBehaviour {
             }
 
             string part_url = "customizer/" + part.ToString() + "/" + newImage;
-
-			//brazo.sprite = Resources.Load(part_url, typeof(Sprite)) as Sprite;
-			return;
-
-
-			SpriteRenderer thisPart = null;
-			switch (part) {
-			case parts.FOOTS:
-				//thisPart = shoesContainer;
-				break;
-			}
-			if (thisPart == null) {
-				print ("CUSTOMIZADOR: No existe: " + part_url);
-				return;
-			}
-			print ("carga:  " + part_url);
-			//brazo.sprite = Resources.Load(part_url, typeof(Sprite)) as Sprite;
 		}
     }
 }
