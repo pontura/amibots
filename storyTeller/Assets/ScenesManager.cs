@@ -9,19 +9,35 @@ public class ScenesManager : MonoBehaviour {
 	public List<SceneIngame> scenesIngame;
 	public SceneIngame sceneActive;
     public Camera cam;
-	void Start()
+    TimeLine timeline;
+    TimeLine.ScenesTimeline activeScenesTimeline;
+
+    void Start()
 	{
-		Events.AddNewScene += AddNewScene;
+        timeline = GetComponent<TimeLine>();
+
+        Events.AddNewTitleScene += AddNewTitleScene;
+        Events.AddNewScene += AddNewScene;
 		Events.OnActivateScene += OnActivateScene;
 	}
 	public void OnActivateScene(int id)
-	{
+	{        
 		sceneActive = scenesIngame [id];
 		Activate ();
-		Events.OnChangeBackground (sceneActive.backgroundID);
-		Events.NewSceneActive (id);
+        activeScenesTimeline = timeline.scenesTimeline[id];
+        Events.OnChangeBackground(sceneActive.backgroundID);
+        Events.NewSceneActive(id);
 	}
-	public void AddNewScene(int sceneID, int backgroundID)
+    void AddNewTitleScene(int sceneID, string title)
+    {
+        sceneActive = Instantiate(sceneIngame);
+        sceneActive.transform.SetParent(container);
+        sceneActive.InitTitle(sceneID, title);
+        scenesIngame.Add(sceneActive);
+        Activate();
+    }
+
+    public void AddNewScene(int sceneID, int backgroundID)
 	{
 		sceneActive = Instantiate (sceneIngame);
 		sceneActive.transform.SetParent (container);

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UISceneSelector : MonoBehaviour {
 
@@ -9,8 +10,17 @@ public class UISceneSelector : MonoBehaviour {
 	public Transform container;
 	bool isNewScene;
 	public UIAllScenesMenu uIAllScenesMenu;
+    public Text field;
 
 	public void Open (bool isNewScene) {
+        if(isNewScene)
+        {
+            field.text = "Where do you want to start your film?";
+        }
+        else
+        {
+            field.text = "Select a new location";
+        }
 		this.isNewScene = isNewScene;
 		panel.SetActive (true);
 		Utils.RemoveAllChildsIn (container);

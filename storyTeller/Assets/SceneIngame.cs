@@ -12,12 +12,21 @@ public class SceneIngame : MonoBehaviour {
 	public Transform sceneObjects;
 	public SpriteRenderer background;
 	public HiResScreenshots screenshot;
+    public string title;
+    public GameObject canvas;
+    
+    public void InitTitle(int id, string _title)
+    {
+        this.id = id;
+        title = _title;
+        GetComponent<UIScreenTitleIngame>().Open(_title);
+    }
 
     public void Init(int id, int backgroundID)
     {
+        GetComponent<UIScreenTitleIngame>().Close();
         this.id = id;
         tiles.Init(backgroundID);
-
     }
 
     public void ChangeBackground(int backgroundID)

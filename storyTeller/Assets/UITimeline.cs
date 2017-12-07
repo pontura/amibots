@@ -171,8 +171,9 @@ public class UITimeline : MonoBehaviour {
 	}
 	public void PlayAllClicked()
 	{
-        Events.OnPlaying(true);
+       
         Events.OnActivateScene(0);
+        Events.OnPlaying(true);
         Invoke("AAA", 0.5f);
 	}
     void AAA()

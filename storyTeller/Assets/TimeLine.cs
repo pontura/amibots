@@ -13,6 +13,7 @@ public class TimeLine : MonoBehaviour {
 	{
 		public int id;
 		public List<KeyframeBase> keyframes;
+        public KeyframeScreenTitle screenTitle;
 	}
 	ScenesManager scenesManager;
 	CharactersManager charactersManager;
@@ -100,11 +101,11 @@ public class TimeLine : MonoBehaviour {
 	}
 	void AddKeyFrameScreenTitle(string title, float time)
 	{
-		KeyframeBase keyframe = new KeyframeBase();
-		keyframe.time = time;
-		keyframe.screenTitle = new KeyframeScreenTitle ();
-		keyframe.screenTitle.title = title;
-		//scenesTimeline.add.keyframes.Add (keyframe);
+		ScenesTimeline sceneTimeline = new ScenesTimeline();
+        sceneTimeline.screenTitle = new KeyframeScreenTitle ();
+        sceneTimeline.screenTitle.title = title;
+        sceneTimeline.keyframes = new List<KeyframeBase>();
+        scenesTimeline.Add (sceneTimeline);
 	}
 	void AddKeyFrameMove(Character character, Vector3 moveTo)
 	{
@@ -164,11 +165,12 @@ public class TimeLine : MonoBehaviour {
 	}
 	void Update()
 	{
-		if (uiTimeline.state == UITimeline.states.PLAY_ALL || 
-			uiTimeline.state == UITimeline.states.PLAYING  || 
-			uiTimeline.state == UITimeline.states.RECORDING) {
-			timer += Time.deltaTime;
+        if (uiTimeline.state == UITimeline.states.PLAY_ALL ||
+            uiTimeline.state == UITimeline.states.PLAYING ||
+            uiTimeline.state == UITimeline.states.RECORDING) {
+            timer += Time.deltaTime;
 
+            print("activeSceneID: " + activeSceneID + "  Update id: " + activeScenesTimeline.id + "   keyframes count: " + activeScenesTimeline.keyframes.Count);
             foreach (KeyframeBase keyFrame in activeScenesTimeline.keyframes) {
 				if (keyFrame.time <= timer && keyFrame.played == false) {
 					SetActiveKeyFrame (keyFrame);
@@ -191,8 +193,6 @@ public class TimeLine : MonoBehaviour {
                 }                
                 
                 OnActivateScene(activeSceneID);
-                scenesManager.OnActivateScene(activeSceneID);
-                activeScenesTimeline = GetActiveScenesTimeline();
                 fullDuration = GetDuration();
               //  World.Instance.scenesManager.cam.GetComponent<CameraInScene>().SetFilming(true);
                 print("nuevo  scene id: " + World.Instance.scenesManager.sceneActive.id);
@@ -204,6 +204,7 @@ public class TimeLine : MonoBehaviour {
     {
         timer = 0;
         activeSceneID = id;
+        
         scenesManager.OnActivateScene(id);
         activeScenesTimeline = GetActiveScenesTimeline();
     }
@@ -306,8 +307,11 @@ public class TimeLine : MonoBehaviour {
         activeScenesTimeline = GetActiveScenesTimeline();
 		timer = _timer;
     }
-	public float GetDuration()
-	{
+    public float GetDuration()
+    {
+        if (GetActiveScenesTimeline().screenTitle != null)
+            return 5;
+
 		float _duration = 0;
 		foreach (KeyframeBase keyFrame in GetActiveScenesTimeline().keyframes) {
 			if (keyFrame.time > _duration)

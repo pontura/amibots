@@ -22,7 +22,19 @@ public class UIAllScenesMenu : MonoBehaviour {
 	{
 		//activeSceneButton.UpdateThumbButton(activeSceneID);
 	}
-	public void AddNewScene(int sceneID, int backgroundID)
+    public void AddNewTitleScene(int sceneID, string title)
+    {
+        GetComponent<UISceneSelector>().Open(true);
+        activeSceneID++;
+        SceneButton newSceneButton = Instantiate(sceneButton);
+        newSceneButton.transform.SetParent(container);
+        newSceneButton.transform.localScale = Vector2.one;
+        print("AddNewTitleScene " + activeSceneID);
+        newSceneButton.InitInMenu(this, sceneID);
+        activeSceneButton = newSceneButton;
+        Events.AddNewTitleScene(sceneID, title);
+    }
+    public void AddNewScene(int sceneID, int backgroundID)
 	{
         GetComponent<UISceneSelector> ().Open (true);
 		activeSceneID++;

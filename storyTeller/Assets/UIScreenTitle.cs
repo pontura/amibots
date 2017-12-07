@@ -25,7 +25,8 @@ public class UIScreenTitle : MonoBehaviour {
 		if (field.text.Length < 1)
 			return;
 		Events.AddKeyFrameScreenTitle (field.text, 0);
-		if (intro)
+        GetComponent<UIAllScenesMenu>().AddNewTitleScene(0, field.text);
+        if (intro)
 			GetComponent<UISceneSelector> ().Open (true);
 
 		Close ();
