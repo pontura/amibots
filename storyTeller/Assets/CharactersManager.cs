@@ -68,15 +68,15 @@ public class CharactersManager : MonoBehaviour
         character.data = data;
         character.Init(data.id);
         character.transform.localScale = new Vector3(characterScale, characterScale, characterScale);
-		character.transform.localEulerAngles = new Vector3 (35, 0, 0);
-
-		Events.AddKeyFrameNewCharacter (character);
+		character.transform.localEulerAngles = new Vector3 (35, 0, 0);		
 
 		scenesManager.sceneActive.characters.Add (character);
 		Tile tile = World.Instance.scenesManager.sceneActive.tiles.GetTileByPos (new Vector2 (character.transform.localPosition.x, character.transform.localPosition.z));
 		World.Instance.scenesManager.sceneActive.tiles.Blocktile (tile, true);
 		character.tile = tile;
-        
+
+        Events.AddKeyFrameNewCharacter(character);
+
     }
 	void OnChangeExpression(string value)
 	{

@@ -18,7 +18,6 @@ public class UITimelineScreen : MonoBehaviour {
 	List<TimelineKeyframe> timelineKeyframes;
 	public TimeLine timeline;
 	public Text field;
-	KeyframeBase activeKeyframe;
 
 	void Start () {
 		panel.SetActive (false);
@@ -38,7 +37,9 @@ public class UITimelineScreen : MonoBehaviour {
 		timelineKeyframes = new List<TimelineKeyframe> ();
 
 		Add ();
-	}
+        
+
+    }
 	void Add()
 	{
 		int id = 0;
@@ -57,14 +58,40 @@ public class UITimelineScreen : MonoBehaviour {
 	{
 		
 		List<KeyframeBase> keyframes = World.Instance.timeLine.GetkeyframesOfAvatar (timeLineCharacter.data.id);
-		foreach (KeyframeBase keyframeBase in keyframes) {
-			TimelineKeyframe newKeyframe = Instantiate (keyframe);
-			newKeyframe.transform.SetParent (timeLineCharacter.transform);
-			newKeyframe.Init (this, keyframeBase, offset, separation);
-			Resize (timeLineCharacter, newKeyframe.transform.localPosition.x);
-			timelineKeyframes.Add (newKeyframe);
-		}
-	}
+        KeyframeBase lastkeyframeBase = null;
+
+        foreach (KeyframeBase keyframeBase in keyframes) {
+            if (isNewDrawableKeyFrame(keyframeBase))
+            {
+                TimelineKeyframe newKeyframe = Instantiate(keyframe);
+                newKeyframe.transform.SetParent(timeLineCharacter.transform);
+                newKeyframe.Init(this, keyframeBase, offset, separation);
+                Resize(timeLineCharacter, newKeyframe.transform.localPosition.x);
+                timelineKeyframes.Add(newKeyframe);
+            }
+            lastkeyframeBase = keyframeBase;
+
+        }
+        if(lastkeyframeBase != null)
+            ActiveKeyframe(lastkeyframeBase);
+    }
+
+   public KeyframeBase lastKeyFrameAdded;
+    bool isNewDrawableKeyFrame(KeyframeBase newKeyframeToCkeck)
+    {
+        if (newKeyframeToCkeck.moveTo != Vector3.zero
+           || 
+             ((lastKeyFrameAdded != null && lastKeyFrameAdded.avatar.action != newKeyframeToCkeck.avatar.action)
+             || (lastKeyFrameAdded != null && lastKeyFrameAdded.avatar.chat != newKeyframeToCkeck.avatar.chat)
+              || (lastKeyFrameAdded != null && lastKeyFrameAdded.avatar.expression != newKeyframeToCkeck.avatar.expression)
+             && (lastKeyFrameAdded != null && lastKeyFrameAdded.avatar.avatarID == newKeyframeToCkeck.avatar.avatarID))
+           )
+            {
+                lastKeyFrameAdded = newKeyframeToCkeck;
+                return true;
+             }
+        return false;
+    }
 	void Resize(TimeLineCharacter timeLineCharacter, float _x)
 	{
 		timeLineCharacter.GetComponent<RectTransform> ().sizeDelta = new Vector2 (_x,timeLineCharacter.GetComponent<RectTransform> ().sizeDelta.y);
@@ -83,7 +110,6 @@ public class UITimelineScreen : MonoBehaviour {
 		{
 			tlk.Reset ();
 		}
-		this.activeKeyframe = activeKeyframe;
 		Vector2 pos = offset + new Vector2 ((data.time * separation), 0);
 		timelineMarker.SetX (pos.x);
 		timeline.JumpTo (data.time);
@@ -100,6 +126,8 @@ public class UITimelineScreen : MonoBehaviour {
 	public void DeleteKeyframe(TimelineKeyframe keyframe, int characterID, float _timer)
 	{
 		timeline.DeleteKeyframe (characterID, _timer);
-		timelineKeyframes.Remove (keyframe);
+        Open();
+
+       // timelineKeyframes.Remove (keyframe);
 	}
 }

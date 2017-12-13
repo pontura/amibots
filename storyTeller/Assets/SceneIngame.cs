@@ -20,6 +20,7 @@ public class SceneIngame : MonoBehaviour {
         this.id = id;
         title = _title;
         GetComponent<UIScreenTitleIngame>().Open(_title);
+        Invoke("TakePicture", 0.2f);
     }
 
     public void Init(int id, int backgroundID)

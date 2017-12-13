@@ -19,7 +19,6 @@ public class CharacterButton : MonoBehaviour {
         this.characterCreated = characterCreated;
         image.material = new Material(matShader);
         image.material.mainTexture = characterCreated.cam.targetTexture;
-        print(characterCreated.character.data.id);
         isOn = true;
         SetActive();
     }

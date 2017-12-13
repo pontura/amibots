@@ -25,7 +25,7 @@ public class TimelineKeyframe : MonoBehaviour {
 	{
 		if (selected) {
 			uiTimelineScreen.DeleteKeyframe (this, data.avatar.avatarID, data.time);
-			Destroy (gameObject);
+			//Destroy (gameObject);
 		} else {
 			uiTimelineScreen.ActiveKeyframe (data);
 			selected = true;

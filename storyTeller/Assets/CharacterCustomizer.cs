@@ -7,7 +7,7 @@ public class CharacterCustomizer : MonoBehaviour {
     
     public parts part;
 	public string value;
-
+    public string expression = "norm";
     Character character;
 
     public enum parts
@@ -31,8 +31,9 @@ public class CharacterCustomizer : MonoBehaviour {
 	{
 		this.value = value;
         character.actions.SetExpression(value);
-		//HeadAsset.sprite = Resources.Load("character/expressions/" + value, typeof(Sprite)) as Sprite;
-	}
+        this.expression = value;
+        //HeadAsset.sprite = Resources.Load("character/expressions/" + value, typeof(Sprite)) as Sprite;
+    }
     public void Init()
     {
         OnCustomize(character.data.id, parts.LEGS, character.data.legs);

@@ -35,7 +35,7 @@ public class CreatedCharactersManager : MonoBehaviour {
         {
             foreach (int id in selectedIds)
             {
-                print(id + "      id: " + cd.character.data.id + " a:: " + all.Count);
+             //   print(id + "      id: " + cd.character.data.id + " a:: " + all.Count);
                 if (id == cd.character.data.id)
                 {
                     arr.Add(cd.character.data);

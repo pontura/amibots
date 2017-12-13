@@ -8,10 +8,13 @@ public class UIPreview : MonoBehaviour {
     public Text field;
     public GameObject panel;
     TimeLine timeline;
+    public GameObject button;
 
 	void Start () {
         timeline = World.Instance.timeLine;
         panel.SetActive(false);
+        HideButton();
+        Events.OnPlaying += OnPlaying;
     }
 
     public void Init()
@@ -27,6 +30,7 @@ public class UIPreview : MonoBehaviour {
     public void Replay()
     {
         GetComponent<UITimeline>().PlayAllClicked();
+        HideButton();
     }
     void Update()
     {
@@ -38,5 +42,13 @@ public class UIPreview : MonoBehaviour {
         int seconds = Mathf.FloorToInt(timeline.timer - minutes * 60) % 60;
         int milliseconds = Mathf.FloorToInt((timeline.timer - (minutes) * 60) * 60) % 100;
         field.text = string.Format("{0:00}:{1:00}:{2:00}", minutes, seconds, milliseconds);
+    }
+    void OnPlaying(bool isPlaying)
+    {
+        button.SetActive(!isPlaying);
+    }
+    public void HideButton()
+    {
+        button.SetActive(false);
     }
 }

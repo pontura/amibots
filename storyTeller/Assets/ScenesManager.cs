@@ -19,17 +19,45 @@ public class ScenesManager : MonoBehaviour {
         Events.AddNewTitleScene += AddNewTitleScene;
         Events.AddNewScene += AddNewScene;
 		Events.OnActivateScene += OnActivateScene;
-	}
-	public void OnActivateScene(int id)
-	{        
-		sceneActive = scenesIngame [id];
-		Activate ();
-        activeScenesTimeline = timeline.scenesTimeline[id];
+
+    }
+    public void OnDeleteScene(int sceneID)
+    {
+        SceneIngame sig = null;
+        foreach (SceneIngame s in scenesIngame)
+        {
+            if (s.id == sceneID)
+                sig = s;
+        }
+        scenesIngame.Remove(sig);
+        Destroy(sig.gameObject);
+        OnActivateScene(0);
+    }
+    int GetPositionByID(int sceneID)
+    {
+        int arrPos = 0;
+        foreach (SceneIngame s in scenesIngame)
+        {
+            if (s.id == sceneID)
+                return arrPos;
+            arrPos++;
+        }
+        return 0;
+    }
+    public void OnActivateScene(int id)
+	{
+        int arrPosID = GetPositionByID(id);
+        timeline.activeSceneID = arrPosID;
+        sceneActive = scenesIngame[arrPosID];
+        //sceneActive = scenesIngame [id];
+        Activate ();
+        activeScenesTimeline = timeline.scenesTimeline[arrPosID];
         Events.OnChangeBackground(sceneActive.backgroundID);
-        Events.NewSceneActive(id);
+        Events.NewSceneActive(arrPosID);
 	}
     void AddNewTitleScene(int sceneID, string title)
     {
+        print("AddNewTitleScene " + sceneID);
         sceneActive = Instantiate(sceneIngame);
         sceneActive.transform.SetParent(container);
         sceneActive.InitTitle(sceneID, title);
@@ -39,6 +67,7 @@ public class ScenesManager : MonoBehaviour {
 
     public void AddNewScene(int sceneID, int backgroundID)
 	{
+        print("AddNewScene " + sceneID);
 		sceneActive = Instantiate (sceneIngame);
 		sceneActive.transform.SetParent (container);
         sceneActive.Init(sceneID, backgroundID);

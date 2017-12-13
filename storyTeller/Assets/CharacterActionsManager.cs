@@ -11,18 +11,19 @@ public class CharacterActionsManager : MonoBehaviour {
 
     void Awake()
     {
-		character = GetComponent<Character> ();
-        
+		character = GetComponent<Character> ();        
         action = "IDLE";
     }
 	public void Init()
 	{
         anim = character.avatar.actionsAnim;
         expressionsAnim = character.avatar.expressionsAnim;
+        print("Init: ");
         ResetAnim ();
 	}
 	public void Set(string newAction) {
 
+        print("newAction: " + newAction);
 		//character.Reset ();
 
         action = newAction;

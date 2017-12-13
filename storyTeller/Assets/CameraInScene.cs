@@ -17,7 +17,6 @@ public class CameraInScene : MonoBehaviour {
     }
     public void SetFilming(bool isFilming)
     {
-        print("SetFilming " + isFilming);
         if (isFilming)
             camera_in_scene.targetTexture = renderTexture;
         else

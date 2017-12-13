@@ -19,9 +19,9 @@ public class UiCustomizer : MonoBehaviour {
 		button.SetActive (true);
 	}
     bool isNewCharacter;
-    public void CreateNew(bool createAndOpen)
+    public void CreateNew(bool _isNewCharacter)
     {
-        isNewCharacter = true;
+        isNewCharacter = _isNewCharacter;
         CharacterData data = new CharacterData();
         data.id = Data.Instance.charactersCreated.all.Count;
 
@@ -32,7 +32,7 @@ public class UiCustomizer : MonoBehaviour {
         data.legs = "ropa_bottom_" + Random.Range(1, 3);       
         data.colors = "" + Random.Range(1, 5);
 
-        if(createAndOpen)
+        if(isNewCharacter)
             Open(data);
         else
             customizer.Init(data);

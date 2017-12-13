@@ -60,7 +60,7 @@ public class UITimeline : MonoBehaviour {
 			RecButton.interactable = true;
 			buttonPlayField.text = "PLAY";
 			state = states.STOPPED;
-		} else {
+		} else if(state != states.PLAY_ALL){
 			bgImage.color = colorPlaying;
 			//timelineDuration = World.Instance.timeLine.GetDuration();
 			RecButton.interactable = false;
@@ -71,11 +71,12 @@ public class UITimeline : MonoBehaviour {
 	}
     void AddNewScene(int sceneID, int bg)
     {
-        ResetAll();
+        Invoke("ResetAll", 0.1f);
     }
     void OnActivateScene(int sceneID)
     {
-        ResetAll();
+        print("OnActivateScene " + sceneID);
+        Invoke("ResetAll", 0.1f);
     }
     void ResetAll()
     {
@@ -91,20 +92,32 @@ public class UITimeline : MonoBehaviour {
 	}
 	void OnUIButtonClicked(UIButton uiButton)
 	{
-		if (uiButton.type == UIButton.types.REC_TOGGLE)
-			Toggle ();
-		else if (uiButton.type == UIButton.types.PLAY_TOGGLE)
-			PlayToggle ();
-		else if (uiButton.type == UIButton.types.REWIND) {
-			timer = 0;
-			SetTimerField ();
-			World.Instance.timeLine.RewindAll();
-			uiSmallTimeline.JumpTo (0);
-		} else if (uiButton.type == UIButton.types.FAST_FORWARD) {
-			World.Instance.timeLine.FastForward();
-			timer = World.Instance.timeLine.GetLastRecordedKeyFrame(World.Instance.charactersManager.selectedCharacter.data.id);
-			uiSmallTimeline.JumpTo (1);
-		}
+        if (uiButton.type == UIButton.types.REC_TOGGLE)
+            Toggle();
+        else if (uiButton.type == UIButton.types.PLAY_TOGGLE)
+        {
+            if (timer >= World.Instance.timeLine.GetDuration()-1)
+            {
+                timer = 0;
+                SetTimerField();
+                World.Instance.timeLine.RewindAll();
+                uiSmallTimeline.JumpTo(0);
+            }
+            PlayToggle();
+        }
+        else if (uiButton.type == UIButton.types.REWIND)
+        {
+            timer = 0;
+            SetTimerField();
+            World.Instance.timeLine.RewindAll();
+            uiSmallTimeline.JumpTo(0);
+        }
+        else if (uiButton.type == UIButton.types.FAST_FORWARD)
+        {
+            World.Instance.timeLine.FastForward();
+            timer = World.Instance.timeLine.GetLastRecordedKeyFrame(World.Instance.charactersManager.selectedCharacter.data.id);
+            uiSmallTimeline.JumpTo(1);
+        }
 	}
 	public void JumptTo(float value)
 	{
@@ -150,7 +163,9 @@ public class UITimeline : MonoBehaviour {
 			state = states.STOPPED;
 		
 		if (state == states.PLAYING) {
-			Events.OnPlaying (true);
+          //  timer -= 0.1f;
+
+            Events.OnPlaying (true);
 		} else {
 			Events.OnPlaying (false);
 		} 
@@ -171,17 +186,17 @@ public class UITimeline : MonoBehaviour {
 	}
 	public void PlayAllClicked()
 	{
-       
         Events.OnActivateScene(0);
         Events.OnPlaying(true);
-        Invoke("AAA", 0.5f);
+        Invoke("AAA", 0.1f);
 	}
     void AAA()
     {
         state = states.PLAY_ALL;
         print("AAA");
         World.Instance.timeLine.PlayAll();
-        GetComponent<UIPreview>().Init();       
+        GetComponent<UIPreview>().Init();
+        GetComponent<UIPreview>().HideButton();
     }
 	public void StopPlaying()
 	{
