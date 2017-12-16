@@ -152,9 +152,9 @@ public class UITimeline : MonoBehaviour {
 			Events.OnRecording (false);
             GetComponent<UIRecScreen>().SetState(false);
         }
-		SetTimerField ();
-       
+		SetTimerField ();       
 	}
+
 	public void PlayToggle()
 	{		
 		if (state != states.PLAYING)
@@ -188,9 +188,10 @@ public class UITimeline : MonoBehaviour {
 	{
         Events.OnActivateScene(0);
         Events.OnPlaying(true);
-        Invoke("AAA", 0.1f);
+        GetComponent<UIPreview>().MaskOn();
+        Invoke("PlayAllClickedDelayed", 0.1f);
 	}
-    void AAA()
+    void PlayAllClickedDelayed()
     {
         state = states.PLAY_ALL;
         print("AAA");

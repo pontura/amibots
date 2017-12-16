@@ -13,6 +13,7 @@ public class UISceneSelector : MonoBehaviour {
     public Text field;
 
 	public void Open (bool isNewScene) {
+        print("_______________________");
         if(isNewScene)
         {
             field.text = "Where do you want to start your film?";
@@ -32,15 +33,17 @@ public class UISceneSelector : MonoBehaviour {
 			sb.Init (this, id, a+1);
 		}
 	}
-	public void SetSelected(int sceneID, int backgroundID)
+    public void AddTitleScreen()
+    {
+        GetComponent<UIScreenTitle>().Open();
+        panel.SetActive(false);
+    }
+    public void SetSelected(int sceneID, int backgroundID)
 	{
-		print ("isNewScene " + isNewScene + " id: " + sceneID + "   backgroundID " + backgroundID);
 		if (isNewScene) {
-			print ("Events.AddNewScene (sceneID, backgroundID);");
 			uIAllScenesMenu.AddNewScene (sceneID, backgroundID);
             GetComponent<UiCustomizer>().CreateNew(false);
         } else {
-			print ("Events.OnChangeBackground (backgroundID);");
 			Events.OnChangeBackground (backgroundID);
 		}
 		panel.SetActive (false);

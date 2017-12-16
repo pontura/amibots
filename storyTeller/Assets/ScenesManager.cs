@@ -31,8 +31,9 @@ public class ScenesManager : MonoBehaviour {
         }
         scenesIngame.Remove(sig);
         Destroy(sig.gameObject);
-        OnActivateScene(0);
+        ActivateLastNonTitleScene();
     }
+
     int GetPositionByID(int sceneID)
     {
         int arrPos = 0;
@@ -43,6 +44,12 @@ public class ScenesManager : MonoBehaviour {
             arrPos++;
         }
         return 0;
+    }
+    public void OnUpdateTitleScreen(int id, string title)
+    {
+        World.Instance.timeLine.scenesTimeline[id].screenTitle.title = title;
+        SceneIngame scene = scenesIngame[id];
+        scene.InitTitle(id, title);
     }
     public void OnActivateScene(int id)
 	{
@@ -87,4 +94,15 @@ public class ScenesManager : MonoBehaviour {
 			}
 		}
 	}
+    public void ActivateLastNonTitleScene()
+    {
+        int id = 0;
+        foreach (SceneIngame s in scenesIngame)
+        {
+            print("___________" + s.title.Length);
+            if (s.title.Length == 0)
+                id = s.id;
+        }
+        Events.OnActivateScene(id);
+    }
 }

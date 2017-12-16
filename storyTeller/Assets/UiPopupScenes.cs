@@ -24,7 +24,14 @@ public class UiPopupScenes : MonoBehaviour {
     }
     public void Edit()
     {
-        allSceneMenu.SetActive(id);
+        print(id);
+        if (World.Instance.timeLine.scenesTimeline[id].screenTitle== null 
+            || World.Instance.timeLine.scenesTimeline[id].screenTitle.title == null)
+            allSceneMenu.SetActive(id);
+        else
+            GetComponent<UIScreenTitle>().Edit(id);
+        
+
         Close();
     }
     public void Duplicate()

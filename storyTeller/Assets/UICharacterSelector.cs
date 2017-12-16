@@ -62,7 +62,10 @@ public class UICharacterSelector : MonoBehaviour
 
         // se fija si recién empezas y no hay escenea elegida:
         if (!isEditing)
-			GetComponent<UIScreenTitle>().Open();
+        {
+            GetComponent<UISceneSelector>().Open(true);
+            //  GetComponent<UIScreenTitle>().Open();
+        }
         else
             Events.RefreshCharacters();
     }

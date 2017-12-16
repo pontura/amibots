@@ -28,7 +28,6 @@ public class SceneButton : MonoBehaviour {
 	}
 	public void UpdateThumbButton(int sceneID)
 	{
-
 		if (id == sceneID)
 			Invoke ("UpdateThumbButton2", 0.2f);
 	}
@@ -47,6 +46,7 @@ public class SceneButton : MonoBehaviour {
 		image.sprite = Resources.Load("scenes/" + backgroundID, typeof(Sprite)) as Sprite;
         image.maskable = true;
 	}
+    
 	public void Clicked()
 	{
         if (allSceneMenu != null)

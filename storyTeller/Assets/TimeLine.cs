@@ -88,7 +88,7 @@ public class TimeLine : MonoBehaviour {
 		if (keyframe == null)
 			return;
         keyframe.avatar.action = character.actions.action;
-        keyframe.avatar.expression = character.customizer.expression;
+        keyframe.avatar.expression = "norm";
         AddKeyframe(keyframe);
     }
 	void OnRecording(bool isRecording)
@@ -96,7 +96,7 @@ public class TimeLine : MonoBehaviour {
         activeScenesTimeline = GetActiveScenesTimeline();
         int selectedAvatarID = charactersManager.selectedCharacter.data.id;
 
-        if (isRecording) {            
+        if (isRecording) {
 			RemoveLaterKeyFramesFor (selectedAvatarID);
             ResetPlayedKeyframes();
         }
@@ -181,11 +181,16 @@ public class TimeLine : MonoBehaviour {
         else
             GetActiveScenesTimeline().keyframes.Add(_keyframe);
     }
+    float GetRoundedTimer(float _timer)
+    {
+        float t = Mathf.Round(_timer * 10) / 10;
+        return t;
+    }
 	KeyframeBase GetNewKeyframeAvatar(Character character)
 	{
 		//RemoveLaterKeyFramesFor (character.id);
 		KeyframeBase keyframe = new KeyframeBase ();
-		keyframe.time = uiTimeline.timer;
+		keyframe.time = GetRoundedTimer(uiTimeline.timer);
 
 		KeyframeAvatar keyframeAvatar = new KeyframeAvatar ();
 		keyframeAvatar.avatarID = character.data.id;
@@ -206,9 +211,14 @@ public class TimeLine : MonoBehaviour {
     void ResetPlayedKeyframes()
     {
         fullDuration = GetDuration();
-        timer = uiTimeline.timer;
+        timer = GetRoundedTimer( uiTimeline.timer );
         foreach (KeyframeBase keyFrame in activeScenesTimeline.keyframes)
-            keyFrame.played = false;
+        {
+            if(keyFrame.time > timer)
+                keyFrame.played = false;
+            else
+                keyFrame.played = true;
+        }
     }
 	void Update()
 	{
@@ -236,6 +246,7 @@ public class TimeLine : MonoBehaviour {
                     return;
                 }
                 activeSceneID++;
+                uiTimeline.timer = 0;
 
                 OnActivateScene(activeSceneID);
                 fullDuration = GetDuration();

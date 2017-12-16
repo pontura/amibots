@@ -9,21 +9,30 @@ public class UIPreview : MonoBehaviour {
     public GameObject panel;
     TimeLine timeline;
     public GameObject button;
+    bool isPreviewOn;
 
 	void Start () {
         timeline = World.Instance.timeLine;
         panel.SetActive(false);
         HideButton();
         Events.OnPlaying += OnPlaying;
+        isPreviewOn = false;
     }
-
+    public void MaskOn()
+    {
+        panel.SetActive(true);
+    }
     public void Init()
     {
         World.Instance.scenesManager.cam.GetComponent<CameraInScene>().SetFilming(true);
         panel.SetActive(true);
+        isPreviewOn = true;
     }
     public void Close()
     {
+        isPreviewOn = false;
+        Invoke("Delayed", 0.05f);
+        Events.OnPlaying(false);
         World.Instance.scenesManager.cam.GetComponent<CameraInScene>().SetFilming(false);
         panel.SetActive(false);
     }
@@ -46,6 +55,10 @@ public class UIPreview : MonoBehaviour {
     void OnPlaying(bool isPlaying)
     {
         button.SetActive(!isPlaying);
+    }
+    void Delayed()
+    {
+        World.Instance.scenesManager.ActivateLastNonTitleScene();
     }
     public void HideButton()
     {
