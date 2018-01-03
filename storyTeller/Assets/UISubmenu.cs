@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System;
 
 public class UISubmenu : MonoBehaviour {
@@ -35,8 +36,9 @@ public class UISubmenu : MonoBehaviour {
 				lists = System.Enum.GetNames(typeof(Settings.expressions));
 				newType = UIButton.types.REAL_EXPRESION;
 				break;
-            case UIButton.types.CHAT_OPEN:
-                chatPanel.SetActive(true);
+		case UIButton.types.CHAT_OPEN:
+				chatPanel.SetActive (true);
+				chatPanel.GetComponentInChildren<InputField> ().ActivateInputField ();
                 break;
         }
         int id = 0;

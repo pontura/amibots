@@ -130,7 +130,7 @@ public class Character : MonoBehaviour {
 	}
 	public void Reset()
 	{      
-		print ("RESET");
+		//print ("RESET");
 		newPos = Vector3.zero;
 		actions.Set ("IDLE");
         falled = false;

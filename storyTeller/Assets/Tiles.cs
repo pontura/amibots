@@ -82,12 +82,10 @@ public class Tiles : MonoBehaviour {
 	{		
 		Point _f = new Point ((int)_from.x, (int)_from.z); 
 		Point _t = new Point ((int)_to.x, (int)_to.z);
-		//print(_f.x + " - " + _f.y + "     -      " + _t .x + " - " + _t .y);
-		List<Point> list = Pathfinding.FindPath(grid, _f, _t);
+		List<Point> list = Pathfinding.FindPath(grid, _f, _t, true);
 		foreach (Tile tile in tiles) {
 			bool isOn = false;
 			foreach (Point p in list) {
-				//print ((int)tile.transform.localPosition.x + " - " + (int)tile.transform.localPosition.y);
 				if (Mathf.Round(p.x) == Mathf.Round(tile.pos.x) && Mathf.Round(p.y) == Mathf.Round(tile.pos.y)) {
 					isOn = true;
 					tile.MarkAsPath();

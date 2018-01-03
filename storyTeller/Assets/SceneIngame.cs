@@ -37,7 +37,7 @@ public class SceneIngame : MonoBehaviour {
 		background.sprite = Resources.Load(url, typeof(Sprite)) as Sprite;
 		Invoke("TakePicture", 0.2f);
 	}
-	void TakePicture()
+	public void TakePicture()
 	{
 		screenshot.TakeScreenshot (id);
 	}

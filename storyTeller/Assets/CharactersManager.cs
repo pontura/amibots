@@ -177,16 +177,18 @@ public class CharactersManager : MonoBehaviour
 		{
 			Character character = GetCharacter (id);
 
+
+
             List<Point> coords = World.Instance.scenesManager.sceneActive.tiles.GetPathfinder (character.transform.position, moveTo);
             List<Vector3> pos = new List<Vector3>();
-
+		//	print (World.Instance.scenesManager.sceneActive.tiles + "move" + id + " position " + character.transform.position + " moveTo : " + moveTo + " coords: " + coords.Count);
 			foreach (Point p in coords) {
 			//	print (p);
 				pos.Add (World.Instance.scenesManager.sceneActive.tiles.GetPositionsByPoints (p));
 			}
            
-			if(character.tile != null)
-				World.Instance.scenesManager.sceneActive.tiles.Blocktile (character.tile, false);
+			//if(character.tile != null)
+				//World.Instance.scenesManager.sceneActive.tiles.Blocktile (character.tile, false);
 
 			if (coords.Count == 0)
 				return;
@@ -195,13 +197,13 @@ public class CharactersManager : MonoBehaviour
 				//no bloquees nada:
 			} else {
 				Tile tile = World.Instance.scenesManager.sceneActive.tiles.GetTileByPos (new Vector2 (coords [coords.Count - 1].x, coords [coords.Count - 1].y));
-				World.Instance.scenesManager.sceneActive.tiles.Blocktile (tile, true);
+				//World.Instance.scenesManager.sceneActive.tiles.Blocktile (tile, true);
 				character.tile = tile;
 			}
 		
 
             if (coords.Count > 0) {
-                GetCharacter(id).MoveFromPath (pos);
+				character.MoveFromPath (pos);
             }
         }
 	}

@@ -18,12 +18,10 @@ public class CharacterActionsManager : MonoBehaviour {
 	{
         anim = character.avatar.actionsAnim;
         expressionsAnim = character.avatar.expressionsAnim;
-        print("Init: ");
         ResetAnim ();
 	}
 	public void Set(string newAction) {
-
-        print("newAction: " + newAction);
+		
 		//character.Reset ();
 
         action = newAction;
@@ -95,7 +93,6 @@ public class CharacterActionsManager : MonoBehaviour {
 		if (value.Length < 2)
 			return;
 
-		print("SetExpression " + value);
 
         expressionsAnim.Play(value);
         //action = "IDLE";

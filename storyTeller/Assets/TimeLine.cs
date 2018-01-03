@@ -215,7 +215,7 @@ public class TimeLine : MonoBehaviour {
         timer = GetRoundedTimer( uiTimeline.timer );
         foreach (KeyframeBase keyFrame in activeScenesTimeline.keyframes)
         {
-            if(keyFrame.time > timer)
+            if(keyFrame.time >= timer)
                 keyFrame.played = false;
             else
                 keyFrame.played = true;
@@ -282,7 +282,7 @@ public class TimeLine : MonoBehaviour {
 
     void SetActiveKeyFrame(KeyframeBase keyFrame)
     {
-      //  print("__SetActiveKeyFrame " + keyFrame);
+      
 		if (keyFrame.avatar != null) {
 			KeyframeAvatar keyframeAvatar = keyFrame.avatar;
 			int avatarID = keyFrame.avatar.avatarID;
@@ -291,6 +291,8 @@ public class TimeLine : MonoBehaviour {
 			string chat = keyFrame.avatar.chat;
 			Vector3 moveTo = keyFrame.moveTo;
 			Vector3 pos = keyFrame.pos;
+
+			print("___avatar id: " + keyFrame.avatar.avatarID +  " timer " + timer + " moveTO:" + moveTo);
 
 			if (chat != null && chat.Length >0) {
 				uiTimeline.GetComponent<UIChatManager>().OnCharacterSay(avatarID, chat);
@@ -346,6 +348,8 @@ public class TimeLine : MonoBehaviour {
 		World.Instance.charactersManager.RestartScene ();
         ScenesTimeline activeScene = GetActiveScenesTimeline();
         print("rewind all: " + activeScene.id);
+		timer = 0;
+		ResetPlayedKeyframes ();
         foreach (KeyframeBase keyFrame in activeScene.keyframes) {
 			if(keyFrame.time == 0 && keyFrame.moveTo == Vector3.zero)
 				SetActiveKeyFrame (keyFrame);

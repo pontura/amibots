@@ -50,7 +50,15 @@ public class ScenesManager : MonoBehaviour {
         World.Instance.timeLine.scenesTimeline[id].screenTitle.title = title;
         SceneIngame scene = scenesIngame[id];
         scene.InitTitle(id, title);
+		StartCoroutine (Updated(scene));
     }
+	IEnumerator Updated(SceneIngame sig)
+	{
+		sig.gameObject.SetActive (true);
+		sig.TakePicture ();
+		yield return new WaitForFixedUpdate ();
+		sig.gameObject.SetActive (false);
+	}
     public void OnActivateScene(int id)
 	{
         int arrPosID = GetPositionByID(id);
