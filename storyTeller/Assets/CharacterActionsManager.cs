@@ -29,6 +29,9 @@ public class CharacterActionsManager : MonoBehaviour {
         action = newAction;
         switch (newAction)
         {
+			case "WALK":
+				Walk();
+				break;
             case "IDLE":
                 Idle();
                 break;
@@ -49,33 +52,33 @@ public class CharacterActionsManager : MonoBehaviour {
 				break;
         }
 	}
-    public void Idle()
+    void Idle()
     {
 		PlayAnim("idle");
     }
-	public void Walk()
+	void Walk()
     {
 		if(Random.Range(0,10)<5)
 			PlayAnim("walk");
 		else
 			PlayAnim("walk");
     }
-	public void Lol()
+	void Lol()
 	{
 		PlayAnim("lol");
         expressionsAnim.Play("haha");
     }
-	public void Grr()
+	void Grr()
 	{
 		PlayAnim("grr");
         expressionsAnim.Play("angry");
     }
-    public void Sob()
+    void Sob()
     {
         PlayAnim("sob");
         expressionsAnim.Play("sad");
     }
-    public void Wow()
+    void Wow()
 	{
 		PlayAnim("wow");
         expressionsAnim.Play("oh");

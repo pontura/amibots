@@ -135,6 +135,7 @@ public class TimeLine : MonoBehaviour {
 		keyframe.moveTo = moveTo;
         keyframe.avatar.expression = character.customizer.expression;
         keyframe.avatar.action = character.actions.action;
+		print ("AddKeyFrameMove " + character.actions.action);
         AddKeyframe(keyframe);
     }
 	void AddKeyFrameAction(Character character, string value)
@@ -281,7 +282,7 @@ public class TimeLine : MonoBehaviour {
 
     void SetActiveKeyFrame(KeyframeBase keyFrame)
     {
-        print("__SetActiveKeyFrame " + keyFrame);
+      //  print("__SetActiveKeyFrame " + keyFrame);
 		if (keyFrame.avatar != null) {
 			KeyframeAvatar keyframeAvatar = keyFrame.avatar;
 			int avatarID = keyFrame.avatar.avatarID;

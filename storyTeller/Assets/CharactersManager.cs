@@ -114,8 +114,10 @@ public class CharactersManager : MonoBehaviour
                 }
             }
 
-            if (isRecording && selectedCharacter != null)
+			if (isRecording && selectedCharacter != null) {
+				//selectedCharacter.actions.Set ("WALK");
 				Events.AddKeyFrameMove (selectedCharacter, tile.transform.position);
+			}
 
 			MoveCharacter (selectedCharacter.data.id,  tile.transform.position);
 		}
@@ -179,7 +181,7 @@ public class CharactersManager : MonoBehaviour
             List<Vector3> pos = new List<Vector3>();
 
 			foreach (Point p in coords) {
-				print (p);
+			//	print (p);
 				pos.Add (World.Instance.scenesManager.sceneActive.tiles.GetPositionsByPoints (p));
 			}
            
